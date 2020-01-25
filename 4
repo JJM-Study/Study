@@ -1,0 +1,120 @@
+// 각각의 제품을 입력 받고 아이디를 부여하는 내용입니다.
+// static 및 const 등을 활용하였습니다.
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Product
+{
+
+private:
+	const int id; // 제품의 id입니다. 값의 상수화를 위해 const를 사용하였습니다.
+	// 정적 변수는 모든 인스턴스에서 공유해야 될 필드에서 사용합니다.
+	static int num; // 제품 개수의 계산을 위한 변수입니다.
+	static int count;; // 1씩 증가하여 제품마다 아이디를 부여하기 위한 변수입니다.
+	string name;
+public:
+	Product();
+	Product(string name);
+	~Product();
+
+	int GetId();
+	void SetName(string name);
+	string GetName();
+
+	static int GetCount();
+	static int GetNum();
+
+	void ShowInfo();
+};
+
+// 클래스를 정의합니다.
+
+int Product::count = 1000;
+int Product::num = 0;
+
+
+// 생성자와 소멸자를 정의하고 초기자를 통하여 초기값을 설정합니다.
+
+Product::Product() : Product("미정")
+{ }
+
+
+Product::Product(string name) : id(++count), name(name) // 반복문이 돌때마다 count가 1씩 증가하도록 초기자를 선언해줍니다.
+{
+	++num;
+}
+
+Product::~Product()
+{ }
+
+
+// 접근자와 설정자를 정의합니다.
+
+void Product::SetName(string name)
+{
+
+	this->name = name;
+
+}
+
+string Product::GetName()
+{
+
+	return name;
+
+}
+
+int Product::GetNum()
+{
+
+	return num;
+
+}
+
+int Product::GetCount()
+{
+
+	return count;
+
+}
+
+int Product::GetId()
+{
+	return id;
+}
+
+void Product::ShowInfo()
+{
+	cout << "[" << id << "]" << name << endl;
+}
+
+
+int main(void)
+{
+
+	// 인스턴스 배열에 각 제품을 입력합니다.
+
+	Product p[] = { Product("냉장고"), Product("선풍기"), Product("에어컨"),
+	Product("TV"), Product("공기청정기")
+	};
+
+    int n = Product::GetNum();
+
+	// 각각의 제품의 정보를 출력하도록 for문을 지정해줍니다.
+
+	for (int i = 0; i < n; i++)
+	{
+
+		p[i].ShowInfo();
+
+	}
+
+	cout << endl << "생산된 제품의 종류 : " << n << endl; // 제품 종류의 개수를 출력합니다.
+
+	cout << endl << " - Coded by 조재만 - " << endl;
+
+	return 0;
+}
