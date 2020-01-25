@@ -1,0 +1,139 @@
+// 객체 지향 언어에 대한 기본적인 이해를 보여 드리기 위한 예제입니다.
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+#define NUM 10
+
+// 많은 종류의 자동차를 포괄하기 위해 Car 부모 클래스를 설정합니다.
+
+class Car
+{
+private:
+	string color; // 자동차의 색깔입니다.
+	string gear; // 자동차의 기어입니다.
+	int speed; // 자동차의 속도입니다.
+public:
+
+	Car(string color, string gear, int speed);
+	~Car();
+
+	// 접근자를 지정합니다.
+
+	string GetColor();
+	string GetGear();
+	int GetSpeed();
+
+	// 다형성을 위해 가상 함수를 사용합니다.
+
+	virtual void ShowInfo();
+};
+
+// 디폴트 매개변수를 통해 기본 생성자를 대신하여 필드값을 초기화합니다.
+
+Car::Car(string color = "White", string gear = "Auto", int speed = 0)
+	: color(color), gear(gear), speed(speed)
+{
+
+}
+
+Car::~Car()
+{ }
+
+string Car::GetColor()
+{
+	return color;
+}
+
+string Car::GetGear()
+{
+	return gear;
+}
+
+int Car::GetSpeed()
+{
+	return speed;
+}
+
+// Car의 정보를 출력하기 위한 메소드입니다.
+
+void Car::ShowInfo()
+{
+
+	cout << "[Car] : " << "Color=" << color << ", Gear=" << gear << ", Speed=" << speed << endl;
+
+}
+
+// Car의 자식 클래스인 SportsCar로, 위의 정보들을 상속받고 turbo 필드가 추가되었습니다. 
+
+class SportsCar : public Car
+{
+private:
+	int turbo; // 자동차의 터보입니다.
+public:
+	SportsCar(string color, string gear, int speed, int turbo);
+	~SportsCar();
+	int GetTurbo();
+	void ShowInfo();
+};
+
+SportsCar::SportsCar(string color = "RED", string gear = "Manual", int speed = 100, int turbo = 50)
+	: Car(color, gear, speed), turbo(turbo)
+{ }
+
+SportsCar::~SportsCar()
+{ }
+
+int SportsCar::GetTurbo()
+{
+	return turbo;
+}
+
+// 객체 지향 언어의 성격을 감안하여 부모 클래스의 정보 출력을 위해 public이나 protect 보단 getter 함수를 이용하였습니다.
+
+void SportsCar::ShowInfo()
+{
+
+	cout << "[SportsCar] :" << "Color=" << Car::GetColor() << ", Gear=" << Car::GetGear() << ", Speed=" << Car::GetSpeed() << ", Turbo=" << turbo << endl;
+
+}
+
+int main(void)
+{
+
+	// 자동차들의 정보와 동적 메모리를 할당해줍니다.
+
+	Car* cars[NUM] = {
+	new Car("Black", "Auto", 100),
+	new Car("Blue", "Manual", 120),
+	new Car("Gray", "Auto", 80),
+	new SportsCar("Red", "Manual", 120, 100),
+	new SportsCar("Yello", "Auto", 150, 120),
+	new SportsCar("Gold", "Manual", 200, 150),
+	new Car("White", "Manual", 150),
+	new Car("Silver", "Auto", 130),
+	new SportsCar("Blue", "Auto", 180, 130),
+	new SportsCar("Purple", "Manual", 220, 170)
+	};
+
+
+	// for문을 통하여 각각 차들의 정보를 출력합니다.
+
+	for (int i = 0; i < NUM; i++)
+	{
+		cout << " Car " << "[" << i + 1 << "] = ";
+		cars[i]->ShowInfo();
+
+	}
+
+	// delete를 통하여 할당된 동적 메모리를 해제해줍니다.
+
+	for (int i = 0; i < NUM; i++) {
+		delete cars[i];
+	}
+
+	cout << endl << " - Coded by 조재만 - " << endl;
+
+	return 0;
+}
