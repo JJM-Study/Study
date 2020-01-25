@@ -1,0 +1,135 @@
+// 클래스와 생성자 오버로딩, 초기자를 통해서 직원수와 각각의 정보를 입력 받고 출력하는 내용입니다.
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+
+// 클래스를 선언합니다.
+
+class Employee
+{
+private:
+	// 필드를 선언합니다.
+	string name; // 직원의 이름입니다.
+	int age; // 직원의 나이입니다.
+	int salary; // 직원의 급여입니다.
+public:
+
+	// 기본 생성자와 생정자 오버로딩, 소멸자를 선언합니다.
+
+	Employee();
+	Employee(string name, int age, int salary);
+	~Employee();
+
+	// 멤버 변수의 설정과 반환을 위한 설정자와 접근자를 지정해줍니다.
+
+	void SetName(string name);
+	string GetName();
+	void SetAge(int age);
+	int GetAge();
+	void SetSalary(int salary);
+	int GetSalary();
+
+	// 메소드입니다.
+
+	void ShowInfo();
+};
+
+// 클래스를 정의합니다.
+
+Employee::Employee() : Employee("unknown", 0, 0)
+{ }
+
+Employee::Employee(string name, int age, int salary) : name(name), age(age), salary(salary)
+{ }
+
+Employee::~Employee()
+{
+
+}
+
+void Employee::SetName(string name)
+{
+	this->name = name;
+}
+
+string Employee::GetName()
+{
+	return name;
+}
+
+void Employee::SetAge(int age)
+{
+	this->age = age;
+}
+
+int Employee::GetAge()
+{
+	return age;
+}
+
+void Employee::SetSalary(int salary)
+{
+	this->salary = salary;
+}
+
+int Employee::GetSalary()
+{
+	return salary;
+}
+
+void Employee::ShowInfo()
+{
+	cout << "name : " << name << ", age : " << age << ", salary : " << salary << endl;
+}
+
+int main(void)
+{
+
+	Employee* e = NULL; // NULL을 대입하여 배열을 초기화합니다.
+	int n, age, salary; // n은 직원수를 입력 받을 변수입니다.
+	string name;
+
+	cout << "직원수 입력 : ";
+	cin >> n;
+
+	// 임의의 직원수를 입력 받은 만큼 정보를 배열에 입력 받기 위해 동적 메모리를 할당해줍니다. 
+
+	e = new Employee[n];
+
+	for (int i = 0; i < n; i++)
+	{
+
+		cout << "[" << i + 1 << "]" << endl;
+		cout << " 이름 입력 : ";
+		cin >> name;
+		cout << " 나이 입력 : ";
+		cin >> age;
+		cout << " 연봉 입력 : ";
+		cin >> salary;
+
+		e[i] = Employee(name, age, salary);
+
+	}
+
+	cout << endl;
+
+	// 입력한 결과를 출력하는 반복문 입니다.
+
+	for (int i = 0; i < n; i++)
+	{
+		cout << "[" << i + 1 << "] ";
+		e[i].ShowInfo();
+
+	}
+
+	// delete[]를 통해 반드시 동적 메모리를 해제해줍니다.
+		
+	delete[] e;
+
+	cout << endl << " - Coded by 조재만 - " << endl;
+
+	return 0;
+
+}
