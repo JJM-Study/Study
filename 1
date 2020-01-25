@@ -1,0 +1,79 @@
+// 포인터 배열과 예외처리를 이용, 학생의 수와 점수를 입력 받고 출력하는 내용입니다.
+
+#include <iostream>
+using namespace std;
+
+void Compute(int num);
+
+int main(void)
+{
+
+	//각각의 초기값을 지정해줍니다.
+
+	int* ptr = NULL; // 정보를 입력 받을 배열입니다.
+	int count = 0, sum = 0, i = 0; // count = 학생수를 입력 받기 위한 변수, sum = 점수의 합, i = 반복문 및 배열을 위한 변수입니다.
+
+	//count에 원하는 학생의 수를 입력 받습니다.
+	cout << "학생 수 입력 ";
+	cin >> count;
+
+	ptr = new int[count]; //포인터 배열 활용을 위해 동적 메모리를 할당해줍니다.
+
+	for (int i = 0; i < count; i++) // for문을 통해 학생들의 점수를 입력 받습니다.
+	{
+
+		cout << "[" << (i + 1) << "] 학생의 점수를 입력 : ";
+		cin >> *(ptr + i); // 각각의 i번째 배열에 입력되도록 합니다.
+
+		// 예외처리 입니다.
+
+		try
+		{
+			int num = *(ptr + i); // 성적의 예외 처리를 위한 변수입니다.
+			Compute(num);	// 예외문을 실행합니다.
+		}
+
+		catch (int e) // 성적의 입력이므로 100 초과의 수와 음수의 입력을 막습니다.
+		{
+			switch (e)
+			{
+			case 0:
+				i = (i - 1);
+				cout << "100이하의 수를 입력하세요.\n";
+				break;
+			case 1:
+				i = (i - 1);
+				cout << "0이상의 수를 입력하세요.\n";
+				break;
+			}
+
+		}
+
+	}
+
+	for (int i = 0; i < count; i++) // for문을 이용, 점수의 합을 구합니다.
+	{
+		sum += *(ptr + i);
+	}
+
+	cout << "합계 : " << sum << endl;
+	cout << "평균 : " << (double)sum / count << endl; // 평균을 구할 땐 소수점을 고려하여 double을 포함하였습니다.
+
+
+	delete[] ptr; //동적 메모리는 반드시 해제해줍니다.
+
+	cout << endl << " - Coded by 조재만 - " << endl;
+
+	return 0;
+
+}
+
+// 예외 함수입니다.
+
+void Compute(int num)
+{
+	if (num > 100)
+		throw 0;
+	else if (num < 0)
+		throw 1;
+}
