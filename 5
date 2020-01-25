@@ -1,0 +1,75 @@
+// Friend 함수를 사용하여 회사의 판매금액과 이윤을 나타내는 내용입니다.
+// Friend 함수는 객체 지향의 '정보 은닉'의 목적에 맞지 않으므로 멤버 함수로는 해결할 수 없는 경우에만 쓰도록 합니다. 
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Company
+{
+private:
+	int sales, profit; // sales = 판매금액, profit = 판매이윤입니다.
+public:
+	Company(int sales, int profit); // 생성자의 원형입니다.
+	~Company();
+
+	// 접근자 입니다.
+	int GetSales() const;
+	int GetProfit() const;
+
+	// 접근자 멤버함수의 역할을 할 friend 함수입니다.
+	friend int AccSales(Company& c);
+	friend int AccProfit(Company& c);
+};
+
+Company::Company(int sales = 0, int profit = 0) : sales(sales), profit(profit)
+{ }
+
+Company::~Company()
+{ }
+
+// 접근자 메소드 입니다.
+
+int Company::GetSales() const
+{
+	return sales;
+}
+
+int Company::GetProfit() const
+{
+	return profit;
+}
+
+// friend 함수입니다.
+
+int AccSales(Company& c)
+{
+	return c.sales;
+}
+
+int AccProfit(Company& c)
+{
+	return c.profit;
+}
+
+int main(void)
+{
+	Company c(5000, 1500);
+
+	// 정보를 출력합니다.
+
+	cout << "=== 접근자 멤버 함수 사용 ===" << endl;
+	cout << "판매금액 : " << c.GetSales() << endl;
+	cout << "판매이윤 : " << c.GetProfit() << endl;
+
+	cout << endl;
+
+	cout << "== Friend 함수 사용 ===" << endl;
+	cout << "판매금액 : " << AccSales(c) << endl;
+	cout << "판매이윤 : " << AccProfit(c) << endl;
+
+	cout << endl << " - Coded by 조재만 - " << endl;
+
+	return 0;
+
+}
