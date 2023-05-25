@@ -1,12 +1,48 @@
+
+<!-- 참고 중 https://abcdqbbq.tistory.com/88 -->
 <html>
   <body>
      <head>
        <h1>My Home</h1>
+       <style>
+         .tab_menu {position:relative;}
+         .tab_menu .list {overflow:hidden;}
+         .tab_menu .list li {float:left; margin-left:14px;}
+         .tab_menu .list .btn {font-size:13px;}
+         .tab_menu .list .ctn {margin-top: 10vh; margin-left:auto; display:grid; position:absolute; background:#555; color:#fff; width:80vw; height:50vh;}
+       </style>
      </head>
+        <div class="tab_menu">
+          <ul class="list">
+            <li class="checked">
+                <a href="#tab1" class="btn">Main</a>
+                <div id="tab1" class="ctn">test</div>
+              </li>
+              <li>
+                <a href="#tab2" class="btn">Me</a>
+                <div id="tab2" class="ctn">About Me</div>
+              </li>
+              <li>
+                <a href="#tab3" class="btn">.</a>
+                <div id="tabl3" class="ctn">...</div>
+              </li>
+          </ul>
+        </div>
+       <body>
 
-     
-  </body>
+
+       <script>
+         const tabList = document.querySelectorAll('.tab_menu .list li');
+        
+         for(var i = 0; i < tabList.length; i++){
+          
+
+         }
+          
+
+       </script>
+     </body>
   <footer>
-    test
+    footer
   </footer>
 </html>
