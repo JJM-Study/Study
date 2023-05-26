@@ -6,10 +6,13 @@
        <h1>My Home</h1>
        <style>
          .tab_menu {position:relative;}
-         .tab_menu .list {overflow:hidden;}
+         .tab_menu .list {overflow:hidden; list-style-position: 0;}
          .tab_menu .list li {float:left; margin-left:14px;}
          .tab_menu .list .btn {font-size:13px;}
-         .tab_menu .list .ctn {margin-top: 10vh; margin-left:auto; display:grid; position:absolute; background:#555; color:#fff; width:80vw; height:50vh;}
+         .tab_menu .list .ctn {display:none; position:absolute; margin-top:10vh; margin-left:10vw; background:#555; color:#fff; width:80vw; height:50vh; }
+         .tab_menu .list li.checked .ctn {display:block;}
+
+         footer {position:absolute; bottom:10vh;}
        </style>
      </head>
         <div class="tab_menu">
@@ -30,16 +33,18 @@
         </div>
        <body>
 
-
        <script>
          const tabList = document.querySelectorAll('.tab_menu .list li');
         
          for(var i = 0; i < tabList.length; i++){
-          
-
+           tabList[i].querySelector('.btn').addEventListener("click", function(e){
+              e.preventDefault();
+              for(var j = 0; j < tabList.length; j++){
+                tabList[j].classList.remove("checked");
+              }
+              this.parentNode.classList.add('checked');
+           });
          }
-          
-
        </script>
      </body>
   <footer>
