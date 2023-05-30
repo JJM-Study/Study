@@ -61,12 +61,12 @@
               tabList[j].classList.remove('current');
               contents[j].classList.remove('current');
 
-            var tar = event.target.id;
-            alert(tar);
+              const index = Array.from(tabList[j].children).indexOf(event.target);
+              if (index == 0)
+                contents[j].classList.add('current');
             }
             this.parentNode.classList.add('current');
-            
-            //contents[index].classList.add('current');
+
        }
 
     </script>
