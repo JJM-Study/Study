@@ -64,7 +64,8 @@
 	  <c:when test="${listPost != null }" >
 	  	<c:forEach	var="post" items="${listPost}" varStatus="postNum">
 	  	  <tr>
-	  	  	<td>${postNum.count}</td>
+	  	  	<!-- <td>${postNum.count}</td>  -->
+	  	  	<td>${post.postNO}</td>
 	  	  	<td>
 	  	  	  <!-- <span style="padding-right:30px"></span> <!-- 답글 -->
 	  	  	  <c:choose>
