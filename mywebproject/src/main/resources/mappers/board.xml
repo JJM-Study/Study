@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- ★★★★★ 답변형 게시판 만들기 : https://kimgom2.tistory.com/294 -->
+<!-- 계층형 게시판 https://prinha.tistory.com/entry/MVC%ED%8C%A8%ED%84%B4%EC%9D%84-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EA%B3%84%EC%B8%B5%ED%98%95-%EA%B2%8C%EC%8B%9C%ED%8C%90-%EB%A7%8C%EB%93%A4%EA%B8%B0-%EC%98%88%EC%A0%9C -->
+<!-- 계층형 게시판 https://tychejin.tistory.com/28 -->
+<!-- Oracle START WTH ~ CONNECT BY절 MSSQL로 처리. https://windtrap.tistory.com/entry/Oracle-START-WITH-CONNECT-BY-%EC%A0%88-MSSQL%EB%A1%9C-%EC%B2%98%EB%A6%AC%ED%95%98%EA%B8%B0 -->
+<!-- mssql용 소스 https://urajilator.tistory.com/1371 -->
+  <mapper namespace="mapper.board">
+  	<resultMap id="boardResult" type="boardVO">
+  		<result property="level" column="level" 	  			/>
+  		<result property="postNO" column="postNO"  	  			/>
+  		<result property="parentNO" column="parentNO" 			/> 
+  		<result property="title" column="title" 	  			/>
+  		<result property="content" column="content"   			/>
+  		<result property="writeDate" column="writeDate" 		/>
+  		<result property="imageFileName" column="imageFileName" />
+  	</resultMap>
+  	
+  	<select id="selectAllPostList" resultMap="boardResult">
+  		<![CDATA[
+  		  SELECT * from board
+  		]]>
+  	</select>
+  	
+  </mapper>

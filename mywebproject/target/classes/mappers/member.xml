@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- mapper DTD 선언 -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <!-- 관련 개념 참고 : https://moonhy7.tistory.com/entry/Spring-2%EC%9E%A5-Mapper-XML-%ED%8C%8C%EC%9D%BC-%EC%84%A4%EC%A0%95  -->
+ <!-- Result Map 관련 개념 참고 : https://yeonyeon.tistory.com/131  , https://velog.io/@vgo_dongv/Spring-%EC%9D%BC%EB%8C%80%EB%8B%A4-%EA%B4%80%EA%B3%84 -->
+ <!-- Result Map (java.util.Map : https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=lakeni&logNo=220713622414 ) -->
+ <mapper namespace="mapper.member">
+ 	<resultMap id="memberResult" type="memberVO">
+ 		<result property="id"   	 column="id"       />
+ 		<result property="pwd"  	 column="pwd"      />
+ 		<result property="name"  	 column="name"     />
+ 		<result property="email" 	 column="email"    />
+ 		<result property="joinDate"  column="joinDate" />
+ 	</resultMap>
+ 	
+ 	<select id="login" resultType="memberVO" parameterType="java.util.Map" >
+       <![CDATA[
+ 		 SELECT * FROM member where id = #{id} and pwd = #{pwd}
+ 	   ]]>
+ 	</select>
+ 	
+ 	<select id="selectMemberList" resultMap="memberResult">
+ 	  <![CDATA[
+ 	  	SELECT * FROM member order by id desc
+ 	  ]]>
+ 	</select> 
+ 
+ </mapper>
