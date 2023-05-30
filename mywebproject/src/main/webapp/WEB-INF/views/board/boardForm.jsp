@@ -1,3 +1,5 @@
+<!-- https://kimgom2.tistory.com/294 답변형 게시판 설계  -->
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>

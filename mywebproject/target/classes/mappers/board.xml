@@ -19,7 +19,19 @@
   	
   	<select id="selectAllPostList" resultMap="boardResult">
   		<![CDATA[
-  		  SELECT * from board
+  		  WITH treeCTE (level, postNO, parentNO, title, content, writeDate, imageFileName, id) AS 
+
+		  ( SELECT 0 AS level, postNO, parentNO, title, content, writeDate, imageFileName, id FROM board 
+
+		  WHERE parentNO = 0
+
+		  UNION ALL 
+
+		  SELECT parent.level + 1 AS level, child.postNO, child.parentNO, child.title, child.content, child.writeDate, child.imageFileName, child.id FROM board AS child 
+
+   		  INNER JOIN treeCTE AS parent ON child.parentNO = parent.postNO ) 
+
+		  SELECT level, postNO, parentNO, title, content, writeDate, imageFileName, id FROM treeCTE ORDER BY postNO DESC
   		]]>
   	</select>
   	
