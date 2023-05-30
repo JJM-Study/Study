@@ -7,13 +7,16 @@
      <head>
        <h1>My Home</h1>
        <style>
-         .tab_menu .list {overflow:hidden; list-style-position: 0;}
-         .tab_menu .list li {float:left; margin-left:14px;}
-         .tab_menu .list .btn {font-size:13px;}
-         .tab_contents {display:none; position:relative; margin-top:10vh; margin-left:10vw; }
-         .ctn {position: absolute; background:#555; color:#fff; width:80vw; height:50vh}
-         .tab_menu .list li.current .ctn {display:block;}
-         .tab_cts_div .current {display:block;}
+         .tab_menu .tab_list {overflow:hidden; list-style-type:none;}
+         .tab_menu .tab_list li {float:left; margin-left:14px; width:100px; height:40px; text-align:center; color:white; background:gray; padding-top: 10px;}
+         
+         .btn {color:white;  text-decoration-line: none;}
+         
+         .tab_menu .cts_container .tab_cts {display:none;}
+         .tab_menu .cts_container .tab_cts.current {display:block; background:#555; color:#fff; width:80vw; height:45vh; margin-top:20vh; margin-left:10vw;}
+         
+         .btn {font-size:20px;}
+         
 
          footer {position:absolute; bottom:10vh;}
        </style>
@@ -34,21 +37,22 @@
 
       <!--<div id="tab-1" class="tab_contents">-->
       <!-- <div class="tab_cts_div"> -->
-        <div id="tab1" class="tab-cts current">
-          Main Test
-        </div>
-        <div id="tab2" class="tab-cts">
-          About Me
-        </div>
-        <div id="tab3" class="tab-cts">
-          ...
+        <div class="cts_container">
+          <div id="tab1" class="tab_cts current">
+            Main Test
+          </div>
+          <div id="tab2" class="tab_cts">
+            About Me
+          </div>
+          <div id="tab3" class="tab_cts">
+            ...
+          </div>
         </div>
       </div>
-
      <script>
 
        const tabList = document.querySelectorAll('.tab_menu .tab_list li');
-       const contents = document.querySelectorAll('.tab_menu .tab-cts');
+       const contents = document.querySelectorAll('.tab_menu .tab_cts');
 
        for(var i = 0; i < tabList.length; i++) {
           tabList[i].querySelector('.btn').addEventListener('click', btn);
