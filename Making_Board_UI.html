@@ -1,0 +1,45 @@
+<html>
+<head>
+  <style>
+    .t_post {border: 1px gray solid ; border-collapse: collapse; padding: 5px; margin:auto;}
+		.f_col {width:300px;}
+		.s_col {width:300px;}
+		.t_col {width:200px;}
+		.four_col  {width:250px;}
+  </style>
+<meta charset="UTF-8">
+<title></title>
+
+</head>
+<body>
+ <h1>Board View</h1>
+ <table class="t_post">
+	<tr class="t_post">
+		<th class="f_col">
+			Title
+		</th>
+		<td class="t_post" colspan="3">
+			${postView.title}
+		</td>
+		</tr>
+	<tr>
+		<th class="t_post">
+			Writer
+		</th>
+		<td class="t_post s_col">
+			${postView.id}
+		</td>
+		<th class="t_post t_col">
+			Wrting Date
+		</th>
+		<td class="t_post four_col">
+			${postView.writedate}
+		</td>
+</tr>
+ </table>
+</body>
+<footer>
+ <p>test : ${postView.postNO}</p>
+ <p>param_test : <c:out value="${param.postNO}" /></p>
+</footer>
+</html>
