@@ -2,14 +2,17 @@
 <head>
 	<!-- https://tastyloper.tistory.com/1 - 테이블 내 textarea 넣기-->
   <style>
+		th {background: rgb(173, 230, 252);}
     .t_post {border: 1px gray solid ; border-collapse: collapse; padding: 5px; margin:auto; margin-top: 120px;}
+		.t_post_title {border: 1px gray solid ; border-collapse: collapse;}
+		.title { border:0; font-size:16px; padding : 5px; width:100%; outline:none;}
 		.f_col {width:300px;}
 		.s_col {width:300px;}
 		.t_col {width:200px;}
 		.four_col  {width:250px;}
 		.t_row {height: 500px;}
 		.t_post_cap {font: 35px bold; margin-bottom: 10px;}
-		.contents {width:100%; height:497px; padding:5px; border: 0; outline:none; resize:none;}
+		.contents {width:100%; height:497px; padding:5px; border: 0; outline:none; resize:none; font-size: 17px;}
   </style>
 <meta charset="UTF-8">
 <title></title>
@@ -22,8 +25,8 @@
 		<th class="f_col">
 			Title
 		</th>
-		<td class="t_post" colspan="3">
-			${postView.title}
+		<td class="t_post_title" colspan="3">
+			<input type="text" class="title" value=${postView.title} readonly>
 		</td>
 	</tr>
 	<tr>
