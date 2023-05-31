@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.myspring.myproject.board.service.BoardService;
@@ -20,6 +21,8 @@ public class BoardControllerImpl implements BoardController {
 	
 	@Autowired
 	private BoardService boardService;
+	@Autowired
+	private BoardVO boardVO;
 	
 	// 웹서버의 처리 순서 . ... 객체 생성 ->init() -> httpservlet... https://sallykim5087.tistory.com/122
 	@Override
@@ -36,4 +39,18 @@ public class BoardControllerImpl implements BoardController {
 		
 		return mav;
 	}
+	// https://doublesprogramming.tistory.com/95 게시판 만들기 참고.
+	// 게시판 보기
+	@Override
+	@RequestMapping(value="/board/viewPost")
+	public ModelAndView viewPost(@RequestParam("postNO") int postNO, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		System.out.println(postNO);
+		boardVO=boardService.postview(postNO);
+		mav.setViewName("/board/viewPost");
+		mav.addObject("postView", boardVO); //
+		return mav;
+		
+	}
+	
 }

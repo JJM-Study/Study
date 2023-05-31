@@ -6,10 +6,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>${listPost}</title>
+<title></title>
 </head>
 <body>
- <p>test : ${listPost.postNO}</p>
+ <%-- 컨트롤러에 Post 관련 추가해서 할 것. --%>>
+ <p>test : ${postView.postNO}</p>
  <p>param_test : <c:out value="${param.postNO}" /></p>
+ <p>${postView}</p>
 </body>
 </html>

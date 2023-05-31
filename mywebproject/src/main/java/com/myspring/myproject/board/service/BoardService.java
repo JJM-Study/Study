@@ -6,4 +6,6 @@ import com.myspring.myproject.board.vo.BoardVO;
 
 public interface BoardService {
 	public List listPost() throws Exception;
+
+	public BoardVO postview(int postNO) throws Exception;
 }

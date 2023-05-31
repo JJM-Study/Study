@@ -22,4 +22,9 @@ public class BoardDAOImpl implements BoardDAO {
 		List<BoardVO> PostList = sqlSession.selectList("mapper.board.selectAllPostList");
 		return PostList;
 	}
+	
+	@Override
+	public BoardVO postview(int postNO) throws Exception { 
+		return sqlSession.selectOne("mapper.board.selectPost", postNO);
+	}
 }

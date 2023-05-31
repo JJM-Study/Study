@@ -11,5 +11,7 @@ import com.myspring.myproject.board.vo.BoardVO;
 
 public interface BoardController {
 	public ModelAndView boardList(HttpServletRequest request, HttpServletResponse response) throws Exception;
+
+	public ModelAndView viewPost(int postNO, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 }

@@ -22,4 +22,10 @@ public class BoardServiceImpl implements BoardService {
 		return PostList;
 	}
 	
+	@Override
+	public BoardVO postview(int postNO) throws Exception {
+		BoardVO Postview = boardDAO.postview(postNO);
+		return boardDAO.postview(postNO);
+	}
+	
 }

@@ -37,5 +37,12 @@
 
   		]]>
   	</select>
+  	<!-- 게시물 조회 https://kuzuro.blogspot.com/2019/08/6.html -->
+  	<!--  https://dorongdogfoot.tistory.com/124, resultType 개념. -->
+  	<select id="selectPost" resultType="boardVO" parameterType="int">
+  		SELECT level, postNO, parentNO, title, content, writedate, imageFileName, id 
+  		from board
+  		where postNO = #{postNO}
+  	</select>
   	
   </mapper>
