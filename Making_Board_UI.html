@@ -3,58 +3,68 @@
 	<!-- https://tastyloper.tistory.com/1 - 테이블 내 textarea 넣기-->
   <style>
 		th {background: rgb(173, 230, 252);}
-    .t_post {border: 1px gray solid ; border-collapse: collapse; padding: 5px; margin:auto; margin-top: 120px;}
+    .t_post {border: 1px gray solid ; border-collapse: collapse; padding: 5px; margin-top: 120px; margin: auto;}
 		.t_post_title {border: 1px gray solid ; border-collapse: collapse;}
-		.title { border:0; font-size:16px; padding : 5px; width:100%; outline:none;}
+		.title { border:0; font-size:16px; padding : 5px; width:98%; outline:none;}
 		.f_col {width:300px;}
 		.s_col {width:300px;}
 		.t_col {width:200px;}
 		.four_col  {width:250px;}
 		.t_row {height: 500px;}
 		.t_post_cap {font: 35px bold; margin-bottom: 10px;}
-		.contents {width:100%; height:497px; padding:5px; border: 0; outline:none; resize:none; font-size: 17px;}
+		.contents {width:97%; height:497px; padding:5px; border: 0; outline:none; resize:none; font-size: 17px;}
+		.col_button {float:right;}
   </style>
 <meta charset="UTF-8">
 <title></title>
 
 </head>
 <body>
- <table class="t_post">
-	<caption class="t_post_cap">Board View</caption>
-	<tr class="t_post">
-		<th class="f_col">
-			Title
-		</th>
-		<td class="t_post_title" colspan="3">
-			<input type="text" class="title" value=${postView.title} readonly>
-		</td>
-	</tr>
-	<tr>
-		<th class="t_post">
-			Writer
-		</th>
-		<td class="t_post s_col">
-			${postView.id}
-		</td>
-		<th class="t_post t_col">
-			Wrting Date
-		</th>
-		<td class="t_post four_col">
-			${postView.writedate}
-		</td>
-</tr>
-<tr>
-	<th class="t_post t_row">
-		Contents
-	</th>
-	<td colspan="3">
-		<textarea class="contents">${postView.Contents}</textarea>
-	</td>
-</tr>
- </table>
+ <div class="t_container">
+	<table class="t_post">
+		<caption class="t_post_cap">Board View</caption>
+		<tr class="t_post">
+			<th class="f_col">
+				Title
+			</th>
+			<td class="t_post_title" colspan="3">
+				<input type="text" class="title" value=${postView.title} readonly>
+			</td>
+		</tr>
+		<tr>
+			<th class="t_post">
+				Writer
+			</th>
+			<td class="t_post s_col">
+				${postView.id}
+			</td>
+			<th class="t_post t_col">
+				Wrting Date
+			</th>
+			<td class="t_post four_col">
+				${postView.writeDate}
+			</td>
+		</tr>
+		<tr class="t_post">
+			<th class="t_post t_row">
+				Contents
+			</th>
+			<td>
+				<textarea class="contents">${postView.content}</textarea>
+			</td>
+		</tr>
+		<tr class="t_post">
+			<td colspan="4">
+				<input type="submit" value="수정" class="col_button">
+			</td>
+		</tr>
+	</table>
+</div>
+</div>
 </body>
 <footer>
  <p>test : ${postView.postNO}</p>
  <p>param_test : <c:out value="${param.postNO}" /></p>
 </footer>
 </html>
+
