@@ -45,7 +45,6 @@ public class BoardControllerImpl implements BoardController {
 	@RequestMapping(value="/board/viewPost")
 	public ModelAndView viewPost(@RequestParam("postNO") int postNO, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
-		System.out.println(postNO);
 		boardVO=boardService.postview(postNO);
 		mav.setViewName("/board/viewPost");
 		mav.addObject("postView", boardVO); //
