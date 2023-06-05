@@ -17,6 +17,7 @@ public class BoardDAOImpl implements BoardDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	
+	
 	@Override
 	public List selectAllPostList() throws DataAccessException {
 		List<BoardVO> PostList = sqlSession.selectList("mapper.board.selectAllPostList");
@@ -27,4 +28,14 @@ public class BoardDAOImpl implements BoardDAO {
 	public BoardVO postview(int postNO) throws Exception { 
 		return sqlSession.selectOne("mapper.board.selectPost", postNO);
 	}
+	
+	// https://wbluke.tistory.com/15 DataAcessException 등 참고
+	// https://yulfsong.tistory.com/44 update 반환 타입 참고
+	@Override
+	public int postUpdate(BoardVO boardVO) throws Exception {
+		return sqlSession.update("mapper.board.updatePost", boardVO);
+	}
+	
+	
+	
 }

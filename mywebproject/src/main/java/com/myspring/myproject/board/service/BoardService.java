@@ -8,4 +8,6 @@ public interface BoardService {
 	public List listPost() throws Exception;
 
 	public BoardVO postview(int postNO) throws Exception;
+
+	public int updatePost(BoardVO boardVO) throws Exception;
 }

@@ -21,13 +21,15 @@
 		
 		#input_title {border:0; font-size:16px; padding : 5px; width:98%; outline:none;}
 		#input_cnt {width:97%; height:497px; padding:5px; border: 0; outline:none; resize:none; font-size: 17px;}
-
+		#btn_edit_comple {display: none;}
   </style>
 <meta charset="UTF-8">
 <title></title>
 
 </head>
 <body>
+<!-- <form name="update" action="${contextPath}/board/updatePost?postNO=${postView.postNO}" id="form"> -->
+<form name="update" action="${contextPath}" id="form">
  <div class="t_container">
 	<table class="t_post">
 		<caption class="t_post_cap">Board View</caption>
@@ -36,7 +38,7 @@
 				Title
 			</th>
 			<td class="t_post_title" colspan="3">
-				<input type="text" value=${postView.title} id="input_title" readonly>
+				<input type="text" value=${postView.title} id="input_title" name="title" readonly>
 			</td>
 		</tr>
 		<tr>
@@ -58,20 +60,25 @@
 				Contents
 			</th>
 			<td>
-				<textarea id="input_cnt" readonly>${postView.content}</textarea>
+				<textarea id="input_cnt" name="content" readonly>${postView.content}</textarea>
 			</td>
 		</tr>
 		<tr class="t_post">
 			<td colspan="4">
 				<input type="submit" value="삭제" id="btn_cancel" class="btn_post">
-				<input type="submit" value="수정" id="btn_edit" onclick="login_chk()" class="btn_post">
+				<input type="button" value="수정" id="btn_edit" onclick="login_chk()" class="btn_post">
+				<input type="submit" value="수정 완료" id="btn_edit_comple" class="btn_post">
+				<input type="hidden" name="imageFileName" value="null">
+				<input type="hidden" name="postNO" value=${postView.postNO}>
 			</td>
 		</tr>
 	</table>
-</div>
-</div>
+ </div>
+</form>
 </body>
 <script>
+
+	 var contextPath = window.location.origin;
 
 	 function login_chk() {
 			var isLogOn = "${isLogOn}"
@@ -95,23 +102,28 @@
 	 
 	 function edit_chk() {
 			var btn_edit = document.getElementById("btn_edit");
+			var btn_edit_comple = document.getElementById("btn_edit_comple");
 			var btn_cancel = document.getElementById("btn_cancel");
 			var input_title = document.getElementById("input_title"); // 게시글 제목
 			var	input_cnt = document.getElementById("input_cnt"); // 게시글 내용
+		    var form = document.getElementById("form");
 
-			if (btn_edit.value == "수정"){
-		  	btn_edit.value = "수정 적용";
-				btn_cancel.style.display='none';
-				input_title.readOnly = false;
-				input_cnt.readOnly = false; // 게시글 내용
-			}
-			else {
-				btn_edit.value = "수정";
-				btn_cancel.style.display='block';
-				input_title.readOnly = true;
-				input_cnt.readOnly = true;
-			}
-	 }
+			//if (btn_edit.display == "block"){
+		  	//btn_edit.value = "수정 적용";
+			btn_cancel.style.display='none';
+			btn_edit.style.display='none';
+			input_title.readOnly = false;
+			input_cnt.readOnly = false; // 게시글 내용
+			btn_edit_comple.style.display='block';
+			form.action = "${contextPath}/board/updatePost";
+		}
+
+			// else {
+			// 	btn_edit.value = "수정";
+			// 	btn_cancel.style.display='block';
+			// 	input_title.readOnly = true;
+			// 	input_cnt.readOnly = true;
+			// 	location.href= contextPath + "myproject/board/updatePost?postNO=${postView.postNO}";
 	 
 </script>
 <footer>
@@ -119,4 +131,3 @@
 <p>param_test : <c:out value="${param.postNO}" /></p>
 </footer>
 </html>
-

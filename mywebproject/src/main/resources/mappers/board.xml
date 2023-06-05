@@ -39,10 +39,18 @@
   	</select>
   	<!-- 게시물 조회 https://kuzuro.blogspot.com/2019/08/6.html -->
   	<!--  https://dorongdogfoot.tistory.com/124, resultType 개념. -->
-  	<select id="selectPost" resultType="boardVO" parameterType="int">
+  	<select id="selectPost" resultType="boardVO" parameterType="BoardVO">
   		SELECT level, postNO, parentNO, title, content, writedate, imageFileName, id 
   		from board
   		where postNO = #{postNO}
   	</select>
+  	
+  	
+  	<!-- https://integer-ji.tistory.com/342 게시판 수정 참고 -->
+  	
+  	<update id="updatePost">
+		update board set title = #{title}, content = #{content}, imageFileName = #{imageFileName}
+		where postNO = #{postNO}
+  	</update>
   	
   </mapper>

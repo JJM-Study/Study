@@ -11,5 +11,7 @@ public interface BoardDAO {
 	public List selectAllPostList() throws DataAccessException;
 
 	public BoardVO postview(int postNO) throws Exception;
+
+	public int postUpdate(BoardVO boardVO) throws Exception;
 	
 }

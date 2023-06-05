@@ -52,4 +52,14 @@ public class BoardControllerImpl implements BoardController {
 		
 	}
 	
+	// https://dion-ko.tistory.com/69 Map, Hash ฐüทร
+	@Override
+	@RequestMapping(value="/board/updatePost")
+	public String updatePost(@RequestParam("postNO") int postNO, HttpServletRequest request, HttpServletResponse response ) throws Exception {
+		boardService.updatePost(boardVO);
+		String view = "redirect:/board/viewPost?postNO=" + postNO;
+		return view;
+		
+	}
+	
 }

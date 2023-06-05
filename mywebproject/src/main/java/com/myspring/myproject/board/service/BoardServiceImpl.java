@@ -28,4 +28,10 @@ public class BoardServiceImpl implements BoardService {
 		return boardDAO.postview(postNO);
 	}
 	
+	@Override
+	public int updatePost(BoardVO boardVO) throws Exception {
+		return boardDAO.postUpdate(boardVO);
+	}
+	
+	
 }
