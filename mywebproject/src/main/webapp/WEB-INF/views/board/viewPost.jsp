@@ -38,7 +38,7 @@
 				Title
 			</th>
 			<td class="t_post_title" colspan="3">
-				<input type="text" value=${postView.title} id="input_title" name="title" readonly>
+				<input type="text" value="${postView.title}" id="input_title" name="title" readonly>
 			</td>
 		</tr>
 		<tr>

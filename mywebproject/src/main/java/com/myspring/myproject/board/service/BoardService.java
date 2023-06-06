@@ -9,5 +9,5 @@ public interface BoardService {
 
 	public BoardVO postview(int postNO) throws Exception;
 
-	public int updatePost(BoardVO boardVO) throws Exception;
+	public void updatePost(BoardVO boardVO) throws Exception;
 }

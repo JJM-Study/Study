@@ -32,8 +32,8 @@ public class BoardDAOImpl implements BoardDAO {
 	// https://wbluke.tistory.com/15 DataAcessException 등 참고
 	// https://yulfsong.tistory.com/44 update 반환 타입 참고
 	@Override
-	public int postUpdate(BoardVO boardVO) throws Exception {
-		return sqlSession.update("mapper.board.updatePost", boardVO);
+	public void postUpdate(BoardVO boardVO) throws Exception {
+		sqlSession.update("mapper.board.updatePost", boardVO);
 	}
 	
 	

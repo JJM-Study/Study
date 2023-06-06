@@ -12,6 +12,6 @@ public interface BoardDAO {
 
 	public BoardVO postview(int postNO) throws Exception;
 
-	public int postUpdate(BoardVO boardVO) throws Exception;
+	public void postUpdate(BoardVO boardVO) throws Exception;
 	
 }

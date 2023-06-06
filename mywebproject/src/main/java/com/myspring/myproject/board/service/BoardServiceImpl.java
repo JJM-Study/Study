@@ -29,8 +29,9 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public int updatePost(BoardVO boardVO) throws Exception {
-		return boardDAO.postUpdate(boardVO);
+	@Transactional
+	public void updatePost(BoardVO boardVO) throws Exception {
+		boardDAO.postUpdate(boardVO);
 	}
 	
 	

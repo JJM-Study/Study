@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -55,7 +56,8 @@ public class BoardControllerImpl implements BoardController {
 	// https://dion-ko.tistory.com/69 Map, Hash ฐüทร
 	@Override
 	@RequestMapping(value="/board/updatePost")
-	public String updatePost(@RequestParam("postNO") int postNO, HttpServletRequest request, HttpServletResponse response ) throws Exception {
+	public String updatePost(@RequestParam("postNO") int postNO, @ModelAttribute("boardVO") BoardVO boardVO, HttpServletRequest request, HttpServletResponse response ) throws Exception {
+		boardVO.setPostNO(postNO);
 		boardService.updatePost(boardVO);
 		String view = "redirect:/board/viewPost?postNO=" + postNO;
 		return view;
