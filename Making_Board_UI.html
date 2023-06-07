@@ -65,10 +65,10 @@
 		</tr>
 		<tr class="t_post">
 			<td colspan="4">
-				<input type="submit" value="삭제" id="btn_cancel" onclick="login_chk(this.id)" class="btn_post">
+				<input type="button" value="삭제" id="btn_cancel" onclick="login_chk(this.id)" class="btn_post">
 				<input type="button" value="수정" id="btn_edit" onclick="login_chk(this.id)" class="btn_post">
 				<input type="submit" value="수정 완료" id="btn_edit_comple" class="btn_post">
-				<input type="submit" value="글쓰기" id="btn_post" class="btn_post">
+				<input type="button" value="글쓰기" id="btn_post" onclick="login_chk(this.id)" class="btn_post">
 				<input type="hidden" name="imageFileName" value="null">
 				<input type="hidden" name="postNO" value=${postView.postNO}>
 			</td>
@@ -83,10 +83,8 @@
 	var btn_post = document.getElementById("btn_post");
 	var btn_cancel = document.getElementById("btn_cancel");
 	var btn_edit = document.getElementById("btn_edit");
-	var isPosted = "${postView.postNO}"; // ★★★★★ 2023/06/07 작성 타이틀의 null 유무 / 경우에 따라 후에 조건을 Insert 기준으로 맞춰서 수정할 것.
+	var isPosted = false; //"${postView.postNO}"; // ★★★★★ 2023/06/07 작성 타이틀의 null 유무 / 경우에 따라 후에 조건을 Insert 기준으로 맞춰서 수정할 것.
 
-	alert(isPosted);
-	
 	if (!isPosted)
 	{
 		btn_edit.style.display = 'none';
@@ -113,6 +111,10 @@
 				else if (e == "btn_cancel")
 				{
 					alert("삭제 미구현");
+				}
+				else if (e == "btn_post")
+				{
+					posting();
 				}
 			}
 			else 
@@ -142,16 +144,16 @@
 		form.action = "${contextPath}/board/updatePost";
 	}
 
+	function posting() {
+		 alert("TEST SUC");
+	}
+
 			// else {
 			// 	btn_edit.value = "수정";
 			// 	btn_cancel.style.display='block';
 			// 	input_title.readOnly = true;
 			// 	input_cnt.readOnly = true;
 			// 	location.href= contextPath + "myproject/board/updatePost?postNO=${postView.postNO}";
-	 
-	 function posting() {
-			
-	 }
 
 </script>
 <footer>
