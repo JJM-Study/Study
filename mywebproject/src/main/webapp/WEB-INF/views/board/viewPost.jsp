@@ -65,9 +65,10 @@
 		</tr>
 		<tr class="t_post">
 			<td colspan="4">
-				<input type="submit" value="삭제" id="btn_cancel" class="btn_post">
-				<input type="button" value="수정" id="btn_edit" onclick="login_chk()" class="btn_post">
+				<input type="submit" value="삭제" id="btn_cancel" onclick="login_chk(this.id)" class="btn_post">
+				<input type="button" value="수정" id="btn_edit" onclick="login_chk(this.id)" class="btn_post">
 				<input type="submit" value="수정 완료" id="btn_edit_comple" class="btn_post">
+				<input type="submit" value="글쓰기" id="btn_post" class="btn_post">
 				<input type="hidden" name="imageFileName" value="null">
 				<input type="hidden" name="postNO" value=${postView.postNO}>
 			</td>
@@ -78,45 +79,68 @@
 </body>
 <script>
 
-	 var contextPath = window.location.origin;
+	var contextPath = window.location.origin;
+	var btn_post = document.getElementById("btn_post");
+	var btn_cancel = document.getElementById("btn_cancel");
+	var btn_edit = document.getElementById("btn_edit");
+	var isPosted = "${postView.postNO}"; // ★★★★★ 2023/06/07 작성 타이틀의 null 유무 / 경우에 따라 후에 조건을 Insert 기준으로 맞춰서 수정할 것.
 
-	 function login_chk() {
-			var isLogOn = "${isLogOn}"
-			var id = "${memberInfo.id}"
-			if (isLogOn)
+	alert(isPosted);
+	
+	if (!isPosted)
+	{
+		btn_edit.style.display = 'none';
+		btn_cancel.style.display = 'none';
+	}
+	else
+	{
+		btn_post.style.display = 'none';
+	}
+
+
+	function login_chk(e) {
+		var isLogOn = "${isLogOn}"
+		var id = "${memberInfo.id}"
+
+		if (isLogOn)
+		{
+			if (id === "${postView.id}") 
 			{
-				if (id === "${postView.id}") 
+				if (e == "btn_edit")
 				{
 					edit_chk();
 				}
-				else 
+				else if (e == "btn_cancel")
 				{
-					alert("작성자만 수정할 수 있습니다.");
+					alert("삭제 미구현");
 				}
 			}
-			else
+			else 
 			{
-				alert("로그인이 필요합니다.");
+				alert("작성자만 수정할 수 있습니다.");
 			}
-	 }
+		}
+		else
+		{
+			alert("로그인이 필요합니다.");
+		}
+	}
 	 
-	 function edit_chk() {
-			var btn_edit = document.getElementById("btn_edit");
-			var btn_edit_comple = document.getElementById("btn_edit_comple");
-			var btn_cancel = document.getElementById("btn_cancel");
-			var input_title = document.getElementById("input_title"); // 게시글 제목
-			var	input_cnt = document.getElementById("input_cnt"); // 게시글 내용
-		    var form = document.getElementById("form");
+	function edit_chk() {
+		var btn_edit_comple = document.getElementById("btn_edit_comple");
+		var input_title = document.getElementById("input_title"); // 게시글 제목
+		var	input_cnt = document.getElementById("input_cnt"); // 게시글 내용
+		var form = document.getElementById("form");
 
 			//if (btn_edit.display == "block"){
 		  	//btn_edit.value = "수정 적용";
-			btn_cancel.style.display='none';
-			btn_edit.style.display='none';
-			input_title.readOnly = false;
-			input_cnt.readOnly = false; // 게시글 내용
-			btn_edit_comple.style.display='block';
-			form.action = "${contextPath}/board/updatePost";
-		}
+		btn_cancel.style.display='none';
+		btn_edit.style.display='none';
+		input_title.readOnly = false;
+		input_cnt.readOnly = false; // 게시글 내용
+		btn_edit_comple.style.display='block';
+		form.action = "${contextPath}/board/updatePost";
+	}
 
 			// else {
 			// 	btn_edit.value = "수정";

@@ -41,7 +41,7 @@ public class BoardControllerImpl implements BoardController {
 		return mav;
 	}
 	// https://doublesprogramming.tistory.com/95 게시판 만들기 참고.
-	// 게시판 보기
+	// 게시판 보기(수정)
 	@Override
 	@RequestMapping(value="/board/viewPost")
 	public ModelAndView viewPost(@RequestParam("postNO") int postNO, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -51,6 +51,13 @@ public class BoardControllerImpl implements BoardController {
 		mav.addObject("postView", boardVO); //
 		return mav;
 		
+	}
+	
+	//게시판 보기(쓰기)
+	@Override
+	@RequestMapping(value="/board/posting")
+	public String posting() throws Exception {
+		return "/board/viewPost";
 	}
 	
 	// https://dion-ko.tistory.com/69 Map, Hash 관련

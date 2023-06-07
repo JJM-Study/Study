@@ -88,5 +88,6 @@
 	  </c:when>
 	</c:choose>
   </table>
+  <input type="button" value="글쓰기" onclick="location.href='${contextPath}/board/posting'">
 </body>
 </html>

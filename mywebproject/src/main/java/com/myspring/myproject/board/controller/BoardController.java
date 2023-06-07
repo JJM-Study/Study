@@ -20,5 +20,7 @@ public interface BoardController {
 
 	public String updatePost(int postNO, BoardVO boardVO, HttpServletRequest request, HttpServletResponse response) throws Exception;
 
+	public String posting() throws Exception;
+
 
 }
