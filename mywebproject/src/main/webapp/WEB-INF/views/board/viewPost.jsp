@@ -65,12 +65,15 @@
 		</tr>
 		<tr class="t_post">
 			<td colspan="4">
-				<input type="submit" value="삭제" id="btn_cancel" onclick="login_chk(this.id)" class="btn_post">
+				<input type="button" value="삭제" id="btn_cancel" onclick="login_chk(this.id)" class="btn_post">
 				<input type="button" value="수정" id="btn_edit" onclick="login_chk(this.id)" class="btn_post">
 				<input type="submit" value="수정 완료" id="btn_edit_comple" class="btn_post">
-				<input type="submit" value="글쓰기" id="btn_post" class="btn_post">
+				<input type="button" value="글쓰기" id="btn_post" onclick="login_chk(this.id)" class="btn_post">
 				<input type="hidden" name="imageFileName" value="null">
-				<input type="hidden" name="postNO" value=${postView.postNO}>
+				<input type="hidden" name="postNO" id="input_postNO" value=${postView.postNO}>
+				<input type="hidden" name="id" value="${memberInfo.id}">
+				<input type="hidden" name="level" value=0> <!-- 레벨 0은 글쓰기. 1은 댓글 -->
+				<input type="hidden" name="parentNO" value=0>
 			</td>
 		</tr>
 	</table>
@@ -84,13 +87,17 @@
 	var btn_cancel = document.getElementById("btn_cancel");
 	var btn_edit = document.getElementById("btn_edit");
 	var isPosted = "${postView.postNO}"; // ★★★★★ 2023/06/07 작성 타이틀의 null 유무 / 경우에 따라 후에 조건을 Insert 기준으로 맞춰서 수정할 것.
-
-	alert(isPosted);
+	var input_title = document.getElementById("input_title"); // 게시글 제목
+	var	input_cnt = document.getElementById("input_cnt"); // 게시글 내용
+	var postNO = document.getElementById("input_postNO");
 	
 	if (!isPosted)
 	{
 		btn_edit.style.display = 'none';
 		btn_cancel.style.display = 'none';
+		input_title.readOnly = false;
+		input_cnt.readOnly = false; // 게시글 내용
+		postNO.value=1;
 	}
 	else
 	{
@@ -104,7 +111,7 @@
 
 		if (isLogOn)
 		{
-			if (id === "${postView.id}") 
+			if (id === "${postView.id}")
 			{
 				if (e == "btn_edit")
 				{
@@ -114,6 +121,10 @@
 				{
 					alert("삭제 미구현");
 				}
+			}
+			else if("${memberInfo.id}")
+			{
+				posting();
 			}
 			else 
 			{
@@ -128,8 +139,6 @@
 	 
 	function edit_chk() {
 		var btn_edit_comple = document.getElementById("btn_edit_comple");
-		var input_title = document.getElementById("input_title"); // 게시글 제목
-		var	input_cnt = document.getElementById("input_cnt"); // 게시글 내용
 		var form = document.getElementById("form");
 
 			//if (btn_edit.display == "block"){
@@ -140,6 +149,12 @@
 		input_cnt.readOnly = false; // 게시글 내용
 		btn_edit_comple.style.display='block';
 		form.action = "${contextPath}/board/updatePost";
+	}
+			
+	function posting() {
+		//location.href= contextPath + "myproject/board/insertPost;
+		form.action = "${contextPath}/board/insertPost";
+		document.getElementById("form").submit();
 	}
 
 			// else {

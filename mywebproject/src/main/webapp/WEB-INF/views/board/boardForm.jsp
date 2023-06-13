@@ -65,18 +65,18 @@
 	  	<c:forEach	var="post" items="${listPost}" varStatus="postNum">
 	  	  <tr>
 	  	  	<!-- <td>${postNum.count}</td>  -->
-	  	  	<td>${post.postNO}</td>
+	  	  	<td>${postNum.count}</td>
 	  	  	<td>
 	  	  	  <!-- <span style="padding-right:30px"></span> <!-- 답글 -->
 	  	  	  <c:choose>
-	  	  	     <c:when test='${post.level > 1}'>
-	  	  	     	<c:forEach begin="1" end="${post.level}" step="1">
-	  	  	     		<span style="padding-left:1.250em"></span>
-	  	  	     	</c:forEach>
-	  	  	     	<span style="font-size:0.750em">[reply]</span>
-	  	  	     	<a class='cls1' href="${contextPath}/board/viewPost?postNO=${post.postNO}">${post.title}</a>
+	  	  	     <c:when test="${post.level < 1}">
+					<a class='cls1' href="${contextPath}/board/viewPost?postNO=${post.postNO}">${post.title}</a>
 	  	  	     </c:when>
 	  	  	     <c:otherwise>
+	  	  	     	<c:forEach begin="1" end="${post.level}" step="1">
+	  	  	     	<span style="padding-left:1.250em"></span>
+	  	  	     	</c:forEach>
+	  	  	     	<span style="font-size:0.750em">[reply]</span>
 	  	  	     	<a class='cls1' href="${contextPath}/board/viewPost?postNO=${post.postNO}">${post.title}</a>
 	  	  	     </c:otherwise>
 	  	  	  </c:choose>

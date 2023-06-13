@@ -17,7 +17,7 @@ public class BoardVO {
 		private String imageFileName;
 		private String id;
 		private Date writeDate;
-		
+
 		public BoardVO() {
 			System.out.println("title" + title);
 		}
@@ -70,5 +70,4 @@ public class BoardVO {
 		public void setWriteDate(Date writeDate) {
 			this.writeDate = writeDate;
 		}
-	
 }
