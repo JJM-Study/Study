@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.myspring.myproject.board.dao.BoardDAO;
-import com.myspring.myproject.board.mapper.BoardMapper;
+//import com.myspring.myproject.board.mapper.BoardMapper;
 import com.myspring.myproject.board.vo.BoardVO;
 
 @Service("boardService")
@@ -32,6 +32,11 @@ public class BoardServiceImpl implements BoardService {
 		return boardDAO.postview(postNO);
 	}
 
+	@Override
+	public int b_count() throws Exception {
+		return boardDAO.b_count();
+	}
+	
 	@Override
 	@Transactional
 	public void updatePost(BoardVO boardVO) throws Exception {

@@ -44,6 +44,12 @@
   	  ]]>
   	</select>
   	
+  	<select id="b_totalPage" resultType="int"> <!-- 게시판 총 게시글 수 / del = 0 : 삭제 안 된 게시글들.-->
+  		<![CDATA[
+  			select count(postNO) as b_count from board where del = 0			
+  		]]>
+  	</select>
+  	
   	<!-- <select id="new_PostNO" resultType="boardVO">
   	 <![CDATA[
   		select isnull(max(postNO),0) + 1 from board

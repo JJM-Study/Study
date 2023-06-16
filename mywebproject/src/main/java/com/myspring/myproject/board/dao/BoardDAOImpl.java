@@ -30,6 +30,11 @@ public class BoardDAOImpl implements BoardDAO {
 		return sqlSession.selectOne("mapper.board.selectPost", postNO);
 	}
 	
+	@Override
+	public int b_count() throws Exception {
+		return sqlSession.selectOne("mapper.board.b_totalPage");
+	}
+	
 	// https://wbluke.tistory.com/15 DataAcessException 등 참고
 	// https://yulfsong.tistory.com/44 update 반환 타입 참고
 	@Override

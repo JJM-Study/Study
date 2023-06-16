@@ -37,7 +37,8 @@
 	  </c:choose>
 	</ul>
 <!-- <a href="${contextPath}/board/boardForm">(임시)게시판 바로가기</a> -->
-	<a href="Listboard">(임시)게시판 바로가기</a>
+<!-- <a href="Listboard">(임시)게시판 바로가기</a>  -->
+	<a href="Listboard?page=1">(임시)게시판 바로가기</a>
 <P>  The time on the server is ${serverTime}. </P>
 </body>
 </html>

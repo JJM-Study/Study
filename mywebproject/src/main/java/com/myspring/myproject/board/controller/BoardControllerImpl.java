@@ -58,18 +58,20 @@ public class BoardControllerImpl implements BoardController {
 	//https://stove99.tistory.com/78 참고
 	//https://chocotaste.tistory.com/116
 	//https://stylishc.tistory.com/103
+	//@RequestMapping(value="/Listboard")
 	@RequestMapping(value="/Listboard")
 	public ModelAndView pro_selectAllPostList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HashMap<String, Object> param = new HashMap<String, Object>();
 		ModelAndView mav = new ModelAndView();
-		param.put("c_page", 1); // 현재 페이지
-		param.put("row_count", 100); // 한 페이지 당 게시물 수
+		param.put("c_page", request.getParameter("page")); // 현재 페이지
+		param.put("row_count", 10); // 한 페이지 당 게시물 수
 		System.out.println("param" + param);
-		List result = boardService.BoardList(param);
-
+		List result1 = boardService.BoardList(param);
+		int result2 = boardService.b_count();
 		
 		mav.setViewName("/board/boardForm");
-		mav.addObject("listPost", result);
+		mav.addObject("listPost", result1);
+		mav.addObject("b_count", result2); // 게시판 포스팅 개수
 		
 		return mav;
 	}

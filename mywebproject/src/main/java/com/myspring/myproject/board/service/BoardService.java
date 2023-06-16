@@ -11,6 +11,8 @@ public interface BoardService {
 
 	public BoardVO postview(int postNO) throws Exception;
 
+	public int b_count() throws Exception;
+	
 	public void updatePost(BoardVO boardVO) throws Exception;
 
 	public void insertPost(BoardVO boardVO) throws Exception;
