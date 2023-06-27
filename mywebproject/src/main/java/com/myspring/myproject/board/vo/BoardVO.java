@@ -9,9 +9,11 @@ import org.springframework.stereotype.Component;
 
 @Component("boardVO")
 public class BoardVO {
-		private int level;
+		//private int level;
+		private int arr;
 		private int postNO;
 		private int parentNO;
+		private int del;
 		private String title;
 		private String content;
 		private String imageFileName;
@@ -22,24 +24,46 @@ public class BoardVO {
 			System.out.println("title" + title);
 		}
 		
-		public int getLevel() {
-			return level;
-		}
-		public void setLevel(int level) {
-			this.level = level;
-		}
+//		public int getLevel() {
+//			return level;
+//		}
+//		public void setLevel(int level) {
+//			this.level = level;
+//		}
+		
+		
+		
 		public int getPostNO() {
 			return postNO;
 		}
+
 		public void setPostNO(int postNO) {
 			this.postNO = postNO;
 		}
+		
+		public int getArr() {
+			return arr;
+		}
+
+		public void setArr(int arr) {
+			this.arr = arr;
+		}
+		
 		public int getParentNO() {
 			return parentNO;
 		}
 		public void setParentNO(int parentNO) {
 			this.parentNO = parentNO;
 		}
+		
+		public int getDel() {
+			return del;
+		}
+
+		public void setDel(int del) {
+			this.del = del;
+		}
+		
 		public String getTitle() {
 			return title;
 		}

@@ -20,5 +20,9 @@ public interface BoardDAO {
 	public void postInsert(BoardVO boardVO) throws Exception;
 	
 	public List<Object> BoardList(HashMap<String, Object> map);
+
+	public void postDelete(BoardVO boardVO) throws Exception;
+
+	public int replyPost(BoardVO boardVO) throws Exception;
 	
 }

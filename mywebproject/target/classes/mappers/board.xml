@@ -10,7 +10,9 @@
   	<resultMap id="boardResult" type="boardVO">
   		<result property="level" column="level" 	  			/>
   		<result property="postNO" column="postNO"  	  			/>
-  		<result property="parentNO" column="parentNO" 			/> 
+  		<result property="arr" column="arr" 					/>
+  		<result property="parentNO" column="parentNO" 			/>
+  		<result property="del" column="del" 					/> 
   		<result property="title" column="title" 	  			/>
   		<result property="content" column="content"   			/>
   		<result property="writeDate" column="writeDate" 		/>
@@ -38,7 +40,7 @@
   	<!--  https://dorongdogfoot.tistory.com/124, resultType 개념. -->
   	<select id="selectPost" resultType="boardVO" parameterType="BoardVO">
   	  <![CDATA[
-  		SELECT level, postNO, parentNO, title, content, writedate, imageFileName, id 
+  		SELECT postNO, arr, parentNO, del, title, content, writeDate, imageFileName, id
   		from board
   		where postNO = #{postNO}
   	  ]]>
@@ -65,11 +67,36 @@
 	  ]]>
   	</update>
   	
-  	<!-- insert into board values (#{level}, (select isnull(max(postNO),0) + 1 from board), #{parentNO}, #{arr}, #{title}, #{content}, getdate(), #{imageFileName}, #{id} ) -->
+  	<update id="deletePost">
+  	  <![CDATA[
+  		 update board set del = 1
+  		 where postNO = #{postNO}
+  	  ]]>
+  	</update>
+  	
+  	<!--  insert into board (level, postNO, parentNO, title, content, writedate, imageFileName, id) values (#{level}, (select isnull(max(postNO),0) + 1 from board), #{parentNO}, #{title}, #{content}, getdate(), #{imageFileName}, #{id} ) -->
   	<insert id="insertPost"> <!-- 새 글용 -->
   	  <![CDATA[
-  		 insert into board (level, postNO, parentNO, title, content, writedate, imageFileName, id) values (#{level}, (select isnull(max(postNO),0) + 1 from board), #{parentNO}, #{title}, #{content}, getdate(), #{imageFileName}, #{id} )
+  		 insert into board (postNO, arr, parentNO, del, title, content, writeDate, imageFileName, id) values ((select max(postNO) + 1 from board), (select max(postNO) + 1 from board), #{parentNO}, #{del}, #{title}, #{content}, getdate(), #{imageFileName}, #{id} )
   	  ]]>
   	</insert>
   	
+  	<!-- https://yookeun.github.io/java/2014/07/11/mybatis-selectkey/ -->
+  	<!-- <select id="replyPost" resultType="int">
+  	  <![CDATA[
+  		insert into board (postNO, arr, parentNO, del, title, content, writeDate, imageFileName, id)
+		OUTPUT Inserted.postNO
+		values ((select max(postNO) + 1 from board), #{arr}, #{parentNO}, 0, #{title}, #{content}, getdate(), Null, #{id})
+  	  ]]>
+  	</select> -->
+  	
+  	<!-- https://yeon6852.tistory.com/271 -->
+  	<insert id="replyPost">
+  	 	<selectKey keyProperty="postNO" resultType="int" order="BEFORE">
+  	 		select max(postNO) + 1 from board
+  	 	</selectKey>
+  		insert into board (postNO, arr, parentNO, del, title, content, writeDate, imageFileName, id)
+		values (#{postNO}, #{arr}, #{parentNO}, 0, #{title}, #{content}, getdate(), Null, #{id})
+  	</insert>
+  
   </mapper>

@@ -29,4 +29,8 @@ public interface BoardController {
 	//public ModelAndView pro_selectAllPostList(ModelMap model, HttpServletRequest request, HttpServletResponse response) throws Exception;
 
 	public ModelAndView pro_selectAllPostList(HttpServletRequest request, HttpServletResponse response) throws Exception;
+
+	public String deletePost(@RequestParam("postNO") int postNO, @ModelAttribute("boardVO") BoardVO boardVO, HttpServletRequest request, HttpServletResponse response) throws Exception;
+
+	public ModelAndView replyPost(BoardVO boardVO, HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

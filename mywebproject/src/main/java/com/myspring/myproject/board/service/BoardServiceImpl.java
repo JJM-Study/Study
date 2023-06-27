@@ -37,6 +37,12 @@ public class BoardServiceImpl implements BoardService {
 		return boardDAO.b_count();
 	}
 	
+	@Transactional
+	@Override
+	public void deletePost(BoardVO boardVO) throws Exception {
+		boardDAO.postDelete(boardVO);
+	}
+	
 	@Override
 	@Transactional
 	public void updatePost(BoardVO boardVO) throws Exception {
@@ -52,6 +58,12 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public List<Object> BoardList(HashMap<String, Object> map) {
 		return boardDAO.BoardList(map);
+	}
+	
+	@Override
+	@Transactional
+	public int replyPost(BoardVO boardVO) throws Exception {
+		return boardDAO.replyPost(boardVO);
 	}
 	
 }

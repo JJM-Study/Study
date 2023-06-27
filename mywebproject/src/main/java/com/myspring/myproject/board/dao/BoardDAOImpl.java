@@ -35,6 +35,11 @@ public class BoardDAOImpl implements BoardDAO {
 		return sqlSession.selectOne("mapper.board.b_totalPage");
 	}
 	
+	@Override
+	public void postDelete(BoardVO boardVO) throws Exception {
+		sqlSession.update("mapper.board.deletePost", boardVO);
+	}
+	
 	// https://wbluke.tistory.com/15 DataAcessException 등 참고
 	// https://yulfsong.tistory.com/44 update 반환 타입 참고
 	@Override
@@ -50,6 +55,11 @@ public class BoardDAOImpl implements BoardDAO {
 	@Override
 	public List<Object> BoardList(HashMap<String, Object> map) {
 		return sqlSession.selectList("mapper.board.pro_selectAllPostList", map);
+	}
+	
+	@Override
+	public int replyPost(BoardVO boardVO) throws Exception {
+		return sqlSession.insert("mapper.board.replyPost", boardVO);
 	}
 	
 }

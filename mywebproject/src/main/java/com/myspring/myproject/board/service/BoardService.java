@@ -18,5 +18,9 @@ public interface BoardService {
 	public void insertPost(BoardVO boardVO) throws Exception;
 
 	public List<Object> BoardList(HashMap<String, Object> param);
+
+	public void deletePost(BoardVO postNO) throws Exception;
+
+	public int replyPost(BoardVO boardVO) throws Exception;
 	
 }

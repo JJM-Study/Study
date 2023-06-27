@@ -64,7 +64,7 @@ public class BoardControllerImpl implements BoardController {
 		HashMap<String, Object> param = new HashMap<String, Object>();
 		ModelAndView mav = new ModelAndView();
 		param.put("c_page", request.getParameter("page")); // 현재 페이지
-		param.put("row_count", 10); // 한 페이지 당 게시물 수
+		param.put("row_count", 15); // 한 페이지 당 게시물 수
 		System.out.println("param" + param);
 		List result1 = boardService.BoardList(param);
 		int result2 = boardService.b_count();
@@ -114,11 +114,22 @@ public class BoardControllerImpl implements BoardController {
 		boardService.insertPost(boardVO);
 		String cPath = request.getContextPath(); 
 		RedirectView redirectView = new RedirectView();
-		redirectView.setUrl(cPath + "/Listboard");
-		redirectView.setExposeModelAttributes(false);
+		redirectView.setUrl(cPath + "/Listboard?page=1");
+		//redirectView.setExposeModelAttributes(false);
 		mav.setView(redirectView);
 		return mav;
 	}
+	
+	@Override
+	@RequestMapping(value="/board/deletePost")
+	public String deletePost(@RequestParam("postNO") int postNO, @ModelAttribute("boardVO") BoardVO boardVO, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		//ModelAndView mav = new ModelAndView();
+		boardVO.setPostNO(postNO);
+		boardService.deletePost(boardVO);
+		//String view = "/board/boardForm";
+		return "redirect:/Listboard";
+	}
+	
 	
 	// https://dion-ko.tistory.com/69 Map, Hash 관련
 	@Override
@@ -131,4 +142,18 @@ public class BoardControllerImpl implements BoardController {
 		
 	}
 	
+	@Override
+	@RequestMapping(value="/board/replyPost")
+	public ModelAndView replyPost(@ModelAttribute("boardVO") BoardVO boardVO, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		boardService.replyPost(boardVO);
+		int result = boardVO.getPostNO();
+		System.out.println(result);
+		String cPath = request.getContextPath();
+		RedirectView redirectView = new RedirectView();
+		redirectView.setUrl(cPath + "/board/viewPost?postNO=" + result);
+		mav.setView(redirectView);
+		return mav;
+		
+	}
 }

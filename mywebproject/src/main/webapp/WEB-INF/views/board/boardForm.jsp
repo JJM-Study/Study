@@ -35,79 +35,194 @@
 
    caption {
      font-size: 2em;
-     
+     margin-bottom: 0.2em;
+   }
+
+
+   #p_container {
+    text-align: center;
+    margin-top: 3em;
+   }
+
+   #page_n li {
+     list-style-type:none; 
+     display: inline-block; 
+     margin-left: 1em;
+     line-height: 3em;
+   }
+
+   #b_table_row {
+     border-left: hidden;
+     border-right: hidden;
+     border-bottom: hidden;
+   }
+
+   #b_table_col {
+     padding-top: 0.5em;
+     text-align: right;
+     border-collapse: collapse;
+   }
+
+   .b_button {
+      height: 3em;
+      width: 5em;
+      font-weight: bold;
+      background-color: lightskyblue;
+      border: 0.1em solid;
+      margin-top: 0.1em;
+      margin-right: -0.05em;
+   }
+
+   #board {
+      font-size:1.5em;
+      margin-top: 3em;
+      table-layout:fixed;
+   }
+
+   #p_no {
+      width: 5em;
+   }
+
+   #p_title {
+      width : 25em;
+   }
+
+   #p_writer {
+      width : 10em;
+   }
+
+   #p_date {
+      width : 10em;
+   }
+
+   #page_n {
+     font-size: 1.3em;
+   }
+
+   .menuLink {
+      display:block;
+      width : 3em;
+      font-size: 2em;
+      color:white;
+      text-decoration: none;
+      font-weight: bold;
+      font-family: "Trebuchet MS", Dotum, Arial;
+      border-left: 0.05em solid white;
+   }
+
+   .menuLink:hover {
+      color:red;
+      background-color: #4d4d4d;
+   }
+  
+   #menu {
+      height:3em;
+      width:85em;
+   }
+
+   #menu_ul li{
+    list-style-type: none;
+    float:left;
+    background-color: #2d2d2d;
+    color : white;
+    line-height: 3em;
+    text-align: center;
+    vertical-align: middle;
+   }
+   
+   .p_href {
+    text-decoration: none;
+   }
+   
+   .cls1 {
+     text-decoration: none;
    }
 
 </style>
 </head>
 <body>
-  <table id="board">
-    <caption>Border</caption>
-    <tr>
-      <th>
-        No.
-	  	</th>
-      <th>
-        Title
-      </th>
-      <th>
-        Writer
-      </th>
-      <th>
-        Writing Date
-      </th>
-	  </tr>
-	  
-	<!-- foreach의 var, varstatus, item 등 설명 되어 있는 곳 : https://yangyag.tistory.com/302 -->
-	<c:if test="${listPost == null}">
-		test
-	</c:if>
-    <c:choose> 
-	  <c:when test="${listPost != null }" >
-	  	<c:forEach	var="post" items="${listPost}" varStatus="postNum">
-	  	  <tr>
-	  	  	<!-- <td>${postNum.count}</td>  -->
-	  	  	<td>${post.postNO}</td>
-	  	  	<td>
-	  	  	  <!-- <span style="padding-right:30px"></span> <!-- 답글 -->
-	  	  	  <c:choose>
-	  	  	     <c:when test="${post.level < 1}">
-					<a class='cls1' href="${contextPath}/board/viewPost?postNO=${post.postNO}">${post.title}</a>
-	  	  	     </c:when>
-	  	  	     <c:otherwise>
-	  	  	     	<c:forEach begin="1" end="${post.level}" step="1">
-	  	  	     	<!-- <span style="padding-left:1.250em"></span>  -->
-	  	  	     	</c:forEach>
-	  	  	     	<a class='cls1' href="${contextPath}/board/viewPost?postNO=${post.postNO}">${post.tree_title}</a>
-	  	  	     </c:otherwise>
-	  	  	  </c:choose>
-	  	  	</td>
-	  	  	<td>${post.id}</td>
-	  	  	<td>${post.writeDate}</td> 
-	  	  </tr>
-	  	</c:forEach>  
-	  </c:when>
-	</c:choose>
-  </table>
-  <input type="button" value="글쓰기" onclick="location.href='${contextPath}/board/posting'">
- 
-  <!-- 2023/06/16 여기서부터 수정 부분-->
+  <nav id="menu">
+    <ul id="menu_ul">
+      <li>
+        <a href="${contextPath}/" class="menuLink">Main</a>
+      </li>
+      <li>
+        <a href="#" class="menuLink">b</a>
+      </li>
+    </ul>
+  </nav>
 
-  <div class="page_container">
-    <ul id="page_n">
-        <li>
-          <a href="">1</a>
-        </li>
-  </ul>
+  <div id="b_container">
+	  <table id="board">
+	    <caption>Border</caption>
+	     <tr>
+	       <th id="p_no">
+	         No.
+	       </th>
+	       <th id="p_title">
+	         Title
+	       </th>
+	       <th id="p_writer">
+	         Writer
+	       </th>
+	       <th id="p_date">
+	         Writing Date
+	       </th>
+	     </tr>
+		  
+		<!-- foreach의 var, varstatus, item 등 설명 되어 있는 곳 : https://yangyag.tistory.com/302 -->
+		<c:if test="${listPost == null}">
+			test
+		</c:if>
+	    <c:choose> 
+		  <c:when test="${listPost != null }" >
+		  	<c:forEach	var="post" items="${listPost}" varStatus="postNum">
+		  	  <tr>
+		  	  	<!-- <td>${postNum.count}</td>  -->
+		  	  	<td>${post.postNO}</td>
+		  	  	<td>
+		  	  	  <!-- <span style="padding-right:30px"></span> <!-- 답글 -->
+		  	  	  <c:choose>
+		  	  	     <c:when test="${post.level < 1}">
+						<a class='cls1' href="${contextPath}/board/viewPost?postNO=${post.postNO}">${post.title}</a>
+		  	  	     </c:when>
+		  	  	     <c:otherwise>
+		  	  	     	<c:forEach begin="1" end="${post.level}" step="1">
+		  	  	     	<!-- <span style="padding-left:1.250em"></span>  -->
+		  	  	     	</c:forEach>
+		  	  	     	<a class='cls1' href="${contextPath}/board/viewPost?postNO=${post.postNO}">${post.tree_title}</a>
+		  	  	     </c:otherwise>
+		  	  	  </c:choose>
+		  	  	</td>
+		  	  	<td>${post.id}</td>
+		  	  	<td>${post.writeDate}</td> 
+		  	  </tr>
+		  	</c:forEach> 
+		  </c:when>
+		</c:choose>
+		   <tr id="b_table_row">
+	          <td id="b_table_col" colspan="4">
+	            <input type="button" value="글쓰기" class="b_button" onclick="location.href='${contextPath}/board/posting'">
+              </td>
+           </tr> 
+	  </table>
   </div>
-  <p>${b_count}</p>
+  
+  <div id="p_container">
+	 <ul id="page_n">
+	    <li class="p_n">
+	       <a href="">1</a>
+	     </li>
+	  </ul>
+   </div>
+   <p>${b_count}</p>
 </body>
   <script>
   //var pageCount = document.getElementsByClassName("page_n").length;
   
-  var postCount = document.getElementById("board").rows.length - 1;
+  var postCount = document.getElementById("board").rows.length - 2;
   var totalPage = "${b_count}";
-  var lmtPage = 10; // 페이지 상한
+  var lmtPage = 15; // 페이지 상한
   var li ="";
 
   document.writeln(postCount);
@@ -115,7 +230,7 @@
   // 위는 자바스크립트 li 및 a href 추가
   for(i = 1; i <= Math.ceil((totalPage / lmtPage)); i++) //여기서 10은 페이지숫자 변수로 대체 // 토탈페이지도 나눠서 0이 아닐 경우 페이지 추가하도록 수정할 것.
   {
-     li = li + '<li><a href="Listboard?page=' + i + '">' + i + '</li>';
+	   li = li + '<li class="p_n"><a href="Listboard?page=' + i + '" class="p_href">' + i + '</li>';
   }
   document.getElementById('page_n').innerHTML = li;
   
