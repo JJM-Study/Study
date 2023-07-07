@@ -22,8 +22,24 @@
  	
  	<select id="selectMemberList" resultMap="memberResult">
  	  <![CDATA[
- 	  	SELECT * FROM member order by id desc
+ 	  	 SELECT * FROM member order by id desc
  	  ]]>
- 	</select> 
+ 	</select>
+ 	
+ 	<select id="checkId" resultType="String" parameterType="String">
+ 	   <![CDATA[
+ 		 SELECT id FROM member where id = #{id}
+ 	   ]]>
+ 	</select>
+ 	
+ 	<insert id="insertMember">
+ 	  <![CDATA[
+ 	  	 insert into member (id, pwd, name, email, joinDate) values (#{id}, #{pwd}, #{name}, #{email}, getdate())
+ 	  ]]>
+ 	</insert>
+ 	
+ 	<insert id="upload" parameterType="hashMap">
+		insert into upload (seq, gubn, realName, saveName, savePath) values(#{seq}, 'board', #{realName}, #{saveName}, #{savePath});
+	</insert>
  
  </mapper>

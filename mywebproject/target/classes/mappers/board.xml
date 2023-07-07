@@ -76,9 +76,10 @@
   	
   	<!--  insert into board (level, postNO, parentNO, title, content, writedate, imageFileName, id) values (#{level}, (select isnull(max(postNO),0) + 1 from board), #{parentNO}, #{title}, #{content}, getdate(), #{imageFileName}, #{id} ) -->
   	<insert id="insertPost"> <!-- 새 글용 -->
-  	  <![CDATA[
-  		 insert into board (postNO, arr, parentNO, del, title, content, writeDate, imageFileName, id) values ((select max(postNO) + 1 from board), (select max(postNO) + 1 from board), #{parentNO}, #{del}, #{title}, #{content}, getdate(), #{imageFileName}, #{id} )
-  	  ]]>
+  	     <selectKey keyProperty="postNO" resultType="int" order="BEFORE">
+  	 		select max(postNO) + 1 from board
+  	 	 </selectKey>
+  		 insert into board (postNO, arr, parentNO, del, title, content, writeDate, imageFileName, id) values (#{postNO}, (select max(postNO) + 1 from board), #{parentNO}, #{del}, #{title}, #{content}, getdate(), #{imageFileName}, #{id} )
   	</insert>
   	
   	<!-- https://yookeun.github.io/java/2014/07/11/mybatis-selectkey/ -->
@@ -98,5 +99,23 @@
   		insert into board (postNO, arr, parentNO, del, title, content, writeDate, imageFileName, id)
 		values (#{postNO}, #{arr}, #{parentNO}, 0, #{title}, #{content}, getdate(), Null, #{id})
   	</insert>
+  	
+  	<insert id="upload">
+  	    <![CDATA[
+  	    	insert into upload (seq, pNO, del, gubn, realName, saveName, savePath) values ((select ISNULL(max(seq)+1,1) from upload), #{pNO}, 0 , #{gubn}, #{realName}, #{saveName}, #{savePath})
+  	    ]]>
+  	</insert>
+  	
+  	<select id="fileList" resultType="java.util.Map" parameterType="int" > <!-- 첨부파일 리스트 -->
+  		<![CDATA[
+  			SELECT seq, pNO, del, gubn, realName, saveName, savePath FROM upload WHERE pNO = #{pNO} and ISNULL(del,0) = 0
+  		]]>
+  	</select>
+  	
+  	  	<select id="downloadList" resultType="java.util.Map" parameterType="int" > <!-- 다운로드 리스트 -->
+  		<![CDATA[
+  			SELECT seq, pNO, del, gubn, realName, saveName, savePath FROM upload WHERE seq = #{seq} and ISNULL(del,0) = 0
+  		]]>
+  	</select>
   
   </mapper>

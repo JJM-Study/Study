@@ -6,5 +6,6 @@
 	<typeAliases>
 		<typeAlias type="com.myspring.myproject.member.vo.MemberVO"  alias="memberVO" />
 		<typeAlias type="com.myspring.myproject.board.vo.BoardVO" alias="boardVO" />
+		<!-- <typeAlias type="com.myspring.myproject.file.vo.FileVO" alias="fileVO" />  -->
 	</typeAliases>
 </configuration>

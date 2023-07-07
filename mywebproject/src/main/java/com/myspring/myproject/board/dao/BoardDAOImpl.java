@@ -48,8 +48,8 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 	
 	@Override
-	public void postInsert(BoardVO boardVO) throws Exception {
-		sqlSession.insert("mapper.board.insertPost", boardVO);
+	public int postInsert(BoardVO boardVO) throws Exception {
+		return sqlSession.insert("mapper.board.insertPost", boardVO);
 	}
 	
 	@Override
@@ -62,4 +62,19 @@ public class BoardDAOImpl implements BoardDAO {
 		return sqlSession.insert("mapper.board.replyPost", boardVO);
 	}
 	
+	// 파라미터를 VO 대신 map 형식으로 가져오기. https://loco-motive.tistory.com/56
+	@Override
+	public int fileUpload(Map<String, Object> map) throws Exception {
+		return sqlSession.insert("mapper.board.upload", map);
+	}
+	
+	@Override
+	public List<Map<String, Object>> listFile(int pNO) throws Exception {
+		return sqlSession.selectList("mapper.board.fileList", pNO);
+	}
+	
+	@Override
+	public List<Map<String, Object>> downloadList(int seq) throws Exception {
+		return sqlSession.selectList("mapper.board.downloadList", seq);
+	}
 }

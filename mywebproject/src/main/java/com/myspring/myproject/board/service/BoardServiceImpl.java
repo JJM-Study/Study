@@ -51,8 +51,8 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	@Transactional
-	public void insertPost(BoardVO boardVO) throws Exception {
-		boardDAO.postInsert(boardVO);
+	public int insertPost(BoardVO boardVO) throws Exception {
+		return boardDAO.postInsert(boardVO);
 	}
 	
 	@Override
@@ -66,4 +66,19 @@ public class BoardServiceImpl implements BoardService {
 		return boardDAO.replyPost(boardVO);
 	}
 	
+	@Override
+	@Transactional
+	public int fileUpload(Map<String, Object> map) throws Exception {
+		return boardDAO.fileUpload(map);
+	}
+	
+	@Override
+	public List<Map<String, Object>> listFile(int pNO) throws Exception {
+		return boardDAO.listFile(pNO);
+	}
+	
+	@Override
+	public List<Map<String, Object>> downloadList(int seq) throws Exception {
+		return boardDAO.downloadList(seq);
+	}
 }

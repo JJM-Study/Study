@@ -28,4 +28,13 @@ public class MemberDAOImpl implements MemberDAO {
 		return member;
 	}
 	
+	@Override
+	public String checkId(String id) throws DataAccessException {
+		return sqlSession.selectOne("mapper.member.checkId", id);
+	}
+	
+	@Override
+	public void InsertMember(MemberVO memberVO) throws DataAccessException {
+		sqlSession.insert("mapper.member.insertMember",memberVO);
+	}
 }

@@ -35,7 +35,8 @@
 
 </head>
 <body>
-<form name="update" action="${contextPath}" id="form" method="post" enctype="multipart/form-data">
+<!-- <form name="update" action="${contextPath}/board/updatePost?postNO=${postView.postNO}" id="form"> -->
+<form name="update" action="${contextPath}" id="form">
  <div class="t_container">
 	<table class="t_post">
 		<caption class="t_post_cap">Board View</caption>
@@ -78,27 +79,14 @@
 				<input type="button" value="답글" id="btn_reply" onclick="login_chk(this.id)" class="btn_post"">	<!-- 2023/06/26 추가 -->
 				<input type="hidden" name="imageFileName" value="null">
 				<input type="hidden" name="postNO" id="input_postNO" value=${postView.postNO}>
+				<!-- <input type="hidden" name="id" value="${memberInfo.id}"> -->
 				<input type="hidden" name="level" value=0> <!-- 레벨 0은 글쓰기. 1은 댓글 -->
 				<input type="hidden" name="parentNO" id="input_parentNO" value=0>
 				<input type="hidden" name="arr" id="input_arr" value=0> <!-- 2022/06/26 추가-->
 			</td>
 		</tr>
 	</table>
-	<c:choose>
-	  <c:when test="${empty listFile}">
-	  	<input type="file" name="multiFile" id="fileUp" multiple="multiple" value="파일추가">
-	  </c:when>
-	  <c:otherwise>
-	  	<ul>
-	  	  <c:forEach items="${listFile}" var="file" varStatus="fileCount">
-	  	  	<li>
-	  	  		<input type="hidden" class="IDX" value="${file.seq}">
-	  	  		<a href="#this" class="file">${file.realName}</a>
-	  	  	</li>
-	  	  </c:forEach>
-	  	</ul>
-	  </c:otherwise>
-	</c:choose>
+
  </div>
 </form>
 </body>
@@ -117,8 +105,6 @@
 	var input_parentNO = document.getElementById("input_parentNO");
 	var input_id = document.getElementById("input_id");
 	var input_writeDate = document.getElementById("input_writeDate");
-	//var file_href = document.getElementById("file");
-	var file_href = document.getElementsByClassName("file");
 	
 	if (!isPosted)
 	{
@@ -135,27 +121,11 @@
 		btn_post.style.display = 'none';
 	}
 
-	for(var i=0; i< file_href.length; i++) {
-	  file_href[i].addEventListener("click", function(e) { // 다운로드
-		e.preventDefault();
-	
-		var seq = this.previousElementSibling.value;
-	
-		fn_downloadFile(seq);
-	   
-	   });
-	  
-	}
-	
-	function fn_downloadFile(seq) // 다운로드
-	{
-		location.href = "${contextPath}/downloadFile?seq=" + seq;
-	}
 
 	function login_chk(e) {
 		var isLogOn = "${isLogOn}"
 		var id = "${memberInfo.id}"
-		
+
 		if (id)
 		{
 			if (id === "${postView.id}")
@@ -210,7 +180,6 @@
 		{
 			input_writeDate.value = "${nowDate}"
 			form.action = "${contextPath}/board/replyPost";
-			form.encoding = "multipart/form-data";
 			document.getElementById("form").submit();
 		}
 	
@@ -240,11 +209,8 @@
 		//location.href= contextPath + "myproject/board/insertPost;
 		input_writeDate.value = "${nowDate}"
 		form.action = "${contextPath}/board/insertPost";
-		form.encoding = "multipart/form-data";
 		document.getElementById("form").submit();
 	}
-	
-	
 
 			// else {
 			// 	btn_edit.value = "수정";

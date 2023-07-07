@@ -15,12 +15,18 @@ public interface BoardService {
 	
 	public void updatePost(BoardVO boardVO) throws Exception;
 
-	public void insertPost(BoardVO boardVO) throws Exception;
+	public int insertPost(BoardVO boardVO) throws Exception;
 
 	public List<Object> BoardList(HashMap<String, Object> param);
 
 	public void deletePost(BoardVO postNO) throws Exception;
 
 	public int replyPost(BoardVO boardVO) throws Exception;
+
+	public int fileUpload(Map<String, Object> map) throws Exception;
+
+	public List<Map<String, Object>> listFile(int pNO) throws Exception;
+
+	public List<Map<String, Object>> downloadList(int seq) throws Exception;
 	
 }

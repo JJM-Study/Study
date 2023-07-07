@@ -9,4 +9,8 @@ public interface MemberService {
 	public List MemberList();
 
 	public MemberVO login(Map loginMap) throws Exception;
+
+	public void MemberInsert(MemberVO memberVO);
+
+	public String checkId(String id);
 }

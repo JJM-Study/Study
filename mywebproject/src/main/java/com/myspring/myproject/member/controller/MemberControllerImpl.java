@@ -7,8 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.maven.model.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -72,4 +74,29 @@ public class MemberControllerImpl implements MemberController{
 		mav.setViewName("redirect:/");
 		return mav;
 	}
+	
+	// https://nancording.tistory.com/90 이 방식 참고할 것.
+	// Model 방식으로 바꿀 지 고민. // 아이디 존재 유무 확인
+	@Override
+	@RequestMapping(value="/checkId")
+	public String checkId(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String id = request.getParameter("id");
+		System.out.println(id);
+		memberService.checkId(id);
+		System.out.println(response);
+		request.setAttribute("checkID", response);
+		return "redirect:/signUp";
+	}
+	
+	@Override
+	@RequestMapping(value="/singUp", method = RequestMethod.POST) // 회원가입
+	public void InsertMember(@ModelAttribute("memberVO") MemberVO memberVO, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		memberService.MemberInsert(memberVO);
+		//String view = "redirect:/loginForm";
+		//mav.addObject("message","Welcome!");
+		//mav.setViewName(view);
+		//return mav;
+	}
+	
 }
