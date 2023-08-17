@@ -13,10 +13,45 @@
          .btn {color:white;  text-decoration-line: none;}
          
          .tab_menu .cts_container .tab_cts {display:none;}
-         .tab_menu .cts_container .tab_cts.current {display:block; background:#555; color:#fff; width:80vw; height:50vh; margin-top:15vh; margin-left:10vw;}
-         
-         .btn {font-size:20px;}
-         
+         .tab_menu .cts_container .tab_cts.current {
+          display:block;
+          background:#555;
+          color:#fff;
+          height:50vh; width:98%; 
+          margin-top:5vh;
+          padding-left:2%;
+          word-break:break-all;
+        }
+
+        .code_table {
+          background-color : #272727;
+          border-radius: 4px;
+          color:white;
+   
+        }
+
+        .code_table td { 
+          padding: 10px;
+        }
+
+        td.primary {
+          text-align: right;
+          border-right: 2px solid #4f4f;
+          color:#aaa;
+          width:1%;
+          white-space:nowrap;
+        }
+
+       td.seconday {
+          text-align: left;
+          color : #f0f0f0;
+       }
+
+       div.primary > div, div.secondary > div {
+        line-height: 130%;
+       }
+       
+        .btn {font-size:20px;}
 
          footer {position:absolute; bottom:10vh;}
        </style>
@@ -30,7 +65,7 @@
                  <a href="#tab2" class="btn">Me</a>
               </li>
               <li>
-                 <a href="#tab3" class="btn">...</a>
+                 <a href="#tab3" class="btn">PortPolio</a>
               </li>
           </ul>
 
@@ -39,13 +74,103 @@
       <!-- <div class="tab_cts_div"> -->
         <div class="cts_container">
           <div id="tab1" class="tab_cts current">
-            Main Test
+            <div class="div_cts">
+              <h1>&nbsp;C#</h1>
+                <p>Note Program</p>
+                <p>this program is made by C#. you can note everything you want</p>
+                <p>처음 Form을 열었을 때, 초기화 함수 (ReadingInformation)를 통해 읽어와야 할 파일들을 가져오게 하였다.</p>
+                <p>고유번호는 중복되지 않으며 각 페이지는 고유번호(Note.No)를 통해 구분되도록 하였고, 텍스트 파일 및 프로필 이미지는 파일 이름 끝에 [1]과 같이 대괄호 안에 고유번호가 들어가게 해서</p>
+                <p>리스트에 가져올 땐 괄호 안의 숫자만 가져오도록 한 뒤, 리스트를 오름차순 정렬하였다. 'List' 그리드뷰에서 이 오름차순 정렬된 리스트를 순서대로 가져와서 번호 순서대로 리스트가 보이도록 하였다.</p>
+                <p></p>
+                <p></p>
+                <table cellspacing="0" cellpadding="0" class="code_table">  <!-- https://oursmalljoy.com/css-table%EB%A1%9C-%EC%BD%94%EB%93%9C%EC%9E%85%EB%A0%A5%EC%B0%BD-%EB%A7%8C%EB%93%A4%EA%B8%B0-%EC%98%88%EC%A0%9C/ 테이블로 소스코드 입력창 만들기 -->
+                  <tr>
+                    <td class="primary">
+                      <div class="primary">
+                        <div>1</div>
+                        <div>2</div>
+                        <div>3</div>
+                        <div>4</div>
+                        <div>5</div>
+                      </div>
+                    </td>
+                    <td class="seconday">
+                      <div class="seconday">
+                          <div>안녕하세요</div>
+                          <div>여기는</div>
+                          <div>넣어주는</div>
+                          <div>곳입니다.</div>
+                          <div>곳입니다.</div>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+                <p>Note Tip</p>
+
+                <p>1. You can make notes in this textbox. write whatever you if you put your mouse cursor in this textbox and right click, you can choose the font and font color.</p>
+
+                  2. You can make detail notes details by choosing Gridview and a new row will be added you can make note when you enter in the second column.
+
+                  3. You can see all list of notes through 'List'
+
+                  4. You can move to the next page by clicking the < > button at the bottom right.
+
+                  5. Click 'New Note' to create a new note.
+
+                  6. Click the up, down arrows button in the textbox of 'Note.No' or put in numbers directly to enter a memo number. memo number can't be dupplicated.
+
+                  7. you can put in a name in the 'Name' textbox.
+
+                  6. Click the 'Add Image' to choose a Thumbnail or images to include for note number
+
+                  (Thumbnail image source : <img src="https://icons.iconarchive.com/icons/iconshock/real-vista-project-managment/128/task-notes-icon.png" width="128" height="128">)
+
+                  7. Click 'SAVE' button to save your note.
+
+                  8. Click 'DELETE' button to delete current page.
+
+                  노트 팁
+
+이 텍스트 박스 안에 노트를 할 수 있습니다. 쓰고 싶은 것은 무엇이든 쓰세요. 
+
+1. 이 텍스트 박스 안에 마우스를 두고 오른쪽 버튼을 클릭하면 폰트 및 폰트 색 지정이 가능합니다. 
+
+2. Detail의 그리드 뷰를 선택해서 원하는 세부 내용을 입력할 수 있고, 두번째 열에서 엔터 시 적을 수 있는 행이 추가 됩니다.
+
+3. List를 통해서 전체 메모 리스트를 볼 수 있습니다.
+
+4. 우측 하단의 < > 버튼을 클릭해서 다음 페이지로 이동할 수 있습니다.
+
+5. New Note를 클릭하면 새 노트를 작성할 수 있습니다.
+
+6. Note.No의 텍스트 박스 내의 위아래 화살표를 클릭하거나 직접 숫자를 입력해서 메모의 고유번호를 입력합니다. 고유번호는 중복될 수 없습니다.
+
+7. Name 텍스트 박스에 이름을 입력할 수 있습니다.
+
+6. 이미지 추가 버튼을 눌러 해당 노트 번호의 썸네일이나 포함할 이미지를 선택할 수 있습니다.
+
+(썸네일 이미지 출처 <img src="https://icons.iconarchive.com/icons/iconshock/real-vista-project-managment/128/task-notes-icon.png" width="128" height="128">)
+
+7. 작성 후 'Save' 키를 눌러서 노트를 저장할 수 있습니다.
+
+8. 삭제를 원하는 페이지에서 'Delete' 키를 누르면 해당 페이지의 노트가 삭제 됩니다.
+
+param_test
+param_test
+
+test
+                </pre>
+            </div>
           </div>
           <div id="tab2" class="tab_cts">
             About Me
           </div>
           <div id="tab3" class="tab_cts">
-            ...
+            <div class="div_cts">
+            <!-- 내용이 길어지거나 하면 따로 html 화면 만들어서 href 누르면 클릭 시 이동하도록. -->
+            <h1>&nbsp;C#</h1>
+            </div>
+            Note Program
           </div>
         </div>
       </div>
