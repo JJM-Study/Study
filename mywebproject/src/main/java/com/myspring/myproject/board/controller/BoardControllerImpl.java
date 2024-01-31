@@ -151,7 +151,13 @@ public class BoardControllerImpl implements BoardController {
 			file.mkdirs();
 		}
 		
-		if (!multiFileList.isEmpty()) {
+		int checkNum = 1;
+		//if (!multiFileList.isEmpty()) {
+		for(MultipartFile FileChk:multiFileList) {
+			if(FileChk.isEmpty()) checkNum = 0;
+		}
+		
+		if(checkNum==1) {
 
 			List<Map<String, String>> fileList = new ArrayList<>();
 			
@@ -160,24 +166,32 @@ public class BoardControllerImpl implements BoardController {
 			
 			// 파라미터로 파일을 업로드 했는 지 여부 넘겨주고 if문으로 확인하는 방식 해볼 것.
 			
-			for(int i = 0; i < multiFileList.size(); i++) {
-				realName = multiFileList.get(i).getOriginalFilename();
-				String ext = realName.substring(realName.lastIndexOf("."));
-				saveName = UUID.randomUUID().toString() + ext;
-				
-				Map<String, String> map = new HashMap<>();
-				map.put("realName", realName);
-				map.put("saveName", saveName);
-				
-				fileList.add(map);
-			}
+//			for(int i = 0; i < multiFileList.size(); i++) {
+//				realName = multiFileList.get(i).getOriginalFilename();
+//				String ext = realName.substring(realName.lastIndexOf("."));
+//				saveName = UUID.randomUUID().toString() + ext;
+//				
+//				Map<String, String> map = new HashMap<>();
+////				map.put("realName", realName);
+////				map.put("saveName", saveName);
+////				
+////				fileList.add(map);
+//			}
 			
 			// 파일업로드
 			try {
 				for(int i = 0; i < multiFileList.size(); i++) {
+//					realName = multiFileList.get(i).getOriginalFilename();
+//					String ext = realName.substring(realName.lastIndexOf("."));
+//					saveName = UUID.randomUUID().toString() + ext;
 					realName = multiFileList.get(i).getOriginalFilename();
 					String ext = realName.substring(realName.lastIndexOf("."));
 					saveName = UUID.randomUUID().toString() + ext;
+					Map<String, String> map = new HashMap<>();
+					map.put("realName", realName);
+					map.put("saveName", saveName);
+					
+					fileList.add(map);
 					File uploadFile = new File(FILEPATH + fileList.get(i).get("saveName"));
 					multiFileList.get(i).transferTo(uploadFile);
 					
@@ -274,7 +288,8 @@ public class BoardControllerImpl implements BoardController {
 	    if(map.size()!=0) {
 			String realName = (String)map.get(0).get("realName"); 
 			String saveName = (String)map.get(0).get("saveName");
-			byte fileByte[] = FileUtils.readFileToByteArray(new File("C:\\Users\\user\\Downloads\\devFile"+saveName));
+			//byte fileByte[] = FileUtils.readFileToByteArray(new File("C:\\Users\\user\\Downloads\\devFile"+saveName));
+			byte fileByte[] = FileUtils.readFileToByteArray(new File(FILEPATH + saveName));
 			
 		    response.setContentType("application/octet-stream");
 		    response.setContentLength(fileByte.length);
