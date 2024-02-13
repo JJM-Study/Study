@@ -7,11 +7,19 @@
      <head>
        <h1>My Home</h1>
        <style>
+
          .tab_menu .tab_list {overflow:hidden; list-style-type:none;}
          .tab_menu .tab_list li {float:left; margin-left:14px; width:100px; height:40px; text-align:center; color:white; background:gray; padding-top: 10px; border-top-left-radius: 10px; border-top-right-radius: 10px;}
          
-         .btn {color:white;  text-decoration-line: none;}
+         .btn {display: block; color:white;  text-decoration-line: none; font-size:23px;}
          
+         .p_menu {position: absolute; top: 115px; display: none;}
+
+         .p_menu .p_list li { margin-left:240px; overflow:hidden; list-style-type:none; text-align: center; background-color: white; width: 100px; height: 40px;}
+         .p_btn {display: block; color:black; text-decoration-line: none; font-size: 20px;}
+
+         
+
          .tab_menu .cts_container .tab_cts {display:none;}
          .tab_menu .cts_container .tab_cts.current {
           display:block;
@@ -52,9 +60,20 @@
         line-height: 130%;
        }
        
-        .btn {font-size:20px;}
+       /* .btn {font-size:20px;} */
 
-         footer {position:absolute; bottom:10vh;}
+       /* .floating {  이걸로는 위로 향하는 화살표 플로팅 구현할 것.
+          position: fixed;
+          top: 180px;
+          margin-top: 2px;
+          width: 100%;
+          
+          background:#555;
+          
+       } */
+
+        footer {position:absolute; bottom:10vh;}
+
        </style>
      </head>
         <div class="tab_menu">
@@ -65,10 +84,21 @@
               <li>
                  <a href="#tab2" class="btn">Me</a>
               </li>
-              <li>
+              <li id="PortPolio">
                  <a href="#tab3" class="btn">PortPolio</a>
               </li>
           </ul>
+
+        <div class="p_menu">
+          <ul class="p_list">
+             <li>
+                <a href="#p_tab1" class="p_btn">JAVA</a>
+             </li>
+            <li>
+                <a href="#p_tab2" class="p_btn">C#</a>
+            </li>
+          </ul>
+        </div>
 
 
       <!--<div id="tab-1" class="tab_contents">-->
@@ -301,8 +331,22 @@ test
       </div>
      <script>
 
+       const PortPolio = document.querySelector('.tab_menu .tab_list li:nth-child(3)');
+       const p_menu = document.querySelectorAll('.p_menu');
        const tabList = document.querySelectorAll('.tab_menu .tab_list li');
        const contents = document.querySelectorAll('.tab_menu .tab_cts');
+
+       PortPolio.addEventListener('mouseover', (event) => {
+            p_menu.forEach(menu => {
+              menu.style.display = 'inline-block';
+            });
+       });
+
+       PortPolio.addEventListener('mouseout', (event) => {
+            p_menu.forEach(menu => {
+                menu.style.display = 'none';
+            });
+       });
 
        for(var i = 0; i < tabList.length; i++) {
           tabList[i].querySelector('.btn').addEventListener('click', btn);
@@ -322,7 +366,6 @@ test
             this.parentNode.classList.add('current');
 
        }
-
     </script>
   </body>
   <footer>
