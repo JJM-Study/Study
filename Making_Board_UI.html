@@ -70,7 +70,10 @@
 				<input type="submit" value="수정 완료" id="btn_edit_comple" class="btn_post">
 				<input type="button" value="글쓰기" id="btn_post" onclick="login_chk(this.id)" class="btn_post">
 				<input type="hidden" name="imageFileName" value="null">
-				<input type="hidden" name="postNO" value=${postView.postNO}>
+				<input type="hidden" name="postNO" id="input_postNO" value=${postView.postNO}>
+				<input type="hidden" name="id" value="${memberInfo.id}">
+				<input type="hidden" name="level" value=1>
+				<input type="hidden" name="parentNO" value=0>
 			</td>
 		</tr>
 	</table>
@@ -83,12 +86,18 @@
 	var btn_post = document.getElementById("btn_post");
 	var btn_cancel = document.getElementById("btn_cancel");
 	var btn_edit = document.getElementById("btn_edit");
-	var isPosted = false; //"${postView.postNO}"; // ★★★★★ 2023/06/07 작성 타이틀의 null 유무 / 경우에 따라 후에 조건을 Insert 기준으로 맞춰서 수정할 것.
-
+	var isPosted = "${postView.postNO}"; // ★★★★★ 2023/06/07 작성 타이틀의 null 유무 / 경우에 따라 후에 조건을 Insert 기준으로 맞춰서 수정할 것.
+	var input_title = document.getElementById("input_title"); // 게시글 제목
+	var	input_cnt = document.getElementById("input_cnt"); // 게시글 내용
+	var postNO = document.getElementById("input_postNO");
+	
 	if (!isPosted)
 	{
 		btn_edit.style.display = 'none';
 		btn_cancel.style.display = 'none';
+		input_title.readOnly = false;
+		input_cnt.readOnly = false; // 게시글 내용
+		postNO.value=1;
 	}
 	else
 	{
@@ -97,12 +106,12 @@
 
 
 	function login_chk(e) {
-		var isLogOn = true
-		var id = "test"
+		var isLogOn = "${isLogOn}"
+		var id = "${memberInfo.id}"
 
 		if (isLogOn)
 		{
-			if (id === "test") 
+			if (id === "${postView.id}") 
 			{
 				if (e == "btn_edit")
 				{
@@ -112,10 +121,10 @@
 				{
 					alert("삭제 미구현");
 				}
-				else if (e == "btn_post")
-				{
-					posting();
-				}
+			}
+			else if("${memberInfo.id}")
+			{
+				posting();
 			}
 			else 
 			{
@@ -130,8 +139,6 @@
 	 
 	function edit_chk() {
 		var btn_edit_comple = document.getElementById("btn_edit_comple");
-		var input_title = document.getElementById("input_title"); // 게시글 제목
-		var	input_cnt = document.getElementById("input_cnt"); // 게시글 내용
 		var form = document.getElementById("form");
 
 			//if (btn_edit.display == "block"){
@@ -143,9 +150,11 @@
 		btn_edit_comple.style.display='block';
 		form.action = "${contextPath}/board/updatePost";
 	}
-
+			
 	function posting() {
-		 alert("TEST SUC");
+		//location.href= contextPath + "myproject/board/insertPost;
+		form.action = "${contextPath}/board/insertPost";
+		document.getElementById("form").submit();
 	}
 
 			// else {
@@ -154,7 +163,7 @@
 			// 	input_title.readOnly = true;
 			// 	input_cnt.readOnly = true;
 			// 	location.href= contextPath + "myproject/board/updatePost?postNO=${postView.postNO}";
-
+	 
 </script>
 <footer>
 <p>test : ${postView.postNO}</p>
