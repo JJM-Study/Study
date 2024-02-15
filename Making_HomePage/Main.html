@@ -9,13 +9,16 @@
        <style>
 
          .tab_menu .tab_list {overflow:hidden; list-style-type:none;}
-         .tab_menu .tab_list li {float:left; margin-left:14px; width:100px; height:40px; text-align:center; color:white; background:gray; padding-top: 10px; border-top-left-radius: 10px; border-top-right-radius: 10px;}
+         .tab_menu .tab_list li:not(.p_list) { float:left; }
+         .tab_menu .tab_list li {margin-left:14px; width:100px; height:40px; text-align:center; color:white; background:gray; padding-top: 10px; border-top-left-radius: 10px; border-top-right-radius: 10px;}
          
          .btn {display: block; color:white;  text-decoration-line: none; font-size:23px;}
          
-         .p_menu {position: absolute; top: 115px; display: none;}
-
-         .p_menu .p_list li { margin-left:240px; overflow:hidden; list-style-type:none; text-align: center; background-color: white; width: 100px; height: 40px;}
+         /* .p_menu {left:235px; top: 125px; display: none;} */
+         .p_menu {position: absolute; width: 100px; height: 50px; margin-left: -100px; display:none}
+         .p_list {margin-top: 10px;}
+        
+         .p_menu .p_list li {flex-direction: column; overflow:hidden; list-style-type:none; text-align:center; background-color: white; width: 100px; height: 40px; border-top-left-radius: 0px; border-top-right-radius: 0px;}
          .p_btn {display: block; color:black; text-decoration-line: none; font-size: 20px;}
 
          
@@ -86,20 +89,18 @@
               </li>
               <li id="PortPolio">
                  <a href="#tab3" class="btn">PortPolio</a>
+                  <div class="p_menu">
+                    <ul class="p_list">
+                      <li>
+                          <a href="#p_tab1" class="p_btn">JAVA</a>
+                      </li>
+                      <li>
+                          <a href="#p_tab2" class="p_btn">C#</a>
+                      </li>
+                    </ul>
+                  </div>
               </li>
           </ul>
-
-        <div class="p_menu">
-          <ul class="p_list">
-             <li>
-                <a href="#p_tab1" class="p_btn">JAVA</a>
-             </li>
-            <li>
-                <a href="#p_tab2" class="p_btn">C#</a>
-            </li>
-          </ul>
-        </div>
-
 
       <!--<div id="tab-1" class="tab_contents">-->
       <!-- <div class="tab_cts_div"> -->
@@ -333,6 +334,9 @@ test
 
        const PortPolio = document.querySelector('.tab_menu .tab_list li:nth-child(3)');
        const p_menu = document.querySelectorAll('.p_menu');
+
+       const al_li = Array.from(p_menu).concat(PortPolio);
+
        const tabList = document.querySelectorAll('.tab_menu .tab_list li');
        const contents = document.querySelectorAll('.tab_menu .tab_cts');
 
@@ -342,9 +346,11 @@ test
             });
        });
 
-       PortPolio.addEventListener('mouseout', (event) => {
+       al_li.forEach(item => {
+           item.addEventListener('mouseleave', (event) => {
             p_menu.forEach(menu => {
-                menu.style.display = 'none';
+                  menu.style.display = 'none';
+                });
             });
        });
 
