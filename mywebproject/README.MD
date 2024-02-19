@@ -1,4 +1,4 @@
-<h1>Spring FrameWork 계층형 게시판
+<h1>Spring FrameWork 계층형 게시판</h1>
 ---
 CRUD와 
 
@@ -12,7 +12,7 @@ CRUD와
 
  * 개인 프로젝트
 
-<h2>사용 기술 및 개발 환경
+<h2>사용 기술 및 개발 환경</h2>
 ---
  * O/S : window 10
  * DB: MSSQL
@@ -20,10 +20,8 @@ CRUD와
  * Tool : Eclipse, Git(SourceTree), GitHub, SQL Server Management Studio
  * Language : Spring FrameWork, 
 
-<h2>내용
+<h2>내용</h2>
 ---
-
-스프링
 
 pom.xml 중...
 
