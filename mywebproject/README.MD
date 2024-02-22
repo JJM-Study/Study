@@ -23,7 +23,7 @@ CRUD와
 <h2>내용</h2>
 ---
 
-![Image](Repositoiry Resources/1.jpg)
+![Image](https://github.com/JJM-Study/jjm/blob/3815f5414fa270ba8aebe143d31a453658c7dd33/Repositoiry%20Resources/1.jpg)
 
 회원가입
 
