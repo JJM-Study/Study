@@ -38,11 +38,13 @@ CRUD와
 ![Image](https://github.com/JJM-Study/jjm/blob/173f10c7a6fb728939400b4f4b8aae500e1f30b8/Repositoiry%20Resources/Writing%20-%201.png)
 
 <br>
+<br>
 
 <h3>파일 첨부</h3>
 
 ![Image](https://github.com/JJM-Study/jjm/blob/173f10c7a6fb728939400b4f4b8aae500e1f30b8/Repositoiry%20Resources/File%20Upload.jpg)
 
+<br>
 <br>
 
 <h3>글 등록</h3>
@@ -56,5 +58,5 @@ CRUD와
 
 2번 글에 대한 답글 시 POST NO 2를 부모로 하는 답글 포스팅 생성.
 
-
+<br>
 <br>
