@@ -13,7 +13,7 @@
 
  * O/S : window 10
  * DB: MSSQL
- * Serve : Apache-Tomcat-9.0.46
+ * Server : Apache-Tomcat-9.0.46
  * Tool : Eclipse, Git(SourceTree), GitHub, SQL Server Management Studio
  * Language : Spring FrameWork, JSP, JavaScript, CSS
 
