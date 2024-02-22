@@ -82,7 +82,6 @@ set @end = case when @end > 0 then @end else @page_row_cnt end;
 
 
 IF OBJECT_ID('tempdb..#Temp') IS NOT NULL
-IF OBJECT_ID('tempdb..#Temp') IS NOT NULL
 BEGIN
        DROP TABLE #Temp
 END
