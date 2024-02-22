@@ -77,7 +77,7 @@
   	<!--  insert into board (level, postNO, parentNO, title, content, writedate, imageFileName, id) values (#{level}, (select isnull(max(postNO),0) + 1 from board), #{parentNO}, #{title}, #{content}, getdate(), #{imageFileName}, #{id} ) -->
   	<insert id="insertPost"> <!-- 새 글용 -->
   	     <selectKey keyProperty="postNO" resultType="int" order="BEFORE">
-  	 		select max(postNO) + 1 from board
+  	 		select (ISNULL(max(postNO), 0) + 1) AS postNO from board
   	 	 </selectKey>
   		 insert into board (postNO, arr, parentNO, del, title, content, writeDate, imageFileName, id) values (#{postNO}, (select max(postNO) + 1 from board), #{parentNO}, #{del}, #{title}, #{content}, getdate(), #{imageFileName}, #{id} )
   	</insert>

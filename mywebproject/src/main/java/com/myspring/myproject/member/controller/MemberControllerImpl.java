@@ -1,11 +1,13 @@
 package com.myspring.myproject.member.controller;
 
+import java.lang.System.Logger;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.constraints.NotEmpty;
 
 import org.apache.maven.model.Model;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.myspring.myproject.member.service.MemberService;
@@ -74,25 +77,45 @@ public class MemberControllerImpl implements MemberController{
 		mav.setViewName("redirect:/");
 		return mav;
 	}
+
+	
+	@ResponseBody
+	@RequestMapping(value="/checkId", method = RequestMethod.GET)
+	public String checkId(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String id = request.getParameter("id");
+		
+		String isIdExists = memberService.checkId(id); 
+		//String isIdExistSts = String.valueOf(isIdExists); 
+		System.out.println(isIdExists);
+		//request.setAttribute("checkID", isIdExists);
+		//return "forward:/signUp";
+		return isIdExists;
+		//return "/signUp";
+	}
+
 	
 	// https://nancording.tistory.com/90 이 방식 참고할 것.
 	// Model 방식으로 바꿀 지 고민. // 아이디 존재 유무 확인
-	@Override
-	@RequestMapping(value="/checkId")
-	public String checkId(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String id = request.getParameter("id");
-		System.out.println(id);
-		memberService.checkId(id);
-		System.out.println(response);
-		request.setAttribute("checkID", response);
-		return "redirect:/signUp";
-	}
+//	@Override
+//	@RequestMapping(value="/checkId", method = RequestMethod.GET)
+//	public String checkId(HttpServletRequest request, HttpServletResponse response) throws Exception {
+//		String id = request.getParameter("id");
+//		
+//		String isIdExists = memberService.checkId(id); 
+//		//String isIdExistSts = String.valueOf(isIdExists); 
+//		System.out.println(isIdExists);
+//		request.setAttribute("checkID", isIdExists);
+//		return "forward:/signUp";
+//		//return "/signUp";
+//	}
 	
 	@Override
-	@RequestMapping(value="/singUp", method = RequestMethod.POST) // 회원가입
+	@RequestMapping(value="/member/signUp", method = RequestMethod.POST) // 회원가입
 	public void InsertMember(@ModelAttribute("memberVO") MemberVO memberVO, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView();
+		//ModelAndView mav = new ModelAndView();
+		System.out.println("12345");
 		memberService.MemberInsert(memberVO);
+
 		//String view = "redirect:/loginForm";
 		//mav.addObject("message","Welcome!");
 		//mav.setViewName(view);

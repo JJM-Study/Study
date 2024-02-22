@@ -12,7 +12,8 @@
 	<!-- https://tastyloper.tistory.com/1 - 테이블 내 textarea 넣기-->
   <style>
 		th {background: rgb(173, 230, 252);}
-    .t_post {border: 1px gray solid ; border-collapse: collapse; padding: 5px; margin-top: 120px; margin: auto;}
+		.t_post:not(.fileRow) {border-collapse: collapse;}
+  	    .t_post_row {border: 1px gray solid ; padding: 5px; margin-top: 120px; margin: auto;}
 		.t_post_title {border: 1px gray solid ; border-collapse: collapse;}
 		
 		.f_col {width:300px;}
@@ -29,6 +30,9 @@
 		#input_id {resize: none; font-size: 16px; border:0; outline:none;}
 		
 		#btn_edit_comple {display: none;}
+		
+		.fileRow {border-collaspe:separate ; border-left:none; border-right:none; border-bottom:none; border:none}
+		
   </style>
 <meta charset="UTF-8">
 <title></title>
@@ -39,7 +43,7 @@
  <div class="t_container">
 	<table class="t_post">
 		<caption class="t_post_cap">Board View</caption>
-		<tr class="t_post">
+		<tr class="t_post_row">
 			<th class="f_col">
 				Title
 			</th>
@@ -48,28 +52,28 @@
 			</td>
 		</tr>
 		<tr>
-			<th class="t_post">
+			<th class="t_post_row">
 				Writer
 			</th>
-			<td class="t_post s_col">
+			<td class="t_post_row s_col">
 				<input type="text" value="${postView.id}" id="input_id" name="id" readonly>
 			</td>
-			<th class="t_post t_col">
+			<th class="t_post_row t_col">
 				Wrting Date
 			</th>
-			<td class="t_post four_col">
+			<td class="t_post_row four_col">
 				<input type="text" value="${postView.writeDate}" id="input_writeDate" name="writeDate" readonly>
 			</td>
 		</tr>
-		<tr class="t_post">
-			<th class="t_post t_row">
+		<tr class="t_post_row">
+			<th class="t_post_row t_row">
 				Contents
 			</th>
 			<td>
 				<textarea id="input_cnt" name="content" tabindex="2" readonly>${postView.content}</textarea>
 			</td>
 		</tr>
-		<tr class="t_post">
+		<tr class="t_post_row">
 			<td colspan="4">
 				<input type="button" value="삭제" id="btn_cancel" onclick="login_chk(this.id)" class="btn_post">
 				<input type="button" value="수정" id="btn_edit" onclick="login_chk(this.id)" class="btn_post">
@@ -83,22 +87,27 @@
 				<input type="hidden" name="arr" id="input_arr" value=0> <!-- 2022/06/26 추가-->
 			</td>
 		</tr>
+		<tr class="fileRow">
+		  <td colspan="4">
+			<c:choose>
+			  <c:when test="${empty listFile}">
+			  	<input type="file" name="multiFile" id="fileUp" multiple="multiple" value="파일추가">
+			  </c:when>
+			  <c:otherwise>
+			  	 <ul>
+			  	  <c:forEach items="${listFile}" var="file" varStatus="fileCount">
+			  	  	 <li>
+			  	  	   <input type="hidden" class="IDX" value="${file.seq}">
+			  	  	   <a href="#this" class="file">${file.realName}</a>
+			  	  	 </li>
+			  	  </c:forEach>
+			  	 </ul>
+			  </c:otherwise>
+			</c:choose>
+		  </td>
+		</tr>
 	</table>
-	<c:choose>
-	  <c:when test="${empty listFile}">
-	  	<input type="file" name="multiFile" id="fileUp" multiple="multiple" value="파일추가">
-	  </c:when>
-	  <c:otherwise>
-	  	<ul>
-	  	  <c:forEach items="${listFile}" var="file" varStatus="fileCount">
-	  	  	<li>
-	  	  		<input type="hidden" class="IDX" value="${file.seq}">
-	  	  		<a href="#this" class="file">${file.realName}</a>
-	  	  	</li>
-	  	  </c:forEach>
-	  	</ul>
-	  </c:otherwise>
-	</c:choose>
+	
  </div>
 </form>
 </body>
@@ -255,9 +264,17 @@
 	 
 </script>
 <footer>
-<p>test : ${postView.postNO}</p>
+<!-- <c:choose>
+	<c:when test="${PostNO != null}">
+		<p>postNO : ${postView.postNO}</p>
+	</c:when>
+	<c:otherwise>
+		<p>postNO : Null</p>
+	</c:otherwise>
+</c:choose>
+
 <p>param_test : <c:out value="${param.postNO}" /></p>
 <p>arr : ${postView.arr}</p>
-<p>parentNO : ${postView.postNO}</p>
+<p>parentNO : ${postView.postNO}</p> -->
 </footer>
 </html>

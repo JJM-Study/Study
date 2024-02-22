@@ -27,7 +27,7 @@
 <body>
      <div id = "div_collection">
       <h1>Sing Up</h1>
-       <form action="member/signUp" method="post" id="form">
+       <form action="signUp" method="post" id="form">
         <div>
           <p><label for="input_name">NAME</label></p>
           <input id="input_name" type="text" name="name" placeholder="Enter Your Name">
@@ -49,7 +49,7 @@
           <input id="input_chkpw" type="password" placeholder="Enter Your PASSWORD">
         </div>
         <div id="div_btn">
-          <input type="button" onclick="signUp()" id="btn_signUp" class="button" value="SignUp">
+          <input type="button" id="btn_signUp" class="button" onclick="signUp()" value="SignUp">
           <input type="reset" value="Reset" class="button">
         </div>
        </form>
@@ -105,105 +105,21 @@
 	          }
 	        }
 	    
-	        //location.href = ("${contextPath}/checkId?id=" + input_id.value);
+	        location.href = ("${contextPath}/checkId?id=" + input_id.value);
 	       
-	        //location.href = ("${contextPath}/checkId?id=" + input_id.value);
-	        
-	     	var url = "${contextPath}/checkId";
-	     	var parmas = "id=" + encodeURIComponent(input_id.value);
-	        
-	     	
-	        var ajax = new XMLHttpRequest();
-	        ajax.onreadystatechange = function() {
-	        if(this.readyState == 4 && this.status == 200) {
-	        	var checkId = ajax.responseText;
-	        	
-	        	if(checkId === "" || checkId === undefined){
-	  				var form_submit = function() {
-	  		  	    window.close(); // 폼 제출 후 창 닫기
-	        		}; setTimeout(form_submit, 1000);
-	  	        	form_action.submit();
-	  		        alert("Welcome!");
-	  	        } else {
-	  	        	alert("ID exists");
-	            }	
-	          }
-	        };
-	     	
-	        /*var ajax = new XMLHttpRequest();
-	        ajax.onreadystatechange = function() {
-	        if(this.readyState == 4 && this.status == 200) {
-	        	//console.log(ajax.responseText);
-	        	//var checkId = JSON.parse(ajax.responseText);
-	        	var checkId = ajax.responseText;
-	        	
-	        	if(checkId === "" || checkId === undefined){
-	  	        	form_action.submit();
-	  		        alert("Welcome!");
-	  		        //window.close();
-	  	        } else {
-	  	        	alert("ID exists");
-	            }	
-	          }
-	        };  */
-	        
-	        ajax.open("GET", url + "?" + parmas, true);
-	        ajax.send();
-	        
-	        
-	    /*    var xhr = new XMLHttpRequest();
-	        var url = "${contextPath}/checkId?id=" + input_id.value;
-	        xhr.open("GET", url, true);
-	        xhr.onreadystatechange = function() {
-	          if (xhr.readyState == 4 && xhr.status == 200) {
-	            //var checkId = "${checkID}";
-	            
-	            var checkId = xhr.responseText;
-	  	        
-	            console.log("success");
-	  	        
-	  	        if(checkId === "" || checkId === undefined){
-	  	        	form_action.submit();
-	  		        alert("Welcome!");
-	  		        window.close();
-	  	        }
-	  	        else {
-	  	        	alert("ID exists");
-	  	        } 
-	  	        
-	            console.log(xhr.responseText);
-	          }
-	        };
-	        xhr.send();  */
-
 	        //const checkId = urlParams.get('checkID');
+	        const checkId = "${checkID.id}";
 	        
+	        console.log(checkId);
 	        
-	        
-	    /*    var xhr = new XMLHttpRequest();
-	        xhr.open("GET", "${contextPath}/checkId");
-	        xhr.onreadystatechange = function() {
-	            if (xhr.readyState == 4) {
-	                if (xhr.status == 200) {
-	                    var checkId = xhr.responseText;
-	                    console.log("success");
-
-	                    if (checkId === "" || checkId === undefined) {
-	                        form_action.submit();
-	                        alert("Welcome!");
-	                        window.close();
-	                    } else {
-	                        alert("ID exists");
-	                    }
-	                } else {
-	                    console.error("Failed to load resource:", xhr.status);
-	                }
-	            }
-	        };
-	        var formData = new FormData();
-	        formData.append("id",input_id.value);
-	        xhr.send(formData); */
-	        
+	        if(checkId === null){
+	        	form_action.submit();
+		        alert("Welcome!");
+		        window.close();
+	        }
+	        else {
+	        	alert("ID exists");
+	        }
     	}	
     	
     </script>
