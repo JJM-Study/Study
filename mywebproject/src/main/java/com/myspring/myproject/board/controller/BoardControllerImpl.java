@@ -261,7 +261,8 @@ public class BoardControllerImpl implements BoardController {
 	public String updatePost(@RequestParam("postNO") int postNO, @ModelAttribute("boardVO") BoardVO boardVO, HttpServletRequest request, HttpServletResponse response ) throws Exception {
 		boardVO.setPostNO(postNO);
 		boardService.updatePost(boardVO);
-		String view = "redirect:/board/viewPost?postNO=" + postNO;
+		//String view = "redirect:/board/viewPost?postNO=" + postNO;
+		String view = "redirect:/Listboard";
 		return view;
 		
 	}
@@ -275,7 +276,8 @@ public class BoardControllerImpl implements BoardController {
 		System.out.println(result);
 		String cPath = request.getContextPath();
 		RedirectView redirectView = new RedirectView();
-		redirectView.setUrl(cPath + "/board/viewPost?postNO=" + result);
+		//redirectView.setUrl(cPath + "/board/viewPost?postNO=" + result);
+		redirectView.setUrl(cPath + "/Listboard");
 		mav.setView(redirectView);
 		return mav;
 		
