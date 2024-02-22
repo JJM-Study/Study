@@ -30,25 +30,28 @@
 <br>
 
 <h3>글쓰기</h3>
-
+<hr>
 
 ![Image](https://github.com/JJM-Study/jjm/blob/173f10c7a6fb728939400b4f4b8aae500e1f30b8/Repositoiry%20Resources/Writing%20-%201.png)
 
 <br>
 
 <h3>파일 첨부</h3>
+<hr>
 
 ![Image](https://github.com/JJM-Study/jjm/blob/173f10c7a6fb728939400b4f4b8aae500e1f30b8/Repositoiry%20Resources/File%20Upload.jpg)
 
 <br>
 
 <h3>글 등록</h3>
+<hr>
 
 ![Image](https://github.com/JJM-Study/jjm/blob/494cb5754aa506b560bd07e089eeaecd00a587a5/Repositoiry%20Resources/Writing%20-%202.jpg)
 
 <br>
 
 <h3> 게시글 클릭 및 답글 </h3>
+<hr>
 
 <br>
 
