@@ -18,12 +18,18 @@
 <h2>내용</h2>
 ---
 
-**게시판 목록
+**게시판 목록**
+
 
 ![Image](https://github.com/JJM-Study/jjm/blob/ff875b621463434ae4898ea81a31f7e851a677f8/Repositoiry%20Resources/Spring%20Boot/Spring%20List.png)
 
-**게시판 글쓰기
+
+-
+
+**게시판 글쓰기**
+
 
 ![Image](https://github.com/JJM-Study/jjm/blob/ff875b621463434ae4898ea81a31f7e851a677f8/Repositoiry%20Resources/Spring%20Boot/Spring%20Detail.jpg)
 
 
+-
