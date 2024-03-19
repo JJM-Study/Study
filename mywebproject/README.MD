@@ -37,10 +37,18 @@
 
 <br>
 
-<h3>파일 첨부</h3>
+<h3>파일 업로드 및 다운로드</h3>
 <hr>
 
 ![Image](https://github.com/JJM-Study/jjm/blob/173f10c7a6fb728939400b4f4b8aae500e1f30b8/Repositoiry%20Resources/File%20Upload.jpg)
+
+업로드
+
+<br>
+
+![Image](https://github.com/JJM-Study/jjm/blob/7e9e751d948bc2b536a92a3f26a4f49362ce82db/Repositoiry%20Resources/Download.png)
+
+다운로드
 
 <br>
 
