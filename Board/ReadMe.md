@@ -33,6 +33,15 @@
 
 <h3>게시판 글쓰기</h3>
 
+![Image](https://github.com/JJM-Study/jjm/blob/bf9e23f1c9b0ca51f8966991925feaa0dfefaa80/Repositoiry%20Resources/Spring%20Boot/Spring%20Posting.png)
+
+<br>
+<br>
+
+<h3>게시글</h3>
 
 ![Image](https://github.com/JJM-Study/jjm/blob/ff875b621463434ae4898ea81a31f7e851a677f8/Repositoiry%20Resources/Spring%20Boot/Spring%20Detail.jpg)
 
+- 제목, 내용을 수정 후 수정 버튼을 누를 시 수정 사항 반영
+
+- 삭제 버튼을 누르면 삭제.
