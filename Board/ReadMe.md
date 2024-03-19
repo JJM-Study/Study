@@ -25,6 +25,7 @@
 <br>
 
 <h3>게시판 목록</h3>
+<hr>
 
 ![Image](https://github.com/JJM-Study/jjm/blob/ff875b621463434ae4898ea81a31f7e851a677f8/Repositoiry%20Resources/Spring%20Boot/Spring%20List.png)
 
@@ -32,6 +33,7 @@
 <br>
 
 <h3>게시판 글쓰기</h3>
+<hr>
 
 ![Image](https://github.com/JJM-Study/jjm/blob/bf9e23f1c9b0ca51f8966991925feaa0dfefaa80/Repositoiry%20Resources/Spring%20Boot/Spring%20Posting.png)
 
@@ -39,6 +41,7 @@
 <br>
 
 <h3>게시글</h3>
+<hr>
 
 ![Image](https://github.com/JJM-Study/jjm/blob/ff875b621463434ae4898ea81a31f7e851a677f8/Repositoiry%20Resources/Spring%20Boot/Spring%20Detail.jpg)
 
