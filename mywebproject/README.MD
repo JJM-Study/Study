@@ -73,3 +73,12 @@
 답글은 [2]와 같이 답변한 게시글 번호가 붙고 계층형 답글을 할 때마다 RE: 가 추가 됩니다.
 
 <br>
+<br>
+
+이상 스프링 프레임워크로 구현한 게시판이며, 간단한 CURD 게시판을 구현하며 스프링 부트의 사용 방법을 익혔습니다.
+
+![Image](https://github.com/JJM-Study/jjm/blob/ff875b621463434ae4898ea81a31f7e851a677f8/Repositoiry%20Resources/Spring%20Boot/Spring%20List.png)
+
+<br>
+
+https://github.com/JJM-Study/Study/blob/master/Board/ReadMe.md
