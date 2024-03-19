@@ -45,6 +45,6 @@
 
 ![Image](https://github.com/JJM-Study/jjm/blob/ff875b621463434ae4898ea81a31f7e851a677f8/Repositoiry%20Resources/Spring%20Boot/Spring%20Detail.jpg)
 
-- 제목, 내용을 수정 후 수정 버튼을 누를 시 수정 사항 반영
+- 제목, 내용을 수정 후 수정 버튼을 누를 시 수정 사항 반영.
 
 - 삭제 버튼을 누르면 삭제.
