@@ -22,6 +22,7 @@
 <h2>내용</h2>
 
 <h3>회원가입</h3>
+<hr>
 <br>
 
 ![Image](https://github.com/JJM-Study/jjm/blob/173f10c7a6fb728939400b4f4b8aae500e1f30b8/Repositoiry%20Resources/singup.png)
