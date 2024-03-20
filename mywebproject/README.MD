@@ -61,6 +61,7 @@
 <br>
 
 <h3> 게시글 클릭 </h3>
+<hr>
 
 ![Image](https://github.com/JJM-Study/jjm/blob/da8714e33c56846bc507ac328f4f523d1aa49115/Repositoiry%20Resources/Detail2.png)
 
