@@ -60,6 +60,14 @@
 
 <br>
 
+<h3> 게시글 클릭 </h3>
+
+![Image](https://github.com/JJM-Study/jjm/blob/da8714e33c56846bc507ac328f4f523d1aa49115/Repositoiry%20Resources/Detail2.png)
+
+게시글 클릭 시 수정, 삭제 및 답글 작성 가능​
+
+<br>
+
 <h3> 답글 </h3>
 <hr>
 
