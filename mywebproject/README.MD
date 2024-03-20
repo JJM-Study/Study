@@ -65,7 +65,7 @@
 
 <br>
 
-![Image](https://github.com/JJM-Study/jjm/blob/e8356f08106e24188ace7f4e3dadf1b22c18c7a2/Repositoiry%20Resources/Reply%20Reply.png)
+![Image](https://github.com/JJM-Study/jjm/blob/a07c541317362d58258a86e5720da3711ad2b028/Repositoiry%20Resources/Reply%20Reply.png)
 
 2번 글에 대한 답글 시 POST NO 2를 부모로 하는 3번 포스팅을 생성하고, 3번 글에 대한 답글 시
 2번을 부모로 하는 게시글이 추가됩니다.
