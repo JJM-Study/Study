@@ -77,9 +77,9 @@
 ![Image](https://github.com/JJM-Study/jjm/blob/71f26328c02c42da5b30c21816b6078651a7d2f0/Repositoiry%20Resources/Reply%20Reply%20Reply.png)
 
 2번 글에 대한 답글 시 POST NO 2를 부모로 하는 3번 포스팅을 생성하고, 3번 글에 대한 답글 시
-2번을 부모로 하는 게시글이 추가됩니다.
+2번을 부모로 하는 게시글이 추가.
 
-답글은 [2]와 같이 답변한 게시글 번호가 붙고 계층형 답글을 할 때마다 RE: 가 추가 됩니다.
+답글은 [2]와 같이 답변한 게시글 번호가 붙고 계층형 답글을 할 때마다 RE: 가 추가.
 
 <br>
 <br>
