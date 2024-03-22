@@ -295,7 +295,7 @@ public class BoardControllerImpl implements BoardController {
 			
 		    response.setContentType("application/octet-stream");
 		    response.setContentLength(fileByte.length);
-		    response.setHeader("Content-Disposition", "attachment; fileName=\"" + URLEncoder.encode(realName,"UTF-8")+"\";");
+		    response.setHeader("Content-Disposition", "attachment; fileName=\"" + URLEncoder.encode(saveName,"UTF-8")+"\";");
 		    response.setHeader("Content-Transfer-Encoding", "binary");
 		    response.getOutputStream().write(fileByte);
 		     

@@ -98,7 +98,7 @@
 			  	  <c:forEach items="${listFile}" var="file" varStatus="fileCount">
 			  	  	 <li>
 			  	  	   <input type="hidden" class="IDX" value="${file.seq}">
-			  	  	   <a href="#this" class="file">${file.realName}</a>
+			  	  	   <a href="#this" class="file">${file.saveName}</a>
 			  	  	 </li>
 			  	  </c:forEach>
 			  	 </ul>
