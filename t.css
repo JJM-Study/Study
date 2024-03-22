@@ -1,0 +1,15 @@
+#icons>li>a {
+  background-image: url("icons.png");
+  width: 25px;
+  display : inline-block;
+  height: 25px;
+  repeat: no-repeat;
+}
+
+#incos>li:nth-child(1)>a {
+  background-position: 2px -8px;
+}
+#incos>li:nth-child(2)a {
+  background-color: -29px -8px;
+}
+
