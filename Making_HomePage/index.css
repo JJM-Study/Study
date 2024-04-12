@@ -1,0 +1,166 @@
+
+/* .header {border:solid; float : left; background-color: white; width:100%; position: absolute;} */
+
+.header {
+  float : left; 
+  background-color: skyblue; 
+  width:100%; 
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  mix-blend-mode: difference; 
+  border-bottom: 1px solid black; 
+  height: 40px;
+}
+
+
+
+.tab_menu > h1 { /* Title */
+  display: inline; 
+  float: left; 
+  margin-left: 20px; 
+  margin-right: 100px;
+  
+}
+
+.tab_menu {
+  align-items: center; 
+  display: flex; 
+  position: absolute; 
+  margin-top: auto; 
+  height: 100%;
+  
+}
+
+.tab_menu .tab_list {
+  padding-left: 100px; 
+  overflow:hidden; 
+  list-style-type:none;
+}
+
+.tab_menu .tab_list li:not(.p_list) { 
+  float:left; 
+}
+/* .tab_menu .tab_list li {margin-left:14px; width:100px; height:40px; text-align:center; color:white; background:gray; padding-top: 10px; border-top-left-radius: 10px; border-top-right-radius: 10px;} */
+/* .tab_menu .tab_list li {margin-left:14px; width:100px; height:40px; text-align:center; color:white; background:gray; padding-top: 10px; } */
+/* .tab_menu .tab_list li {margin-left:35px; width:100px; height:40px; text-align:center;} */
+.tab_menu .tab_list li {
+  margin-right:100px; 
+  align-items : center;
+}
+
+
+.main { 
+  padding-top: 100px; 
+}
+
+.btn {
+  display: block; 
+  color:black;  
+  text-decoration-line: none; 
+  font-size:23px;
+}
+
+.btn:hover {
+  color: white;
+}
+
+/* .p_menu {left:235px; top: 125px; display: none;} */
+/*.p_menu {position: absolute; width: 100px; height: 50px; margin-left: -100px; display:none} */
+.p_menu {
+  position: absolute; 
+  width: 100px; 
+  height: 50px; 
+  display:none;
+  margin-left: -5.3%;
+  background-color: #272727;
+}
+.p_list {
+  margin-top: 5px;
+  margin-left: auto;
+}
+
+.p_menu .p_list li {
+
+  flex-direction: column; 
+  overflow:hidden; 
+  list-style-type:none; 
+  background-color: white; 
+  width: 100px; 
+  height: 40px; 
+  border-width : 0 1px 1px 1px;
+  border-style: solid;
+  border-color: black;
+  align-content: center;
+
+}
+
+.p_btn {
+  display: block; 
+  color:black; 
+  text-decoration-line: none; 
+  font-size: 20px;
+  text-align: center;
+}
+
+/* .p_btn:hover {
+  color:white;
+  background-color: ;
+} */
+
+.main .cts_container .tab_cts {
+  display:none;
+  
+}
+.main .cts_container .tab_cts.current {
+ display:block;
+ background:#555;
+ color:#fff;
+ height:80vh; width:98%; 
+ margin-top:5vh;
+ padding-left:2%;
+ word-break:break-all;
+}
+
+.code_table {
+ background-color : #272727;
+ border-radius: 4px;
+ color:white;
+ display: none;
+
+}
+
+.code_table td { 
+ padding: 10px;
+}
+
+td.primary {
+ text-align: right;
+ border-right: 2px solid #4f4f;
+ color:#aaa;
+ width:1%;
+ white-space:nowrap;
+}
+
+td.seconday {
+ text-align: left;
+ color : #f0f0f0;
+}
+
+div.primary > div, div.secondary > div {
+ line-height: 130%;
+}
+
+/* .btn {font-size:20px;} */
+
+/* .floating {  이걸로는 위로 향하는 화살표 플로팅 구현할 것.
+ position: fixed;
+ top: 180px;
+ margin-top: 2px;
+ width: 100%;
+ 
+ background:#555;
+ 
+} */
+
+footer {position:absolute; bottom:10vh;}

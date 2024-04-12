@@ -5,82 +5,13 @@
 <html>
   <body>
      <head>
-       <h1>My Home</h1>
-       <style>
-
-         .tab_menu .tab_list {overflow:hidden; list-style-type:none;}
-         .tab_menu .tab_list li:not(.p_list) { float:left; }
-         .tab_menu .tab_list li {margin-left:14px; width:100px; height:40px; text-align:center; color:white; background:gray; padding-top: 10px; border-top-left-radius: 10px; border-top-right-radius: 10px;}
-         
-         .btn {display: block; color:white;  text-decoration-line: none; font-size:23px;}
-         
-         /* .p_menu {left:235px; top: 125px; display: none;} */
-         .p_menu {position: absolute; width: 100px; height: 50px; margin-left: -100px; display:none}
-         .p_list {margin-top: 10px;}
-        
-         .p_menu .p_list li {flex-direction: column; overflow:hidden; list-style-type:none; text-align:center; background-color: white; width: 100px; height: 40px; border-top-left-radius: 0px; border-top-right-radius: 0px;}
-         .p_btn {display: block; color:black; text-decoration-line: none; font-size: 20px;}
-
-         
-
-         .tab_menu .cts_container .tab_cts {display:none;}
-         .tab_menu .cts_container .tab_cts.current {
-          display:block;
-          background:#555;
-          color:#fff;
-          height:80vh; width:98%; 
-          margin-top:5vh;
-          padding-left:2%;
-          word-break:break-all;
-        }
-
-        .code_table {
-          background-color : #272727;
-          border-radius: 4px;
-          color:white;
-          display: none;
-   
-        }
-
-        .code_table td { 
-          padding: 10px;
-        }
-
-        td.primary {
-          text-align: right;
-          border-right: 2px solid #4f4f;
-          color:#aaa;
-          width:1%;
-          white-space:nowrap;
-        }
-
-       td.seconday {
-          text-align: left;
-          color : #f0f0f0;
-       }
-
-       div.primary > div, div.secondary > div {
-        line-height: 130%;
-       }
-       
-       /* .btn {font-size:20px;} */
-
-       /* .floating {  이걸로는 위로 향하는 화살표 플로팅 구현할 것.
-          position: fixed;
-          top: 180px;
-          margin-top: 2px;
-          width: 100%;
-          
-          background:#555;
-          
-       } */
-
-        footer {position:absolute; bottom:10vh;}
-
-       </style>
+       <link href="index.css" rel="stylesheet">
      </head>
+     <header class="header">
         <div class="tab_menu">
-          <ul class="tab_list">
+          <h1>HOME</h1>
+        
+            <ul class="tab_list">
               <li class="current">
                  <a href="#tab1" class="btn">Main</a> 
               </li>
@@ -92,7 +23,7 @@
                   <div class="p_menu">
                     <ul class="p_list">
                       <li>
-                          <a href="https://github.com/JJM-Study/Study/tree/25a2cdbd8ec20997675f0964fa01ff0391b17782/mywebproject" class="p_btn">JAVA</a>
+                          <p><a href="https://github.com/JJM-Study/Study/tree/25a2cdbd8ec20997675f0964fa01ff0391b17782/mywebproject" class="p_btn">JAVA</a></p>
                       </li>
                       <li>
                           <a href="https://github.com/JJM-Study/CSharp/tree/0fe2eb000d0ef102e3497f218ffc510da6f740cc/Project" class="p_btn">C#</a>
@@ -100,8 +31,11 @@
                     </ul>
                   </div>
               </li>
-          </ul>
+            </ul>
+        </div>
+     </header>
 
+      <div class="main">
       <!--<div id="tab-1" class="tab_contents">-->
       <!-- <div class="tab_cts_div"> -->
         <div class="cts_container">
@@ -303,7 +237,7 @@ test
             웹(WEB)
 
             웹 개발 서적을 통해 JSP, 스프링의 사용의 감을 잡고 모델 2를 공부하면서 개인적으로 자바를 통해 계산기를 구현해보면서 기초를 익히고 관련 서적들의 
-            정독 이후 자기소개 홈페이지 구현 및 모델 2 프로젝트를 수행해보면서 HTML, CSS, 자바스크립트의 기초를 공부할 수 있었습니다.
+            정독 이후 자기소개 홈페이지 구현 및 모델 2 프로젝트를 수행해보면서 , CSS, 자바스크립트의 기초를 공부할 수 있었습니다.
 
             JSP 및 스프링 공부를 위해 모델 2 MVC를 활용해 게시판을 만들어봤고, 그 과정 중 마이바티스의 SQL 및 프로시저 연동을 해보며
             메이븐을 통해 의존성의 추가를 해보았습니다.
