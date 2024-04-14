@@ -11,6 +11,7 @@
   mix-blend-mode: difference; 
   border-bottom: 1px solid black; 
   height: 40px;
+  z-index: 9;
 }
 
 
@@ -51,7 +52,7 @@
 
 
 .main { 
-  padding-top: 100px; 
+  padding-top: 500px; 
 }
 
 .btn {
@@ -103,12 +104,17 @@
   text-align: center;
 }
 
+
 /* .p_btn:hover {
   color:white;
   background-color: ;
 } */
 
-.main .cts_container .tab_cts {
+/* 
+
+2024/04/12 주석
+
+.main .cts_container .tab_cts { 
   display:none;
   
 }
@@ -129,7 +135,6 @@
  display: none;
 
 }
-
 .code_table td { 
  padding: 10px;
 }
@@ -149,7 +154,9 @@ td.seconday {
 
 div.primary > div, div.secondary > div {
  line-height: 130%;
-}
+} */
+
+/* --------------2024/04/12--------------- */
 
 /* .btn {font-size:20px;} */
 
@@ -163,4 +170,79 @@ div.primary > div, div.secondary > div {
  
 } */
 
-footer {position:absolute; bottom:10vh;}
+#Me {
+
+  position: relative;
+  /* display:block;
+  color:black;
+  height:10px; width:100%; */
+
+}
+
+.Me_Title, .Me_Info { /* 아이템 크기 동일하게 설정 */
+  
+  flex: 0 0 25%;
+  text-align: center;
+  border-bottom: 1px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+#AboutMe_Infos {
+  margin-top: 10px; 
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #529AC7;
+
+}
+
+#AboutMe_Title {
+  background-color: #529AC7;
+  padding: 20px 0 22px 10px;
+  font-size: 2.4em;
+}
+
+/* .AboutMe_Infos {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  flex-direction: column;
+
+} */
+
+.Me_Title {
+  /* background-color: cornflowerblue; */
+  padding: 45px 0 45px 0;
+  font-size: 1.5em;
+  font-weight: 600;
+  margin-bottom: 1px;
+  
+}
+
+.Me_Info {
+  /*background-color: brown; */
+  /*margin: 0 auto 2rem; */
+  font-size: 1.0em;
+  font-weight: 600;
+
+}
+
+#Skill {
+
+
+}
+
+
+
+/* .inner {
+  position: relative;
+  margin: auto;
+  background-color:blue;
+  padding-bottom: 2em;
+  display: block;
+  
+} */
+
+/* footer {position:absolute; bottom:10vh;} */
