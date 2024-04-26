@@ -6,7 +6,10 @@
 <html>
      <head>
        <link href="./index.css" rel="stylesheet">
-       <script src="./index.js"></script>
+       
+       <link rel="preconnect" href="https://fonts.googleapis.com">
+       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+       <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
      </head>
      <body>
       <div id="wrapper">
@@ -19,27 +22,26 @@
                 <a href="#" class="btn">Me</a> 
               </li>
               <li>
-                <a href="#Skill" class="btn">Skill</a>
+                <a href="#" class="btn">Skill</a>
               </li>
               <li id="PortPolio">
-                <a href="#Sec_PortPolio" class="btn">PortPolio</a>
+                <a href="#" class="btn">PortPolio</a>
                   <div class="p_menu">
                     <ul class="p_list">
                       <li>
-                         <p><a href="https://github.com/JJM-Study/Study/tree/25a2cdbd8ec20997675f0964fa01ff0391b17782/mywebproject" class="p_btn">JAVA</a></p>
+                         <a href="https://github.com/JJM-Study/Study/tree/25a2cdbd8ec20997675f0964fa01ff0391b17782/mywebproject" class="p_btn">JAVA</a>
                       </li>
                       <li>
                          <a href="https://github.com/JJM-Study/CSharp/tree/0fe2eb000d0ef102e3497f218ffc510da6f740cc/Project" class="p_btn">C#</a>
                       </li>
                     </ul>
                   </div>
-              </li>
-            </ul>
+                </li>
+              </ul>
           </div>
      </header>
      <section id ="Me" class="section">
-        <div class="Inner">
-            <div id ="AboutMe_Title" class="Subtitle">About Me</div> <!-- About Me 제목 -->
+            <div id ="AboutMe_Title" class="Subtitle"><span>About Me</span></div> <!-- About Me 제목 -->
             <div id ="AboutMe_Infos">
               <div class = "Me_Title">
                 이름
@@ -51,23 +53,24 @@
                 연락처
               </div>
               <div class = "Me_Info">
-                +082 010-2978-0483
+                <a href="tel:010-2978-0483">+082 010-2978-0483</a>
               </div>
               <div class = "Me_Title">
                 깃허브
               </div>
               <div class = "Me_Info">
-                JAVA : https://github.com/JJM-Study/Study/tree/master/mywebproject  <br><br>
-                C# : https://github.com/JJM-Study/CSharp/tree/master/Project
+                <span>JAVA : <a href="https://github.com/JJM-Study/Study/tree/master/mywebproject">https://github.com/JJM-Study/Study/tree/master/mywebproject</a></span>
+                <br>
+                <span> C# : <a href="https://github.com/JJM-Study/CSharp/tree/master/Project">https://github.com/JJM-Study/CSharp/tree/master/Project</a></span>
               </div>
               <div class = "Me_Title">
                 이메일
               </div>
               <div class = "Me_Info">
-                 jjmyoucandoit@gmail.com
+                 <a href="mailto:jjmyoucandoit@gmail.com">jjmyoucandoit@gmail.com</a>
               </div>
             </div>
-          </div>
+
      </section>
 
     <section id = Skill class="section">
@@ -133,9 +136,7 @@
                 SVN<br>
               </div>
            </div>
-          </div>
-        </div>
-      </div>
+         </div>
     </section>
 
     <section id ="Sec_PortPolio" class="section">
@@ -156,20 +157,14 @@
           <br>
           <img src="https://github.com/JJM-Study/jjm/raw/da8714e33c56846bc507ac328f4f523d1aa49115/Repositoiry%20Resources/C%23/1.png" width="750", height="450">
           <p><a href="https://github.com/JJM-Study/CSharp/tree/master/Project">깃 허브 바로가기</a></p>
-
-          </div>
-
           </div>
         </div>
-
-
-      <div></div>
-      
-
     </section>
    </div>
+    
+    <script type="text/JavaScript" src="./index.js"></script>
   </body>
   <footer>
-    footer
+    
   </footer>
 </html>

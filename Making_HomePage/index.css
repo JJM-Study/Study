@@ -13,7 +13,7 @@
   position: fixed; 
   top: 0; 
   left: 0; 
-  mix-blend-mode: difference; 
+  /* mix-blend-mode: difference;  */
   border-bottom: 1px solid black; 
   height: 40px;
   z-index: 9;
@@ -79,7 +79,6 @@
   height: 50px; 
   display:none;
   margin-left: -5.3%;
-  background-color: #272727;
 }
 .p_list {
   margin-top: 5px;
@@ -98,7 +97,8 @@
   border-style: solid;
   border-color: black;
   align-content: center;
-
+  display: flex;
+  justify-content: center;
 }
 
 .p_btn {
@@ -120,24 +120,30 @@
 .Me_Title, .Me_Info { /* 아이템 크기 동일하게 설정 */
   
   flex: 0 0 25%;
-  border: 1px solid white;
+  /* border: 1px solid skyblue; 
+    outline: 1px solid skyblue;
+    */
   display: flex;
   align-items: center;
+  text-align: center;
   justify-content: center;
   box-sizing: border-box;
-
+  border-bottom: 1px solid skyblue;
 }
 
 #AboutMe_Infos {
  
   display: flex;
   flex-wrap: wrap;
-  background-color: #529AC7;
 
 }
 
 #AboutMe_Title {
-  background-color: #529AC7;
+
+  border-bottom: 1px solid skyblue;
+  margin-left: 25%;
+  margin-right: 25%
+  /* background-color: #529AC7; */
   /* font-size: 2.4em; */
 }
 
@@ -155,29 +161,25 @@
 
 } */
 
-.Subtitle {
-  text-align: center;
-  font-size: 2.7em; 
-  margin-bottom: 10px;
-  font-weight: 600;
-}
 
 .Me_Title {
   /* background-color: cornflowerblue; */
-  padding: 45px 0 45px 0;
+  /* padding: 45px 0 45px 0; */
+  padding: 45px 0 45px 30px;
   font-size: 1.5em;
   font-weight: 600;
-  margin-bottom: 1px;
-  
+  justify-content: left;
 }
 
 .Me_Info {
   /*background-color: brown; */
   /*margin: 0 auto 2rem; */
   font-size: 1.0em;
-  font-weight: 600;
+  font-weight: 500;
+  flex-direction: column;
 
 }
+
 /* 
 #Skill {
   background-color: lightgray;
@@ -187,6 +189,7 @@
   background-color: lightgray;
 }
 
+
 #Skill_Infos {
   display: flex;
   align-items: center;
@@ -195,7 +198,7 @@
   background-color: lightgray;
 }
 #Personal, #Practice {  /* 개인, 실무에서 익힌 스킬*/
-  background-color: #272727;
+  /* background-color: #272727; */
   display: flex;
   justify-content: center;
 }
@@ -258,6 +261,22 @@
 
 .PortPolio_Info img {
   margin: 0 auto 0 auto;
+}
+
+
+
+.Subtitle {
+  margin: 100px 0 10px 0;
+  font-size: 2.7em; 
+  /* margin-bottom: 10px;
+  font-weight: 600; */
+  font-family: "Black Han Sans", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
 }
 
 /* .inner {
