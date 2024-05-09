@@ -12,7 +12,7 @@
 <h2>사용 기술 및 개발 환경</h2>
 
  * O/S : window 10
- * DB: MSSQL
+ * DB: MSSQL (마이바티스)
  * Server : Apache-Tomcat-9.0.46
  * Tool : Eclipse, Git(SourceTree), GitHub, SQL Server Management Studio
  * Language : Spring FrameWork, JSP, JavaScript, CSS
