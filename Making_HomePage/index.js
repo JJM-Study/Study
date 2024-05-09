@@ -1,4 +1,5 @@
   const btns = document.querySelectorAll('.btn');
+  const p_btns = document.querySelectorAll('.p_btn');
   const PortPolio = document.querySelector('.tab_menu .tab_list li:nth-child(3)');
   const p_menu = document.querySelectorAll('.p_menu');
   const al_li = Array.from(p_menu).concat(PortPolio);
@@ -20,7 +21,6 @@
   btns.forEach((btn, index) =>  {
     btn.addEventListener('click', function(event) {
       event.preventDefault();
-      console.log(index);
 
       let location;
 
@@ -39,17 +39,19 @@
     });
   });
 
+  p_btns.forEach((p_btn, index) =>  {
+     p_btn.addEventListener('click', function(event) {
+        event.preventDefault();  
 
+        let location;
 
-  
-  // for (let btn of btns) {
-  //   btn.addEventListener('click', btn_f);
-  // }
+        if (index === 0) {
+            location = document.getElementById("Spring").offsetTop;
+        } else {
+          location = document.getElementById("C_sharp").offsetTop;
+        }
 
+        window.scrollTo({top:location - 50});
 
-  // function btn_f(event) {
-  //   event.preventDefault();
-  //   if (event.)
-  //   let scroll = event.currentTarget.offsetTop;
-  //   window.scrollTo({top:scroll, behavior: 'smooth'});
-  // }
+      });
+  });

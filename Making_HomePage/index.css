@@ -257,7 +257,10 @@
 
 
 
-
+.PortPolio_Info {
+  width: 100%;
+  text-align:center;
+}
 
 .PortPolio_Info img {
   margin: 0 auto 0 auto;
@@ -293,10 +296,11 @@
   border-bottom: 1px solid white;
 }
 
-#portpolio_spring {
+#portpolio_C_Sharp {
   background-color: lightseagreen;
-  
+  height: 85vh;
 }
+
 
 /* .inner {
   position: relative;
