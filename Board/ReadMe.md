@@ -15,7 +15,7 @@
 
 
  * O/S : window 10
- * DB: MSSQL
+ * DB: MYSQL (하이버네이트)
  * Serve : Apache-Tomcat-9.0.46
  * Tool : Eclipse, Git(SourceTree), GitHub, SQL Server Management Studio, Gradle
  * Language : Spring Boot, JavaScript, CSS
