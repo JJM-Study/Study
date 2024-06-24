@@ -10,4 +10,28 @@ public class AI_Question {
     private Long id;
     private String contents;
 
+    public AI_Question() {
+
+    }
+
+    public AI_Question(Long id, String contents) {
+        this.id = id;
+        this.contents = contents;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getContents() {
+        return contents;
+    }
+
+    public void setContents(String contents) {
+        this.contents = contents;
+    }
 }

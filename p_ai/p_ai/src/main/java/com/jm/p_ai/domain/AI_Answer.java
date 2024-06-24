@@ -10,6 +10,8 @@ public class AI_Answer {
     private String contents;
 
     @ManyToOne
-    private Question question;
+    private AI_Question AI_question;
+
+
 
 }
