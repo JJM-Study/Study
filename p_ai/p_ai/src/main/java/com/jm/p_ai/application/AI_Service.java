@@ -1,5 +1,6 @@
 package com.jm.p_ai.application;
 
+import com.jm.p_ai.domain.AI_Answer;
 import com.jm.p_ai.domain.AI_Question;
 import com.jm.p_ai.infrastructure.AI_Answer_Repo;
 import com.jm.p_ai.infrastructure.AI_Question_Repo;
@@ -21,16 +22,20 @@ public class AI_Service {
     @Autowired
     public AI_Service(AI_User_Repo ai_userRepo,
                       AI_Answer_Repo ai_answerRepo,
-                      AI_Question_Repo ai_questionRepo) {
+                      AI_Question_Repo ai_questionRepo)
+    {
 
         this.ai_userRepo = ai_userRepo;
         this.ai_answerRepo = ai_answerRepo;
         this.ai_questionRepo = ai_questionRepo;
     }
 
-    public AI_Question chatQuestion(AI_Question ai_question) {
-        //AI_Question ai_question = new AI_Question(id, contents);
+    public AI_Question chatQuestion(AI_QuestionDto ai_questionDto) {
+
+        AI_Question ai_question = ai_questionDto.toQuestionEntity(ai_questionDto);
         return ai_questionRepo.save(ai_question);
     }
+
+
 
 }

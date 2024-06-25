@@ -43,7 +43,7 @@ public class AI_UserDto {
 
     // 527
 
-    public static AI_User toEntity(AI_UserDto ai_userDto) {
+    public static AI_User toUserEntity(AI_UserDto ai_userDto) {
         AI_User ai_user = new AI_User();
 
         ai_user.setId(ai_userDto.getId());
@@ -52,7 +52,7 @@ public class AI_UserDto {
         return ai_user;
     }
 
-    public static AI_UserDto toDto(AI_User ai_user) {
+    public static AI_UserDto toUserDto(AI_User ai_user) {
         AI_UserDto ai_userDto = new AI_UserDto(ai_user.getId(),
                                                ai_user.getUsername());
 

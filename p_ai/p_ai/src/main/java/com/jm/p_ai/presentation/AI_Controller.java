@@ -1,6 +1,7 @@
 package com.jm.p_ai.presentation;
 
 import com.jm.p_ai.application.AI_Service;
+import com.jm.p_ai.domain.AI_Answer;
 import com.jm.p_ai.domain.AI_Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,10 +27,15 @@ public class AI_Controller {
     }
 
     @PostMapping("/question")
-    public String question(AI_Question aiQuestion) {
+    public String question(AI_QuestionDto aiQuestionDto) {
 
-        ai_service.chatQuestion(aiQuestion);
+        ai_service.chatQuestion(aiQuestionDto);
         return "redirect:/chat";
+    }
+
+    @PostMapping("/answer")
+    public void answer(AI_Answer aianswer) {
+
     }
 
 }
