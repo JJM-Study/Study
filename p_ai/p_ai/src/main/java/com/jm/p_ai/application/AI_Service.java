@@ -33,9 +33,19 @@ public class AI_Service {
     public AI_Question chatQuestion(AI_QuestionDto ai_questionDto) {
 
         AI_Question ai_question = ai_questionDto.toQuestionEntity(ai_questionDto);
+
         return ai_questionRepo.save(ai_question);
     }
 
+    // 529p 참고해서, Dto -> Entity (저장, 유효성 검사 수행) -> Dto 전환 후 return 하는 거 수행.
 
+    public AI_Answer chatAnswer(AI_AnswerDto ai_answerDto) {
+
+        AI_Answer ai_answer = ai_answerDto.toAnswerEntity(ai_answerDto);
+
+        ai_answerRepo.save(ai_answer);
+
+        return
+    }
 
 }

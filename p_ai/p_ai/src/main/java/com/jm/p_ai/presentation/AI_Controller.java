@@ -3,12 +3,10 @@ package com.jm.p_ai.presentation;
 import com.jm.p_ai.application.AI_Service;
 import com.jm.p_ai.domain.AI_Answer;
 import com.jm.p_ai.domain.AI_Question;
+import org.hibernate.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class AI_Controller {
@@ -27,15 +25,17 @@ public class AI_Controller {
     }
 
     @PostMapping("/question")
-    public String question(AI_QuestionDto aiQuestionDto) {
+    public String question(@RequestBody AI_QuestionDto aiQuestionDto) {
 
         ai_service.chatQuestion(aiQuestionDto);
         return "redirect:/chat";
     }
 
     @PostMapping("/answer")
-    public void answer(AI_Answer aianswer) {
+        public String answer(@RequestBody AI_AnswerDto aianswer) {
 
+        ai_service.chatAnswer(aianswer);
+        return "redirect:/chat";
     }
 
 }
