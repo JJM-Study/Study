@@ -69,4 +69,16 @@ public class AI_AnswerDto {
         return ai_answer;
     }
 
+    public AI_AnswerDto toAnswerDto(AI_Answer ai_answer) {
+        AI_AnswerDto ai_answerDto = new AI_AnswerDto();
+        ai_answerDto.setId(ai_answer.getId());
+        ai_answerDto.setContents(ai_answer.getContents());
+
+        if ( ai_answer.getquestion() != null) {
+            ai_answerDto.setquestionId(ai_answer.getquestion().getId());
+        }
+
+        return ai_answerDto;
+    }
+
 }
