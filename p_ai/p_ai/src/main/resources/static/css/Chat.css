@@ -1,0 +1,27 @@
+#board {
+    background-color: hwb(156 73% 9% / 0.932);
+    width: 100%;
+    height: 40em;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    font-size: 15px;
+    padding:5px;
+}
+
+#send {
+    width: 50px;
+}
+
+#chat_input {
+    display: flex;
+}
+
+textarea {
+    width: 100%;
+    height: 3em;
+    resize: none;
+    font-size: 15px;
+    border: none;
+    background-color:aqua;
+    border-radius: 5px;
+}

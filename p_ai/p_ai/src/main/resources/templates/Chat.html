@@ -1,10 +1,20 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>타임리프 테스트</title>
+    <meta charset="UTF-8">
+    <title>Chat</title>
+    <link th:href="@{/css/Chat.css}" rel="stylesheet">
 </head>
 <body>
-<h1 th:text="'타임리프 테스트 a'"></h1>
+<h1 th:text="'Chat'"></h1>
+    <div id="board">
+        text
+    </div>
 
+    <div id="chat_input">
+        <textarea placeholder="Taking to AI"></textarea>
+
+        <input type="button" id="send">
+    </div>
 </body>
 </html>
