@@ -7,8 +7,15 @@
 </head>
 <body>
 <h1 th:text="'Chat'"></h1>
+    <p th:text="${question != null ? #lists.size(question) : 0}"></p>
     <div id="board">
         text
+        <div class="question" th:each="question : ${question}">       <!-- each를 돌아가며 질문을 하나씩 띄우고, 그 질문 아이디에 딸린 answer의 개수가 2개 이상일 경우, 일단은 답변 1, 답변2 와 같은 식으로 순차대로 띄우도록. -->
+            <p th:text="${question.contents}"></p>
+            <div class = "answer" th:each="answer : ${answer}" >      <!-- question 아이디에 맞는  -->
+              <p th:text="${answer.contents}"></p>
+            </div>
+        </div>
     </div>
 
     <div id="chat_input">
