@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AI_Service {
 
@@ -52,6 +54,18 @@ public class AI_Service {
         AI_AnswerDto aiAnswerDto = ai_answerDto.toAnswerDto(saveAnswer);
 
         return aiAnswerDto;
+    }
+
+    // 단일 책임 원칙 SRP에 따라서 DTO를 처리하기 위한 별도의 메서드 구분.
+
+    public List<AI_Question> view_Question() {
+
+        return ai_questionRepo.findAll();
+    }
+
+    public List<AI_Answer> view_Answer() {
+
+        return ai_answerRepo.findAll();
     }
 
 }

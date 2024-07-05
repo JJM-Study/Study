@@ -63,7 +63,7 @@ public class AI_AnswerDto {
                 if(ai_answerDto.getquestionId() != null) {
                     AI_Question question = ai_question_repo.findById(ai_answerDto.getquestionId()).orElse(null);
 
-                    ai_answer.setquestion(question);
+                    ai_answer.setQuestion(question);
                 }
 
         return ai_answer;
@@ -74,8 +74,8 @@ public class AI_AnswerDto {
         ai_answerDto.setId(ai_answer.getId());
         ai_answerDto.setContents(ai_answer.getContents());
 
-        if ( ai_answer.getquestion() != null) {
-            ai_answerDto.setquestionId(ai_answer.getquestion().getId());
+        if ( ai_answer.getQuestion() != null) {
+            ai_answerDto.setquestionId(ai_answer.getQuestion().getId());
         }
 
         return ai_answerDto;

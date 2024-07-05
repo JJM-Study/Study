@@ -6,7 +6,10 @@ import com.jm.p_ai.domain.AI_Question;
 import org.hibernate.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 public class AI_Controller {
@@ -19,8 +22,14 @@ public class AI_Controller {
     }
 
     @GetMapping("/chat")
-    public String chatView()
+    public String chatView(Model model)
     {
+        List<AI_Question> ai_question = ai_service.view_Question();
+        List<AI_Answer> ai_answers = ai_service.view_Answer();
+
+        model.addAttribute("question", ai_question);
+        model.addAttribute("answer", ai_answers);
+
         return "Chat";
     }
 

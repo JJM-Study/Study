@@ -45,11 +45,11 @@ public class AI_Answer {
         this.contents = contents;
     }
 
-    public AI_Question getquestion() {
+    public AI_Question getQuestion() {
         return question;
     }
 
-    public void setquestion(AI_Question question) {
+    public void setQuestion(AI_Question question) {
         this.question = question;
     }
 }
