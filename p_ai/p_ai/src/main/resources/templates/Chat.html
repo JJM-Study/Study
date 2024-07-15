@@ -11,17 +11,16 @@
     <div id="board">
         text
         <div class="question" th:each="question : ${question}">       <!-- each를 돌아가며 질문을 하나씩 띄우고, 그 질문 아이디에 딸린 answer의 개수가 2개 이상일 경우, 일단은 답변 1, 답변2 와 같은 식으로 순차대로 띄우도록. -->
-            <p th:text="${question.contents}"></p>
+            <p class="question_p" th:text="${question.contents}"></p>
             <div class = "answer" th:each="answer : ${answer}" th:if="${answer.question.id == question.id}">      <!-- question 아이디에 맞는  -->
-              <p th:text="${answer.contents}"></p>
+              <p class="answer_p" th:text="${answer.contents}"></p>
             </div>
         </div>
     </div>
-
-    <div id="chat_input">
-        <textarea placeholder="Taking to AI"></textarea>
-
-        <input type="button" id="send">
-    </div>
+        <div id="chat_input">
+            <textarea class="a_TextBox" placeholder="Talking to AI"></textarea>
+            <button type="button" id="send">SEND</button>
+        </div>
+    <script type="text/javascript" th:src="@{/js/Chat.js}"></script>
 </body>
 </html>
