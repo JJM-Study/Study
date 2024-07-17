@@ -5,10 +5,13 @@ import com.jm.p_ai.domain.AI_Answer;
 import com.jm.p_ai.domain.AI_Question;
 import org.hibernate.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -33,18 +36,26 @@ public class AI_Controller {
         return "Chat";
     }
 
-    @PostMapping("/question")
-    public String question(@RequestBody AI_QuestionDto aiQuestionDto) {
-
-        ai_service.chatQuestion(aiQuestionDto);
-        return "redirect:/chat";
-    }
+//    @PostMapping("/question") MessageMapping 대신 사용. (만약 http 기반 API 호출을 원할 경우 주석 해제해서 사용.)
+//    public String question(@RequestBody AI_QuestionDto aiQuestionDto) {
+//
+//        ai_service.chatQuestion(aiQuestionDto);
+//        return "redirect:/chat";
+//    }
 
     @PostMapping("/answer")
         public String answer(@RequestBody AI_AnswerDto aianswer) {
 
         ai_service.chatAnswer(aianswer);
         return "redirect:/chat";
+    }
+
+    @MessageMapping("/question")
+    public void handleQuestion(AI_QuestionDto ai_questionDto, Principal principal) {
+
+        AI_QuestionDto question = ai_service.chatQuestion(ai_questionDto);
+        
+
     }
 
 }
