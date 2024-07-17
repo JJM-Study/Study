@@ -6,6 +6,7 @@ import com.jm.p_ai.domain.AI_Question;
 import org.hibernate.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +18,11 @@ import java.util.List;
 @Controller
 public class AI_Controller {
 
+    @Autowired
     private AI_Service ai_service;
+
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
 
     @Autowired
     public AI_Controller(AI_Service ai_service) {
@@ -51,10 +56,11 @@ public class AI_Controller {
     }
 
     @MessageMapping("/question")
-    public void handleQuestion(AI_QuestionDto ai_questionDto, Principal principal) {
+    public String handleQuestion(AI_QuestionDto ai_questionDto, Principal principal) {
 
         AI_QuestionDto question = ai_service.chatQuestion(ai_questionDto);
-        
+
+
 
     }
 
