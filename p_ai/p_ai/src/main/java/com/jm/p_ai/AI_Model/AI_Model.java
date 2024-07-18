@@ -1,7 +1,10 @@
 package com.jm.p_ai.AI_Model;
 
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 
+@Component
 public class AI_Model {
     public List<String> getMultipleAnswers(String question) {
         // 실제 AI 모델을 호출하여 여러 개의 답변을 생성하는 로직

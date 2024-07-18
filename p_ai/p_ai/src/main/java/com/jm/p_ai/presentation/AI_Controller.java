@@ -48,19 +48,23 @@ public class AI_Controller {
 //        return "redirect:/chat";
 //    }
 
-    @PostMapping("/answer")
-        public String answer(@RequestBody AI_AnswerDto aianswer) {
-
-        ai_service.chatAnswer(aianswer);
-        return "redirect:/chat";
-    }
+//    @PostMapping("/answer")
+//        public String answer(@RequestBody AI_AnswerDto aianswer) {
+//
+//        ai_service.chatAnswer(aianswer);
+//        return "redirect:/chat";
+//    }
 
     @MessageMapping("/question")
-    public String handleQuestion(AI_QuestionDto ai_questionDto, Principal principal) {
+    public void handleQuestion(AI_QuestionDto ai_questionDto, Principal principal) {
         // 각 답변을 클라이언트에게 전송
-        answerDtos.forEach(answerDto ->
-                messagingTemplate.convertAndSendToUser(principal.getName(), "/queue/answers", answerDto)
 
+        List<AI_AnswerDto> ai_answerDtos = ai_service.chatQuestion(ai_questionDto);
+
+
+        ai_answerDtos.forEach(answerDto ->
+                messagingTemplate.convertAndSendToUser(principal.getName(), "/queue/answers", answerDto)
+        );
 
     }
 

@@ -49,16 +49,17 @@ public class AI_Service {
 
         AI_Question savedQuestion = ai_questionRepo.save(ai_question);
 
-        List<String> answerContetns = ai_model.getMultipleAnswers(ai_questionDto.getContents()); // 해당 매서드 구현 후 주석 풀 것.
+        List<String> answerContents = ai_model.getMultipleAnswers(ai_questionDto.getContents()); // 해당 매서드 구현 후 주석 풀 것.
 
         // 생성된 답변들을 저장
-        List<AI_Answer> savedAnswers = answerContetns.stream()
+        List<AI_Answer> savedAnswers = answerContents.stream()
                 .map(contents -> {
                 AI_Answer ai_answer = new AI_Answer();
                 ai_answer.setQuestion(savedQuestion);
                 ai_answer.setContents(contents);
                 return ai_answerRepo.save(ai_answer);
-        }).collect(Collectors.toList());
+        })
+                .collect(Collectors.toList());
 
         // 답변 엔티티들을 DTO로 변환
         List<AI_AnswerDto> ai_answerDtos = savedAnswers.stream()
@@ -66,7 +67,8 @@ public class AI_Service {
                     AI_AnswerDto ai_answerDto = new AI_AnswerDto();
                     ai_answerDto.setContents(ai_answer.getContents());
                     return ai_answerDto;
-                }).collect(Collectors.toList());
+                })
+                .collect(Collectors.toList());
 
         return ai_answerDtos;
     }
