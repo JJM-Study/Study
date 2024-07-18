@@ -57,9 +57,9 @@ public class AI_Controller {
 
     @MessageMapping("/question")
     public String handleQuestion(AI_QuestionDto ai_questionDto, Principal principal) {
-
-        AI_QuestionDto question = ai_service.chatQuestion(ai_questionDto);
-
+        // 각 답변을 클라이언트에게 전송
+        answerDtos.forEach(answerDto ->
+                messagingTemplate.convertAndSendToUser(principal.getName(), "/queue/answers", answerDto)
 
 
     }
