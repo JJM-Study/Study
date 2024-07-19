@@ -9,7 +9,7 @@
 }
 
 .question {
-    background-color: skyblue;
+
 }
 
 #send {
@@ -18,6 +18,14 @@
 
 #chat_input {
     display: flex;
+}
+
+.question_p {
+    text-align: right;
+}
+
+.answer_p {
+    background: skyblue;
 }
 
 textarea {
