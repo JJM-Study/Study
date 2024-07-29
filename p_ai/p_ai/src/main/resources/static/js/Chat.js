@@ -27,12 +27,11 @@
 //  });
 //});
 
-
-
+document.addEventListener("DOMContentLoaded", function() {
 
 
 // Websocket 연결 및 STOMP 클라이언트 설정
-var socket = new SockJS('/ws');
+var socket = new SockJS('/chat-ws');
 var stompClient = Stomp.over(socket);
 
 stompClient.connect({}, function(frame) {
@@ -40,14 +39,14 @@ stompClient.connect({}, function(frame) {
 
     // 질문에 대한 답변을 받을 때의 처리
     stompClient.subscribe('/user/queue/answers', function(message) {
-        var answer = JOSN.parse(message.body);
+        var answer = JSON.parse(message.body);
         showAnswer(answer);
     });
 });
 
 document.getElementById('send').addEventListener('click', function() {
     var questionInput = document.getElementById('questionInput');
-    var question = question.value;
+    var question = questionInput.value;
     if (question) {
         sendQuestion(question);
         questionInput.value = ''; // 질문 전송 후 입력 필드 비우기
@@ -55,24 +54,34 @@ document.getElementById('send').addEventListener('click', function() {
 });
 
 function sendQuestion(question) {
-    
+    stompClient.send("/app/question", {}, JSON.stringify({'contents' : question}));
 }
 
-var answer = JSON.parse(messg);
+function showAnswer(answer) {
 
 
+    // 'answer' 요소들을 선택
+    var answers = document.getElementsByClassName('answer');
 
+    for (var i = 0; i < answers.length; i++) { 
+        var answerContainer = answers[i];
 
-stompClient.connect({}, function (frame) {
-    setConnected(true);
-    console.log('Connected:' + frame);
-    stompClient.subscribe('/user/queue/answers', function (message) {
-            console.log('Received:', JSON.parse(message.body));
-        });
-    });
+        // data-question-id 속성에 접근
+        var questionId = answerContainer.dataset.questionId;
 
-    // 질문을 서버에 보내는 함수
-    function saveQuestion(question) {
-        stompClient.send("/app/question", {}, JSON.stringify(question));
+        // 답변의 질문 ID와 일치하는지 확인
+        if (questionId == answer.question.id) {
+            var answerElement = document.createElement('p');
+            answerElement.className = 'answer_p';
+            answerElement.textContent = answer.contents;
+            
+            answerContainer.appendChild(answerElement);
+            break;
+        }
 
+    }
 }
+
+
+
+});
