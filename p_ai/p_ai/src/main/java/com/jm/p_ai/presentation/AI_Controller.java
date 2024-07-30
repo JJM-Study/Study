@@ -18,15 +18,14 @@ import java.util.List;
 @Controller
 public class AI_Controller {
 
-    @Autowired
-    private AI_Service ai_service;
+    private final AI_Service ai_service;
+    private final SimpMessagingTemplate simpMessagingTemplate;
 
     @Autowired
-    private SimpMessagingTemplate messagingTemplate;
-
-    @Autowired
-    public AI_Controller(AI_Service ai_service) {
+    public AI_Controller(AI_Service ai_service, SimpMessagingTemplate simpMessagingTemplate)
+    {
         this.ai_service = ai_service;
+        this.simpMessagingTemplate = simpMessagingTemplate;
     }
 
     @GetMapping("/chat")
@@ -63,7 +62,7 @@ public class AI_Controller {
 
 
         ai_answerDtos.forEach(answerDto ->
-                messagingTemplate.convertAndSendToUser(principal.getName(), "/queue/answers", answerDto)
+                simpMessagingTemplate.convertAndSendToUser(principal.getName(), "/queue/answers", answerDto)
         );
 
     }
