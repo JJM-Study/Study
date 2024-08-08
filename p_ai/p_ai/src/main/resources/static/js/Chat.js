@@ -44,6 +44,7 @@ stompClient.connect({}, function(frame) {
     stompClient.subscribe('/user/queue/answers', function(message) {
         var answer = JSON.parse(message.body);
         showAnswer(answer);
+
     });
 
     }, function(error) {
@@ -56,6 +57,9 @@ document.getElementById('send').addEventListener('click', function() {
     if (question) {
         sendQuestion(question);
         questionInput.value = ''; // 질문 전송 후 입력 필드 비우기
+
+
+        showQuestion();
     }
 });
 
@@ -63,6 +67,30 @@ function sendQuestion(question) {
     stompClient.send("/app/question", {}, JSON.stringify({'contents' : question}));
 }
 
+
+// 2024 08 08 진행 중 ...
+
+// 질문 Display
+function showQuestion() {
+    var questionContainer = document.getElementById('questions');
+    var questionElement = document.createElement('div');
+
+
+    questionContainer.className = 'question';
+    questionElement.innerHTML = `<p class="question_p">${question.contents}</p><div class="answer" data-question-id="${question.id}"></div>`;
+
+
+
+    questionContainer.appendChild(questionElement);
+
+    if (boardScroll) {
+        boardScroll.scrollTop = boardScroll.scrollHeight;
+    }
+
+}
+
+
+// 답변 Display
 function showAnswer(answer) {
 
 
@@ -84,13 +112,15 @@ function showAnswer(answer) {
             answerContainer.appendChild(answerElement);
 
             break;
-        }
+         }
 
+
+        }
     }
-}
 
     if (boardScroll) {      // 로드 시 스크롤바 아래로 내리도록 함. 나중에 글 추가될 때 마다 스크롤바가 내려가도록 수정할 것.
         boardScroll.scrollTop = boardScroll.scrollHeight;
     }
+
 
 });
