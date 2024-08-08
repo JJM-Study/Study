@@ -6,6 +6,8 @@ import com.jm.p_ai.domain.AI_Question;
 import org.hibernate.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
@@ -55,14 +57,19 @@ public class AI_Controller {
 //    }
 
     @MessageMapping("/question")
-    public void handleQuestion(AI_QuestionDto ai_questionDto, Principal principal) {
+    //public void handleQuestion(AI_QuestionDto ai_questionDto, Principal principal) {
+    public void handleQuestion(AI_QuestionDto ai_questionDto, Principal principal, SimpMessageHeaderAccessor headerAccessor) {
         // 각 답변을 클라이언트에게 전송
+
+        String username = ( principal != null ) ? principal.getName() : "anonymous";
+        System.out.println("User : " + username);
 
         List<AI_AnswerDto> ai_answerDtos = ai_service.chatQuestion(ai_questionDto);
 
 
         ai_answerDtos.forEach(answerDto ->
-                simpMessagingTemplate.convertAndSendToUser(principal.getName(), "/queue/answers", answerDto)
+                //simpMessagingTemplate.convertAndSendToUser(principal.getName(), "/queue/answers", answerDto)
+                simpMessagingTemplate.convertAndSendToUser(username, "/queue/answers", answerDto)
         );
 
     }

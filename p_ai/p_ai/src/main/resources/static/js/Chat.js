@@ -27,12 +27,15 @@
 //  });
 //});
 
+
+
 document.addEventListener("DOMContentLoaded", function() {
 
 
 // Websocket 연결 및 STOMP 클라이언트 설정
 var socket = new SockJS('/chat-ws');
 var stompClient = Stomp.over(socket);
+var boardScroll = document.getElementById('board'); // 질문 답변 div의 스크롤바
 
 stompClient.connect({}, function(frame) {
     console.log('connected: ' + frame);
@@ -42,7 +45,10 @@ stompClient.connect({}, function(frame) {
         var answer = JSON.parse(message.body);
         showAnswer(answer);
     });
-});
+
+    }, function(error) {
+       console.error('STOMP connection error: ', error);
+    });
 
 document.getElementById('send').addEventListener('click', function() {
     var questionInput = document.getElementById('questionInput');
@@ -76,12 +82,15 @@ function showAnswer(answer) {
             answerElement.textContent = answer.contents;
             
             answerContainer.appendChild(answerElement);
+
             break;
         }
 
     }
 }
 
-
+    if (boardScroll) {      // 로드 시 스크롤바 아래로 내리도록 함. 나중에 글 추가될 때 마다 스크롤바가 내려가도록 수정할 것.
+        boardScroll.scrollTop = boardScroll.scrollHeight;
+    }
 
 });

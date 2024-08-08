@@ -1,4 +1,4 @@
-package com.jm.p_ai.presentation;
+package com.jm.p_ai.config;
 
 
 import org.springframework.context.annotation.Configuration;
@@ -22,5 +22,4 @@ public class WebSocketStompConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/chat-ws").setAllowedOriginPatterns("*").withSockJS();
     }
-
 }
