@@ -107,7 +107,7 @@ function showQuestion(question) {
    var questionElement = document.createElement('div');
 
    questionContainer.className = 'question';
-   questionElement.innerHTML = `<p class="question_p">${question.contents}</p><div class="answer" data-question-id="` + question + `"></div>`;
+   questionElement.innerHTML = `<p class="question_p">` + question + `</p><div class="answer"></div>`;
 
    questionContainer.appendChild(questionElement);
 
