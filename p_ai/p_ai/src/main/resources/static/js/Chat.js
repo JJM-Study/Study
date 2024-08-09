@@ -40,9 +40,30 @@ var boardScroll = document.getElementById('board'); // 질문 답변 div의 스�
 stompClient.connect({}, function(frame) {
     console.log('connected: ' + frame);
 
+
+     // 질문 Send
+    stompClient.subscribe('/user/queue/question', function(message) {
+        var question = null;
+
+        if (message.body) {
+            try {
+                question = JSON.parse(message.body);
+            }
+            catch {
+                console.error("Error parsing JSON:",e);
+            }
+        }
+
+        // question이 null이 아니면 showQuestion 호출
+        if (question) {
+            showQuestion(question);
+        }
+    });
+
     // 질문에 대한 답변을 받을 때의 처리
     stompClient.subscribe('/user/queue/answers', function(message) {
         var answer = JSON.parse(message.body);
+
         showAnswer(answer);
 
     });
@@ -51,6 +72,16 @@ stompClient.connect({}, function(frame) {
        console.error('STOMP connection error: ', error);
     });
 
+//    // 저장 성공 메세지 수신
+//    stompClient.subscribe('/user/queue/success/question', function(message) {
+//        var qs_sucess = message.body;
+//        confirm.log(qs_sucess);
+//
+//
+//
+//    });
+
+
 document.getElementById('send').addEventListener('click', function() {
     var questionInput = document.getElementById('questionInput');
     var question = questionInput.value;
@@ -58,36 +89,39 @@ document.getElementById('send').addEventListener('click', function() {
         sendQuestion(question);
         questionInput.value = ''; // 질문 전송 후 입력 필드 비우기
 
-
-        showQuestion();
+        //showQuestion();
     }
 });
 
 function sendQuestion(question) {
     stompClient.send("/app/question", {}, JSON.stringify({'contents' : question}));
+
 }
 
 
 // 2024 08 08 진행 중 ...
 
 // 질문 Display
-function showQuestion() {
-    var questionContainer = document.getElementById('questions');
-    var questionElement = document.createElement('div');
+function showQuestion(question) {
+   var questionContainer = document.getElementById('question');
+   var questionElement = document.createElement('div');
+
+   questionContainer.className = 'question';
+   questionElement.innerHTML = `<p class="question_p">${question.contents}</p><div class="answer" data-question-id="` + question + `"></div>`;
+
+   questionContainer.appendChild(questionElement);
 
 
-    questionContainer.className = 'question';
-    questionElement.innerHTML = `<p class="question_p">${question.contents}</p><div class="answer" data-question-id="${question.id}"></div>`;
 
-
-
-    questionContainer.appendChild(questionElement);
-
-    if (boardScroll) {
-        boardScroll.scrollTop = boardScroll.scrollHeight;
-    }
+   if (boardScroll) {
+       boardScroll.scrollTop = boardScroll.scrollHeight;
+   }
 
 }
+
+// 저장 성공 질문 수신
+
+
 
 
 // 답변 Display
