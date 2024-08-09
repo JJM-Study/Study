@@ -66,14 +66,11 @@ public class AI_Controller {
 
         List<AI_AnswerDto> ai_answerDtos = ai_service.chatQuestion(ai_questionDto);
 
-        simpMessagingTemplate.convertAndSendToUser(username, "/queue/question", ai_questionDto);
 
-        ai_answerDtos.forEach(answerDto -> {
-            //simpMessagingTemplate.convertAndSendToUser(principal.getName(), "/queue/answers", answerDto)
-            simpMessagingTemplate.convertAndSendToUser(username, "/queue/answers", answerDto);
-
-            //simpMessagingTemplate.convertAndSendToUser(username, "/queue/success/question", "Question saved successfully!"); // 메세지 DB 저장 성공 여부를 클라이언트에 전달하기 위함.
-        });
+        ai_answerDtos.forEach(answerDto ->
+                //simpMessagingTemplate.convertAndSendToUser(principal.getName(), "/queue/answers", answerDto)
+                simpMessagingTemplate.convertAndSendToUser(username, "/queue/answers", answerDto)
+        );
 
     }
 
