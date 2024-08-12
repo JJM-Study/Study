@@ -43,21 +43,18 @@ stompClient.connect({}, function(frame) {
 
      // 질문 Send
     stompClient.subscribe('/user/queue/question', function(message) {
-        var question = null;
 
-        if (message.body) {
+    var question = JSON.parse(message.body);
+    console.Log('question test');
+    if (question && question.contents) {
             try {
-                question = JSON.parse(message.body);
-            }
-            catch {
-                console.error("Error parsing JSON:",e);
-            }
-        }
+                 showQuestion(question);
 
-        // question이 null이 아니면 showQuestion 호출
-        if (question) {
-            showQuestion(question);
-        }
+            } catch (e) {
+                 console.error('Error parsing message:', e);
+            }
+       }
+
     });
 
     // 질문에 대한 답변을 받을 때의 처리
@@ -107,7 +104,10 @@ function showQuestion(question) {
    var questionElement = document.createElement('div');
 
    questionContainer.className = 'question';
-   questionElement.innerHTML = `<p class="question_p">` + question + `</p><div class="answer"></div>`;
+   ///questionElement.innerHTML = `<p class="question_p">` + question + `</p><div class="answer"></div>`;
+   questionElement.innerHTML = `<p class="question_p">` + 'TEST' + `</p><div class="answer"></div>`;
+   //questionElement.innerHTML = `<p class="question_p" th:text="asdsadada"></p>`;
+
 
    questionContainer.appendChild(questionElement);
 

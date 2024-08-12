@@ -26,6 +26,7 @@ dependencies {
 
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	implementation 'org.springframework:spring-messaging:6.1.11'
+	implementation 'org.springframework:spring-websocket:6.1.11'
 
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.security:spring-security-config:6.3.1'
