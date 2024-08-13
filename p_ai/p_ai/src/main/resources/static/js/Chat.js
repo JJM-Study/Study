@@ -1,34 +1,3 @@
-//document.getElementById('send').addEventListener('click', function(event) {
-//event.preventDefault();
-//
-//var contents = document.querySelector('.a_TextBox').value;
-//
-//var data = {
-//  contents: contents
-//};
-//
-//fetch('/question', {
-//  method: 'POST',
-//  headers: {
-//      "Content-Type": "application/json",
-//  },
-//  body: JSON.stringify(data)
-//})
-//.then(response => {
-//  if (response.ok) {
-//      alert(contents); // For Test
-//      window.location.href = '/chat';
-//  } else {
-//      alert('Error submitting the question');
-//  }
-//  })
-//  .catch(error => {
-//    console.error('Error:', error);
-//  });
-//});
-
-
-
 document.addEventListener("DOMContentLoaded", function() {
 
 
@@ -38,14 +7,14 @@ var stompClient = Stomp.over(socket);
 var boardScroll = document.getElementById('board'); // 질문 답변 div의 스크롤바
 
 stompClient.connect({}, function(frame) {
-    console.log('connected: ' + frame);
+    console.log('Socket connected: ' + frame);
 
-
-     // 질문 Send
-    stompClient.subscribe('/user/queue/question', function(message) {
-
+    // 질문 Send
+    //stompClient.subscribe('/user/queue/question', function(message) {
+    stompClient.subscribe('/user/queue/question/confirmation', function(message) {
     var question = JSON.parse(message.body);
-    console.Log('question test');
+    console.log('Received confirmation:', question);
+
     if (question && question.contents) {
             try {
                  showQuestion(question);
@@ -66,17 +35,8 @@ stompClient.connect({}, function(frame) {
     });
 
     }, function(error) {
-       console.error('STOMP connection error: ', error);
+       console.log('STOMP connection error: ', error);
     });
-
-//    // 저장 성공 메세지 수신
-//    stompClient.subscribe('/user/queue/success/question', function(message) {
-//        var qs_sucess = message.body;
-//        confirm.log(qs_sucess);
-//
-//
-//
-//    });
 
 
 document.getElementById('send').addEventListener('click', function() {

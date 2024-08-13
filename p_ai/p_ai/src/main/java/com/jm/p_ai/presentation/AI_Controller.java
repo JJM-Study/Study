@@ -3,6 +3,7 @@ package com.jm.p_ai.presentation;
 import com.jm.p_ai.application.AI_Service;
 import com.jm.p_ai.domain.AI_Answer;
 import com.jm.p_ai.domain.AI_Question;
+import jakarta.validation.constraints.Null;
 import org.hibernate.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -21,6 +22,7 @@ import java.util.List;
 public class AI_Controller {
 
     private final AI_Service ai_service;
+
     private final SimpMessagingTemplate simpMessagingTemplate;
 
     @Autowired
@@ -61,16 +63,26 @@ public class AI_Controller {
     public void handleQuestion(AI_QuestionDto ai_questionDto, Principal principal, SimpMessageHeaderAccessor headerAccessor) {
         // 각 답변을 클라이언트에게 전송
 
-        String username = ( principal != null ) ? principal.getName() : "anonymous";
+        //String username = ( principal != null ) ? principal.getName() : "anonymous"; 2024/08/13 주석
+        if (principal == null || principal.getName() == null) {
+            throw new IllegalArgumentException("User is not authenticated");
+        }
+
+
+        String username = principal.getName();
         System.out.println("User : " + username);
 
         List<AI_AnswerDto> ai_answerDtos = ai_service.chatQuestion(ai_questionDto);
 
-        simpMessagingTemplate.convertAndSendToUser(username, "/queue/question", ai_questionDto);
+
+        //simpMessagingTemplate.convertAndSendToUser(username, "/user/queue/question", ai_questionDto);
+
+        System.out.println("Sending confimration to user : " + username);
+        this.simpMessagingTemplate.convertAndSendToUser(username, "/queue/question/confirmation", ai_questionDto);
 
         ai_answerDtos.forEach(answerDto -> {
             //simpMessagingTemplate.convertAndSendToUser(principal.getName(), "/queue/answers", answerDto)
-            simpMessagingTemplate.convertAndSendToUser(username, "/queue/answers", answerDto);
+            this.simpMessagingTemplate.convertAndSendToUser(username, "/queue/answers", answerDto);
 
             //simpMessagingTemplate.convertAndSendToUser(username, "/queue/success/question", "Question saved successfully!"); // 메세지 DB 저장 성공 여부를 클라이언트에 전달하기 위함.
         });
