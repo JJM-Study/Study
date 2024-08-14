@@ -60,10 +60,11 @@ function sendQuestion(question) {
 
 // 질문 Display
 function showQuestion(question) {
-   var questionContainer = document.getElementById('question');
+   var questionContainer = document.getElementById('questions');
    var questionElement = document.createElement('div');
 
-   questionContainer.className = 'question';
+   questionContainer.appendChild(questionElement);
+   questionElement.className = 'question';
    ///questionElement.innerHTML = `<p class="question_p">` + question + `</p><div class="answer"></div>`;
    questionElement.innerHTML = `<p class="question_p">` + 'TEST' + `</p><div class="answer"></div>`;
    //questionElement.innerHTML = `<p class="question_p" th:text="asdsadada"></p>`;
