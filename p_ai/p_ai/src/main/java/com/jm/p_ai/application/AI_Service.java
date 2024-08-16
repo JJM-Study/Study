@@ -42,23 +42,59 @@ public class AI_Service {
 
     // --- 이하 소켓 통신으로 바꾸는 중 ... --- //
 
+//// 2024/08/14 질문과 답변 생성을 분리 중...
+//    public List<AI_AnswerDto> chatQuestion(AI_QuestionDto ai_questionDto) {
+//        // 질문을 엔티티 변환하여 데이터베이스에 저장
+//        AI_Question ai_question = ai_questionDto.toQuestionEntity(ai_questionDto);
+//
+//        AI_Question savedQuestion = ai_questionRepo.save(ai_question);
+//
+//        List<String> answerContents = ai_model.getMultipleAnswers(ai_questionDto.getContents()); // 해당 매서드 구현 후 주석 풀 것.
+//
+//        // 생성된 답변들을 저장
+//        List<AI_Answer> savedAnswers = answerContents.stream()
+//                .map(contents -> {
+//                AI_Answer ai_answer = new AI_Answer();
+//                ai_answer.setQuestion(savedQuestion);
+//                ai_answer.setContents(contents);
+//                return ai_answerRepo.save(ai_answer);
+//        })
+//                .collect(Collectors.toList());
+//
+//        // 답변 엔티티들을 DTO로 변환
+//        List<AI_AnswerDto> ai_answerDtos = savedAnswers.stream()
+//                .map(ai_answer -> {
+//                    AI_AnswerDto ai_answerDto = new AI_AnswerDto();
+//                    ai_answerDto.setContents(ai_answer.getContents());
+//                    return ai_answerDto;
+//                })
+//                .collect(Collectors.toList());
+//
+//        return ai_answerDtos;
+//    }
 
-    public List<AI_AnswerDto> chatQuestion(AI_QuestionDto ai_questionDto) {
+    public Long handleQuestion(AI_QuestionDto ai_questionDto) {
         // 질문을 엔티티 변환하여 데이터베이스에 저장
         AI_Question ai_question = ai_questionDto.toQuestionEntity(ai_questionDto);
 
         AI_Question savedQuestion = ai_questionRepo.save(ai_question);
 
-        List<String> answerContents = ai_model.getMultipleAnswers(ai_questionDto.getContents()); // 해당 매서드 구현 후 주석 풀 것.
+        return savedQuestion.getId();
+
+    }
+
+    public List<AI_AnswerDto> handleAnswer(AI_Question ai_question, Long questionId) {
+
+        List<String> answerContents = ai_model.getMultipleAnswers(ai_question.getContents()); // 해당 매서드 구현 후 주석 풀 것.
 
         // 생성된 답변들을 저장
         List<AI_Answer> savedAnswers = answerContents.stream()
                 .map(contents -> {
-                AI_Answer ai_answer = new AI_Answer();
-                ai_answer.setQuestion(savedQuestion);
-                ai_answer.setContents(contents);
-                return ai_answerRepo.save(ai_answer);
-        })
+                    AI_Answer ai_answer = new AI_Answer();
+                    ai_answer.setQuestion(new AI_Question() );
+                    ai_answer.setContents(contents);
+                    return ai_answerRepo.save(ai_answer);
+                })
                 .collect(Collectors.toList());
 
         // 답변 엔티티들을 DTO로 변환
@@ -72,6 +108,7 @@ public class AI_Service {
 
         return ai_answerDtos;
     }
+
 //    public AI_QuestionDto chatQuestion(AI_QuestionDto ai_questionDto) {
 //
 //        AI_Question ai_question = ai_questionDto.toQuestionEntity(ai_questionDto);

@@ -63,16 +63,14 @@ function showQuestion(question) {
    var questionContainer = document.getElementById('questions');
    var questionElement = document.createElement('div');
 
+
    questionContainer.appendChild(questionElement);
    questionElement.className = 'question';
    ///questionElement.innerHTML = `<p class="question_p">` + question + `</p><div class="answer"></div>`;
-   questionElement.innerHTML = `<p class="question_p">` + 'TEST' + `</p><div class="answer"></div>`;
-   //questionElement.innerHTML = `<p class="question_p" th:text="asdsadada"></p>`;
+   questionElement.innerHTML = `<p class="question_p">` + question + `</p>`;
 
 
    questionContainer.appendChild(questionElement);
-
-
 
    if (boardScroll) {
        boardScroll.scrollTop = boardScroll.scrollHeight;
@@ -91,6 +89,7 @@ function showAnswer(answer) {
 
     // 'answer' 요소들을 선택
     var answers = document.getElementsByClassName('answer');
+    //var qsId = document.getElementsByClassName('question_p');
 
     for (var i = 0; i < answers.length; i++) { 
         var answerContainer = answers[i];
@@ -100,6 +99,7 @@ function showAnswer(answer) {
 
         // 답변의 질문 ID와 일치하는지 확인
         if (questionId == answer.question.id) {
+
             var answerElement = document.createElement('p');
             answerElement.className = 'answer_p';
             answerElement.textContent = answer.contents;

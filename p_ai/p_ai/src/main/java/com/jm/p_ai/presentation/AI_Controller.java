@@ -72,7 +72,9 @@ public class AI_Controller {
         String username = principal.getName();
         System.out.println("User : " + username);
 
-        List<AI_AnswerDto> ai_answerDtos = ai_service.chatQuestion(ai_questionDto);
+        Long questionId = ai_service.handleQuestion(ai_questionDto);
+
+        List<AI_AnswerDto> ai_answerDtos = ai_service.handleAnswer(AI_Question ai_question, questionId);
 
 
         //simpMessagingTemplate.convertAndSendToUser(username, "/user/queue/question", ai_questionDto);
