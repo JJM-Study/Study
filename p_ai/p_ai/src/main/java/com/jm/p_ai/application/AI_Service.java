@@ -79,19 +79,25 @@ public class AI_Service {
 
         AI_Question savedQuestion = ai_questionRepo.save(ai_question);
 
-        return savedQuestion.getId();
+        ai_questionDto = ai_questionDto.toQuestionDto(savedQuestion); // Dto 변환이 안 되면 없앨 것.
+
+        //return savedQuestion.getId();
+        return ai_questionDto.getId();
 
     }
 
-    public List<AI_AnswerDto> handleAnswer(AI_Question ai_question, Long questionId) {
+    public List<AI_AnswerDto> handleAnswer(AI_QuestionDto ai_questionDto, Long questionId) {
+        // 질문 ID로 AI_Question 엔티티 조회 . 2024/08/16 추가
+        AI_Question question = ai_questionRepo.findById(questionId).orElseThrow(() -> new IllegalArgumentException("Invalid question ID: " + questionId));
 
-        List<String> answerContents = ai_model.getMultipleAnswers(ai_question.getContents()); // 해당 매서드 구현 후 주석 풀 것.
+        // 모델을 통해 생성된 답변 리스트를 가져온다.
+        List<String> answerContents = ai_model.getMultipleAnswers(ai_questionDto.getContents()); // 해당 매서드 구현 후 주석 풀 것.
 
         // 생성된 답변들을 저장
         List<AI_Answer> savedAnswers = answerContents.stream()
                 .map(contents -> {
                     AI_Answer ai_answer = new AI_Answer();
-                    ai_answer.setQuestion(new AI_Question() );
+                    ai_answer.setQuestion(question);
                     ai_answer.setContents(contents);
                     return ai_answerRepo.save(ai_answer);
                 })
@@ -102,6 +108,7 @@ public class AI_Service {
                 .map(ai_answer -> {
                     AI_AnswerDto ai_answerDto = new AI_AnswerDto();
                     ai_answerDto.setContents(ai_answer.getContents());
+                    ai_answerDto.setquestionId(ai_answer.getQuestion().getId()); // 질문 ID를 포함
                     return ai_answerDto;
                 })
                 .collect(Collectors.toList());

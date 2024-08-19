@@ -74,8 +74,7 @@ public class AI_Controller {
 
         Long questionId = ai_service.handleQuestion(ai_questionDto);
 
-        List<AI_AnswerDto> ai_answerDtos = ai_service.handleAnswer(AI_Question ai_question, questionId);
-
+        List<AI_AnswerDto> ai_answerDtos = ai_service.handleAnswer(ai_questionDto, questionId);
 
         //simpMessagingTemplate.convertAndSendToUser(username, "/user/queue/question", ai_questionDto);
 
@@ -84,9 +83,11 @@ public class AI_Controller {
 
         ai_answerDtos.forEach(answerDto -> {
             //simpMessagingTemplate.convertAndSendToUser(principal.getName(), "/queue/answers", answerDto)
+            System.out.println(answerDto.getquestionId());
             this.simpMessagingTemplate.convertAndSendToUser(username, "/queue/answers", answerDto);
 
             //simpMessagingTemplate.convertAndSendToUser(username, "/queue/success/question", "Question saved successfully!"); // 메세지 DB 저장 성공 여부를 클라이언트에 전달하기 위함.
+
         });
 
     }
