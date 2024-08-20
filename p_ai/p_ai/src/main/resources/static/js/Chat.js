@@ -108,6 +108,11 @@ function showAnswer(answer) {
 
         questionElement.appendChild(answerContainer);
         answerContainer.appendChild(answerElement);
+
+        if(boardScroll) {
+            boardScroll.scrollTop = boardScroll.scrollHeight;
+        }
+
 //    }
  // }
  }
