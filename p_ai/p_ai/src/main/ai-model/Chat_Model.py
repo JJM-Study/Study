@@ -34,16 +34,26 @@ class LeaningAI:
          if questions_response.status_code == 200 and answers_response.status_code == 200:
             self.questions = [q['content'] for q in questions_response.json()]
             self.answers = [a['content'] for a in answers_response.json()]
+         else:
+            raise Exception("Failed to fetch data from API")
+      except requests.exceptions.RequestException as e:
+            print(f"Error occurred while fetching data: {e}")
 
-            return questions, answers
+   def train_model(self):
+         """
+         모델을 학습하는 함수. 질문과 답변을 기반으로 KNN 모델을 학습.
+         """
+         if self.questions or self.answers
+
+         
+
 
 
          
          else:
             print(f"Failed to fetch data. Status code: {response.status_code}")
             return None, None
-      except requests.exceptions.RequestException as e:
-          
+            
 
 
    def train(self, input_text, output_text):
