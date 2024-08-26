@@ -41,6 +41,11 @@
 
 ![Image](https://github.com/JJM-Study/jjm/blob/f27b7357fdbb2b448226866a653d5f43a07059ac/Repositoiry%20Resources/ChatBot/AI_Model.png)
 
-Source Code : https://github.com/JJM-Study/Study/blob/0373b0cdc887293e60cb14ed81a9b8429ea816e4/p_ai/p_ai/src/main/ai-model/Chat_Model.py
+Source Code :
+
+<br>
+<br>
+
+https://github.com/JJM-Study/Study/blob/0373b0cdc887293e60cb14ed81a9b8429ea816e4/p_ai/p_ai/src/main/ai-model/Chat_Model.py
 
 <br>
