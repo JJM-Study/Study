@@ -1,3 +1,4 @@
+import requests
 import random
 import json
 import sqlite3
@@ -8,38 +9,42 @@ import sqlite3
 
 class LeaningAI:
 
-   #questions_url = "http://localhost:8080/api/questions"
-   cData_url = "http://localhost:8080/api/chat-data"
-   #answers_url =   "http://localhost:8080/api/answers"
+
+   
+   def __init__(self):
+      # 스프링 부트 기본 API
+      self.sApi_url = "http//localhost:8080/api"
+
+      # 질문과 답변 데이터 저장
+      self.questions = []
+      self.answers = []
+      
+      # TF-IDF 벡터라이저와 KNN 모델 초기화
+      self.vectorizer = TfidfVectorizer()
+      self.model = None
 
    def fetch_data(self):
-      cData_response = requests.get(self.cData_url)
-      #answers_response = requests.get(self.answers_url)
+      # 질문과 답변 Get
+
+      try:
+         questions_response = requests.get(f"{self.sApi_url}/questions")
+         answers_response = requests.get(f"{self.sApi_url}/answers")
 
 
-      # 응답 데이터 처리
-      if cData_response.status_code == 200 and cData_response.status_code == 200:
-          cData = cData_response.json()
-          #answers = answers_response.json()
+         if questions_response.status_code == 200 and answers_response.status_code == 200:
+            self.questions = [q['content'] for q in questions_response.json()]
+            self.answers = [a['content'] for a in answers_response.json()]
 
-          #print("Questions:", questions)
-          print("Questions:", cData)
-          #print("Answers:", answers)
+            return questions, answers
 
-          return cData
-      else:
-          print("Failed to fetch data")
-          return None, None
-      
-   def send_data(cData):
-       # 데이터 전송 로직
-       
-       
-      
 
-   def __init__(self, db_path):
-      self.conn = splite3.connect(db_path)
-      self.cursor = self.conn.cursor()
+         
+         else:
+            print(f"Failed to fetch data. Status code: {response.status_code}")
+            return None, None
+      except requests.exceptions.RequestException as e:
+          
+
 
    def train(self, input_text, output_text):
       """ 사용자 입력에 대한 응답을 학습 """
@@ -85,7 +90,7 @@ class LeaningAI:
          """질문을 생성하고 스프링 부트로 전송"""
          # 사용자 입력을 기반으로 질문을 생성, 스프링 부트로 전송하는 로직 구현
          # 스프링 부트 API 호출을 통해 질문 저장
-         
+
          # 1. 사용자 입력을 기반으로 답변 생성 (단순 예시로 구현)
          question = f"질문: {user_input}" 
          
