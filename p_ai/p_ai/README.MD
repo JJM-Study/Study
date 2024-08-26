@@ -1,4 +1,4 @@
-<h1>AI Chat Bot</h1>
+<h1>AI Chat Bot (In progress...) </h1>
 
 <h3>목적<h3>
 
@@ -24,13 +24,11 @@
 <hr>
 <br>
 
-![Image](https://github.com/JJM-Study/jjm/blob/173f10c7a6fb728939400b4f4b8aae500e1f30b8/Repositoiry%20Resources/singup.png)
-
-스프링 웹 소켓을 활용한 비동기 통신
+![Image](https://github.com/JJM-Study/jjm/blob/f27b7357fdbb2b448226866a653d5f43a07059ac/Repositoiry%20Resources/ChatBot/CHAT_Q_and_A_1.png)
 
 <br>
 
-![Image](https://github.com/JJM-Study/jjm/blob/f27b7357fdbb2b448226866a653d5f43a07059ac/Repositoiry%20Resources/ChatBot/CHAT_Q_and_A_1.png)
+스프링 웹 소켓을 활용한 비동기 통신
 
 <br>
 
