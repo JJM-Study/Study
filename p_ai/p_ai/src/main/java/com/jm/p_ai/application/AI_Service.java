@@ -99,8 +99,10 @@ public class AI_Service {
         // 질문 ID로 AI_Question 엔티티 조회 . 2024/08/16 추가
         AI_Question question = ai_questionRepo.findById(questionId).orElseThrow(() -> new IllegalArgumentException("Invalid question ID: " + questionId));
 
-        // 모델을 통해 생성된 답변 리스트를 가져온다. // 2024/08/28 이 부분을 generateAnswer 부분과 연결하면 될 것 같다.
-        List<String> answerContents = ai_model.getMultipleAnswers(ai_questionDto.getContents()); // 해당 매서드 구현 후 주석 풀 것.
+        // 모델을 통해 생성된 답변 리스트를 가져온다.
+        // 2024/09/02 수정
+        //List<String> answerContents = ai_model.getMultipleAnswers(ai_questionDto.getContents()); // 해당 매서드 구현 후 주석 풀 것.
+        List<String> answerContents = getAnswersFromPython(question.getContents());
 
         // 생성된 답변들을 저장
         List<AI_Answer> savedAnswers = answerContents.stream()
