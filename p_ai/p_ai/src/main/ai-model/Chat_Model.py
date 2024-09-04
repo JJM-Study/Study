@@ -14,7 +14,7 @@ class LeaningAI:
 
    def __init__(self):
       # 스프링 부트 기본 API
-      self.sApi_url = "http://localhost:8080/api"
+      # self.sApi_url = "http://localhost:8080/api"
 
       self.questions = [] # 질문 데이터 저장
       self.answers = [] # 답변 데이터 저장
@@ -78,8 +78,37 @@ class LeaningAI:
       
        return answer
 
-#Flask 웹 서버 서정
+# Flask 웹 서버 서정
 
+app = Flask(__name__)
+
+# 글로벌 변수로 모델 인스턴스를 초기화하지 않고, 요청이 들어올 때마다 초기화
+leaning_ai = LeaningAI()
+
+@app.route('/generate_answer', methods=['POST'])
+def generate_answer():
+    data = request.get_json()
+
+    if 'questions' in data:
+        question_data = data['questions']
+      
+        # 질문과 답변 데이터를 설정
+        leaning_ai.questions = [question_data]
+        leaning_ai.answers = ["Dummy Answer"]  # 실제 데이터로 대체
+
+        # 모델 학습
+        leaning_ai.train_model()
+
+        # 질문에 대한 답변 생성
+        answer = leaning_ai.get_answer(question_data)
+
+
+        return jsonify({'answers': [answer]})
+    else:
+        return jsonify({'error': 'No questions provided'}), 400
+         
+if __name__ == '__main__':
+    app.run(debug=True)
 
 
 # 20240903 주석
