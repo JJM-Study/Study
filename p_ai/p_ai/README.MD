@@ -47,4 +47,4 @@ https://github.com/JJM-Study/Study/blob/0373b0cdc887293e60cb14ed81a9b8429ea816e4
 
 <br>
 
-파이썬을 통해 학습 모델을 구현해보고 있으며, 스프링 부트 API와 REST API를 통해 통신.
+파이썬을 통해 학습 모델을 구현해보고 있으며, 플라스크를 활용하여 스프링 부트와 REST API 통신.
