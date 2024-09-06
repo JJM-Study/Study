@@ -46,3 +46,5 @@ Source Code :
 https://github.com/JJM-Study/Study/blob/0373b0cdc887293e60cb14ed81a9b8429ea816e4/p_ai/p_ai/src/main/ai-model/Chat_Model.py
 
 <br>
+
+파이썬을 통해 학습 모델을 구현해보고 있으며, 스프링 부트 API와 REST API를 통해 통신.
