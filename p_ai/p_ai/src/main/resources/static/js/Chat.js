@@ -117,6 +117,31 @@ function showAnswer(answer) {
  // }
  }
 
+ // Fetch API를 통한 토큰 저장 / 2024/11/14
+ function authenticate(username, password) {
+     fetch('http://localhost:8080/api/authenticate', {
+         method: 'POST',
+         headers: {
+             'Content-Type': 'application/json',
+         },
+         body: JSON.stringify({ username: username, password: password })
+     })
+     .then(response => response.json())
+     .then(data => {
+         if (data.token) {
+             localStorage.setItem('jwtToken', data.token);
+             console.log('JWT Token:', data.token);
+             connectWebSocket(); // JWT 토큰을 받은 후 WebSocket 연결을 시작
+         } else {
+             console.error('Authentication failed');
+         }
+     })
+     .catch(error => {
+         console.error('Error:', error);
+     });
+ }
+
+
     if (boardScroll) {      // 로드 시 스크롤바 아래로 내리도록 함. 나중에 글 추가될 때 마다 스크롤바가 내려가도록 수정할 것.
         boardScroll.scrollTop = boardScroll.scrollHeight;
     }

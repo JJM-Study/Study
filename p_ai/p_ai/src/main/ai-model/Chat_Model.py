@@ -2,6 +2,7 @@ import requests
 import random
 import json
 import sqlite3
+from flask_cors import CORS
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.neighbors import KNeighborsClassifier
 from flask import Flask, request, jsonify
@@ -9,6 +10,7 @@ from flask import Flask, request, jsonify
 
    # Spring Boot 서버 API 엔드포인트
 
+app = Flask(__name__)
 
 class LeaningAI:
 
@@ -16,27 +18,45 @@ class LeaningAI:
       # 스프링 부트 기본 API
       # self.sApi_url = "http://localhost:8080/api"
 
+      self.session = requests.Session()   # 세션 객체 생성
       self.questions = [] # 질문 데이터 저장
       self.answers = [] # 답변 데이터 저장
       self.vectorizer = TfidfVectorizer() # TF-IDF 벡터라이저
       self.model = None # KNN 모델 초기화
 
-   # def fetch_data(self):
-   #    # 질문과 답변 Get
+   def fetch_data(self):
+    
+    try:
 
-   #    try:
-   #       questions_response = requests.get(f"{self.sApi_url}/questions")
-   #       answers_response = requests.get(f"{self.sApi_url}/answers")
+            # 로그인 정보
+            login_url = 'http://localhost:8080/login'
+            payload = {'username': 'user', 'password': 'password'}
 
-   #       # API 요청이 성공했는지 확인
-   #       if questions_response.status_code == 200 and answers_response.status_code == 200:
-   #          # 질문과 답변 데이터를 JSON 형식으로 파싱하여 
-   #          self.questions = [q['content'] for q in questions_response.json()]
-   #          self.answers = [a['content'] for a in answers_response.json()]
-   #       else:
-   #          raise Exception("Failed to fetch data from API")
-   #    except requests.exceptions.RequestException as e:
-   #          print(f"Error occurred while fetching data: {e}")
+            # 로그인 요청
+            response = self.session.post(login_url, data=payload) # 세션을 통해 로그인 요청
+
+            print(f"Login response status code: {response.status_code}")
+            print(response.cookies)
+
+            if response.status_code == 200:
+                print("Login successful")
+            else:
+                print("Login failed:", response.text)
+
+            questions_response = self.session.get("http://localhost:8080/api/questions") # 현재 에러 발생지 2024/11/01
+            questions_response.raise_for_status()
+            answers_response = self.session.get("http://localhost:8080/api/answers")
+            answers_response.raise_for_status()
+
+            self.questions = [q['contents'] for q in questions_response.json()]
+            self.answers = [a['contents'] for a in answers_response.json()]
+    
+    except requests.exceptions.HTTPError as err:
+        print(f"HTTP error occurred: {err}")
+        raise Exception("Failed to fetch data from API")
+    except Exception as e:
+        print(f"Error occurred: {e}")
+        raise Exception("An internal error occurred")
 
    def train_model(self):
          """
@@ -77,39 +97,41 @@ class LeaningAI:
       #      print(f"Failed to send answer. Status code: {response.status_code}")
       
        return answer
-
-# Flask 웹 서버 서정
-
-app = Flask(__name__)
+   
 
 # 글로벌 변수로 모델 인스턴스를 초기화하지 않고, 요청이 들어올 때마다 초기화
 leaning_ai = LeaningAI()
 
 @app.route('/generate_answer', methods=['POST'])
 def generate_answer():
-    data = request.get_json()
+    try:
+        data = request.get_json()
 
-    if 'questions' in data:
-        question_data = data['questions']
-      
-        # 질문과 답변 데이터를 설정
-        leaning_ai.questions = [question_data]
-        leaning_ai.answers = ["Dummy Answer"]  # 실제 데이터로 대체
+        if 'questions' in data:
+            question_data = data['questions']
+        
+            # # 질문과 답변 데이터를 설정
+            # leaning_ai.questions = [question_data]
+            # leaning_ai.answers = ["Dummy Answer"]  # 실제 데이터로 대체
 
-        # 모델 학습
-        leaning_ai.train_model()
+            # 스프링 부트 API에서 질문/답변 데이터를 가져오고 학습
+            leaning_ai.fetch_data()
 
-        # 질문에 대한 답변 생성
-        answer = leaning_ai.get_answer(question_data)
+            leaning_ai.train_model()
 
+            # 질문에 대한 답변 생성
+            answer = leaning_ai.get_answer(question_data)
+            return jsonify({'answers': [answer]})
+        else:
+            return jsonify({'error': 'No questions provided'}), 400
+    except Exception as e:
+        print(f"Error occurred: {e}")
+        return jsonify({'error': 'An internal error occurred'}), 500
 
-        return jsonify({'answers': [answer]})
-    else:
-        return jsonify({'error': 'No questions provided'}), 400
-         
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(port=5000)
 
+CORS(app)
 
 # 20240903 주석
 # ai = LeaningAI()

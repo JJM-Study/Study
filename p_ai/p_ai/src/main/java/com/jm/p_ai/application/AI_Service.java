@@ -11,6 +11,9 @@ import com.jm.p_ai.presentation.AI_QuestionDto;
 import com.jm.p_ai.presentation.AI_UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -157,20 +160,30 @@ public class AI_Service {
     // 20224/08/28
     public List<String> getAnswersFromPython(String question) {
 
-        String pythonApiUrl = "http://localhost:5000/generate_answer";
+        //String pythonApiUrl = "http://localhost:5000/generate_answer";
+        String pythonApiUrl = "http://127.0.0.1:5000/generate_answer";
 
         // 파이썬 API로 질문 전송
         Map<String, String> requestPayload = new HashMap<>();
         requestPayload.put("questions", question);
 
-        ResponseEntity<Map> response = restTemplate.postForEntity(pythonApiUrl, requestPayload, Map.class);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
 
-        if (response.getStatusCode().is2xxSuccessful()) {
-            // 응답에서 답변 리스트를 추출
-            List<String> answers = (List<String>) response.getBody().get("answers");
-            return answers;
-        } else {
-            throw new RuntimeException("Failed to get response from Python API");
+        HttpEntity<Map<String, String>> entity = new HttpEntity<>(requestPayload, headers);
+
+        try {
+            ResponseEntity<Map> response = restTemplate.postForEntity(pythonApiUrl, requestPayload, Map.class);
+
+            if (response.getStatusCode().is2xxSuccessful()) {
+                // 응답에서 답변 리스트를 추출
+                List<String> answers = (List<String>) response.getBody().get("answers");
+                return answers;
+            } else {
+                throw new RuntimeException("Failed to get response from Python API");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error occurred while connecting to Python API: " + e.getMessage());
         }
 
 
