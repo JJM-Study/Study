@@ -9,7 +9,13 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 
 @Configuration
 @EnableWebSocketMessageBroker
-public class WebSocketStompConfig implements WebSocketMessageBrokerConfigurer {
+public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+
+    public JwtUtil jwtUtil;
+
+    public WebSocketConfig(JwtUtil jwtUtil) {
+        this.jwtUtil = jwtUtil;
+    }
 
 
     @Override
@@ -20,6 +26,11 @@ public class WebSocketStompConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/chat-ws").setAllowedOriginPatterns("*").withSockJS();
+        //registry.addEndpoint("/chat-ws").setAllowedOriginPatterns("*").withSockJS();
+        //registry.addEndpoint("/chat-ws").setAllowedOrigins("*").withSockJS(); // 2022/11/14 수정
+        registry.addEndpoint("/chat-ws")
+                .setAllowedOrigins("http://localhost:3000", "http://localhost:8080")
+                .addInterceptors(new JwtHandshakeInterceptor(jwtUtil)) // JWT 핸드셰이크 인터셉터 추가
+                .withSockJS(); // 2022/11/14 수정
     }
 }
