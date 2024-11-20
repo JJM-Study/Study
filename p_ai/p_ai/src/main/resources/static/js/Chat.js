@@ -28,11 +28,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function connectWebSocket(token) {
         // WebSocket 연결 및 STOMP 클라이언트 설정
-        var socket = new SockJS('/chat-ws');
+        //var socket = new SockJS('/chat-ws');
+        var socket = new SockJS('/chat-ws?token=' + token); // 2024/11/19 수정
         stompClient = Stomp.over(socket);
 
         stompClient.connect(
-            { 'Authorization': 'Bearer ' + token},
+            {},
             function(frame) {
                 console.log('Socket connected: ' + frame);
 
@@ -57,16 +58,24 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     document.getElementById('send').addEventListener('click', function() {
-        var questionInput = document.getElementById('questionInput');
-        var question = questionInput.value;
-        if (question) {
-            sendQuestion(question);
-            questionInput.value = ''; // 질문 전송 후 입력 필드 비우기
+        if (stompClient && stompClient.connected) { // STOMP 클라이언트 연결 상태 체크
+            var questionInput = document.getElementById('questionInput');
+            var question = questionInput.value;
+            if (question) {
+                sendQuestion(question);
+                questionInput.value = ''; // 질문 전송 후 입력 필드 비우기
+            } 
+        } else {
+            console.error("STOMP client is not connected yet");
         }
     });
 
     function sendQuestion(question) {
-        stompClient.send("/app/question", {}, JSON.stringify({'contents' : question}));
+        if (stompClient && stompClient.connected) { // 연결 여부 재확인 2024/11/19 추가
+            stompClient.send("/app/question", {}, JSON.stringify({'contents' : question}));
+        } else {
+            console.error("STOMP client is not connected yet.");
+        }
     }
 
     // 질문 Display

@@ -3,6 +3,7 @@ package com.jm.p_ai.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -29,10 +30,16 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class WebSecurityConfig {
 
     private final JwtRequestFilter jwtRequestFilter;
+    private final WebSocketAuthChannelInterceptor webSocketAuthChannelInterceptor;      // 2024/11/19 추가 // 계속 이어서 할 것.
 
-    public WebSecurityConfig(JwtRequestFilter jwtRequestFilter) {
+//    public WebSecurityConfig(JwtRequestFilter jwtRequestFilter) {
+//        this.jwtRequestFilter = jwtRequestFilter;
+//    }
+    public WebSecurityConfig(JwtRequestFilter jwtRequestFilter, WebSocketAuthChannelInterceptor webSocketAuthChannelInterceptor) {
         this.jwtRequestFilter = jwtRequestFilter;
-    }
+        this.webSocketAuthChannelInterceptor = webSocketAuthChannelInterceptor;
+    } // 2024/11/19 수정
+
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
