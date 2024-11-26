@@ -5,10 +5,10 @@ import sqlite3
 import os
 import logging
 import pickle
-from flask_cors import CORS
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.neighbors import KNeighborsClassifier
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 
 # 로깅 설정 초기화
 logger = logging.getLogger()
@@ -25,7 +25,9 @@ logger.addHandler(console_handler)
 
 # Spring Boot 서버 API 엔드포인트
 app = Flask(__name__)
-CORS(app)
+#CORS(app)
+CORS(app, resources={r"/*": {"origins": "http://localhost:8080"}})
+#CORS(app, resources={r"/*": {"origins": "*"}})
 
 class LeaningAI:
 
@@ -48,7 +50,7 @@ class LeaningAI:
                 auth_url = "http://localhost:8080/api/authenticate"
                 response = self.session.get(auth_url)   # 자동으로 JWT 발급 요청
 
-                if response.status.code == 200:
+                if response.status_code == 200:
                     # JWT 토큰을 성공적으로 발급받음
                     jwt_token = response.json().get("token")
                     if not jwt_token:
@@ -106,6 +108,7 @@ class LeaningAI:
            self.model = None
 
    def load_model(self):
+        print("directory : " + os.getcwd())
 
         """
         학습된 모델을 파일에서 불러오는 함수. 모델 파일이 없으면 새로 학습하도록 설정.
@@ -173,10 +176,14 @@ leaning_ai = LeaningAI()
 @app.route('/generate_answer', methods=['POST'])
 def generate_answer():
     try:
+        print("Received a request to /generate_answer")  # 요청이 들어왔는지 로그로 출력
+
         logging.info("API endpoint '/generate_answer' called")  # 확인용 로그
         logging.info("file path: " + os.getcwd())
         
         data = request.get_json()
+
+        print(f"Request data: {data}")
 
         if 'questions' not in data:
             return jsonify({'error': 'No questions provided'}), 400
@@ -225,7 +232,7 @@ def generate_answer():
 #         return jsonify({'error': 'An error occurred', 'details': str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(port=5000)
+    app.run(host='0.0.0.0', port=5000)
 
 
 # 20240903 주석
