@@ -173,7 +173,7 @@ public class AI_Service {
         HttpEntity<Map<String, String>> entity = new HttpEntity<>(requestPayload, headers);
 
         try {
-            ResponseEntity<Map> response = restTemplate.postForEntity(pythonApiUrl, requestPayload, Map.class);
+            ResponseEntity<Map> response = restTemplate.postForEntity(pythonApiUrl, entity, Map.class);
 
             if (response.getStatusCode().is2xxSuccessful()) {
                 // 응답에서 답변 리스트를 추출
