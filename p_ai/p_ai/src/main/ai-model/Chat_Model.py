@@ -34,10 +34,11 @@ class LeaningAI:
       # 스프링 부트 기본 API
       # self.sApi_url = "http://localhost:8080/api"
       self.session = requests.Session()   # 세션 객체 생성
-      self.questions = [] # 질문 데이터 저장
-      self.answers = [] # 답변 데이터 저장
+      self.questions = [] # 전체 질문 데이터 저장
+      self.answers = [] # 전체 답변 데이터 저장
       self.vectorizer = TfidfVectorizer # TF-IDF 벡터라이저
       self.model = None # KNN 모델 초기화
+      self.c_question = None # 현재 질문 데이터 저장
       self.model_path = os.path.join(os.getcwd(), "trained_model.pkl")  # "C:/Users/user/git/Study/p_ai/p_ai/src/main/ai-model/ 모델 경로
       self.jwt_token = None
       self.load_model() # 기존 학습된 모델 불러오기
@@ -75,16 +76,18 @@ class LeaningAI:
             # Authorization 헤더에 JWT 토큰 설정
             headers = {"Authorization": f"Bearer {self.jwt_token}"}
 
-            # 질문/답변 데이터를 API를 통해 가져오기
+            # 질문/답변 전체 데이터를 API를 통해 가져오기 / 현재로서는 사용 X / 확장성 고려.
             questions_response = self.session.get("http://localhost:8080/api/questions", headers=headers)
             questions_response.raise_for_status()
 
-            answers_response = self.session.get("http://localhost:8080/api/answers", headers=headers)
+            answers_response = self.session.get("http://localhost:8080/api/answers", headers=headers)  # 현재는 사용 X. 확장성을 고려, 임시 추가. 2024/11/29
             answers_response.raise_for_status()
 
             #데이터 저장
-            self.questions = [q['contents'] for q in questions_response.json()]
-            self.answers = [a['contents'] for a in answers_response.json()]
+            self.questions = [q['contents'] for q in questions_response.json()] # JPA finaAll 매핑으로, 질문과 답변 전체를 가져오는 로직.
+            self.answers = [a['contents'] for a in answers_response.json()] # 현재는 사용 X. 확장성을 고려, 임시 추가. 2024/11/29
+
+            print(f"check answers : ", self.c_question) # 최신 데이터 제대로 가져옴을 확인.
 
         except requests.exceptions.RequestException as e:
             print(f"Request exception occurred: {e}")
@@ -102,24 +105,24 @@ class LeaningAI:
             #self.model = None   # 모델이 없는 상태로 유지
             self.add_default_data()  # 기본 데이터를 추가하여 모델 학습 준비
 
-        try:
+        if self.questions and self.answers:
+            try:
+                self.vectorizer = TfidfVectorizer()           
+                # 질문 데이터를 TF-IDF 벡터화
+                X = self.vectorizer.fit_transform(self.questions)
+                # KNN 모델을 학습
+                self.model = KNeighborsClassifier(n_neighbors=1)
+                self.model.fit(X, self.answers)
 
-           self.vectorizer = TfidfVectorizer()           
-           # 질문 데이터를 TF-IDF 벡터화
-           X = self.vectorizer.fit_transform(self.questions)
-           # KNN 모델을 학습
-           self.model = KNeighborsClassifier(n_neighbors=1)
-           self.model.fit(X, self.answers)
+                # 학습된 모델을 Pickle을 사용하여 저장
+                os.makedirs(os.path.dirname(self.model_path), exist_ok=True) # 디렉토리 없을 시 생성
+                with open(self.model_path, "wb") as model_file:
+                        pickle.dump((self.vectorizer, self.model), model_file) # 매번 학습하는 건 비효율적일 수 있으므로 다른 방법을 생각해볼 것. / 학습이 완료된 이후에만 모델을 저장하게 한다거나.
+                print("Model saved successfully")
 
-           # 학습된 모델을 Pickle을 사용하여 저장
-           os.makedirs(os.path.dirname(self.model_path), exist_ok=True) # 디렉토리 없을 시 생성
-           with open(self.model_path, "wb") as model_file:
-                pickle.dump((self.vectorizer, self.model), model_file) # 매번 학습하는 건 비효율적일 수 있으므로 다른 방법을 생각해볼 것. / 학습이 완료된 이후에만 모델을 저장하게 한다거나.
-           print("Model saved successfully")
-
-        except Exception as e:
-           print(f"Error during model training: {e}")
-           self.model = None
+            except Exception as e:
+                print(f"Error during model training: {e}")
+                self.model = None
 
    def load_model(self):
         print("directory : " + os.getcwd())
@@ -145,11 +148,11 @@ class LeaningAI:
        사용자 질문에 대한 답변을 반환하는 함수.
        """
        if self.model is None:
-          print("No model found, adding default data and training the model")
-          self.add_default_data()
-          self.train_model()
-          if self.model is None:
-            return "Sorry, Don't have enough data to answer that right now."
+          print("No model found, Please train the model first.")
+          #self.add_default_data() //
+          #self.train_model()
+          #if self.model is None:
+          return "Sorry, Don't have enough data to answer that right now."
    
        # 사용자 질문을 TF-IDF 벡터로 변환
        try:
@@ -164,8 +167,8 @@ class LeaningAI:
 
    # 기본적인 질문과 답변 데이터를 설정하는 함수. (초기 학습 시 사용)
    def add_default_data(self):
-       self.questions = ["학습을 위한 질문."]
-       self.answers = ["학습을 위한 답변"]
+       self.questions = ["기본 질문입니다."]
+       self.answers = ["기본 답변입니다."]
 
 # 글로벌 변수로 모델 인스턴스를 초기화하지 않고, 요청이 들어올 때마다 초기화
 leaning_ai = LeaningAI()
@@ -186,13 +189,16 @@ def generate_answer():
             return jsonify({'error': 'No questions provided'}), 400
         
         question_data = data['questions']
-        
+
+        # 모델이 없는 경우에만 학습  // 모델이 없는 경
+        #if os.path.exists() 
+
         # 스프링 부트 API에서 질문/답변 데이터를 가져오고 학습
         leaning_ai.fetch_data()
 
-        #만약 데이터가 없으면 기본 데이터를 추가
-        if not leaning_ai.questions or not leaning_ai.answers:
-            leaning_ai.add_default_data()
+        # #만약 데이터가 없으면 기본 데이터를 추가
+        # if not leaning_ai.questions or not leaning_ai.answers:
+        #     leaning_ai.add_default_data()
 
         leaning_ai.train_model()
 
