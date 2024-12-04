@@ -43,13 +43,19 @@ public class AI_API_Controller {
 //        return response;
 //    }
 
-    // 질문을 받아 파이썬 API로 보내고, 생성된 답변을 반환하는 엔드포인트
-    @PostMapping("/generate-answer")
-    public ResponseEntity<List<String>> generateAnswer(@RequestBody String question) {
-        // 파이썬 API로 질문을 보내고 답변을 받아옴
-        List<String> answers = ai_service.getAnswersFromPython(question);
+//    // 질문을 받아 파이썬 API로 보내고, 생성된 답변을 반환하는 엔드포인트 2024/12/04 주석
+//    @PostMapping("/generate-answer")
+//    public ResponseEntity<List<String>> generateAnswer(@RequestBody String question) {
+//        // 파이썬 API로 질문을 보내고 답변을 받아옴
+//        List<String> answers = ai_service.getAnswersFromPython(question);
+//
+//        return ResponseEntity.ok(answers);
+//    }
 
-        return ResponseEntity.ok(answers);
+    @GetMapping("/Question-And-Answer") // 2024/12/03 추가
+    public List<AI_QandADto> AandQ() {
+
+        return ai_service.view_QandA();
     }
 
     @GetMapping("/questions")

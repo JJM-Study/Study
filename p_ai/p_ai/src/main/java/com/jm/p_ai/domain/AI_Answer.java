@@ -1,5 +1,6 @@
 package com.jm.p_ai.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.aspectj.weaver.patterns.TypePatternQuestions;
 
@@ -12,6 +13,8 @@ public class AI_Answer {
     private String contents;
 
     @ManyToOne
+    @JoinColumn(name = "question_id", nullable = true)  // 2024/12/03 추가  // 엔티티나 DTO가 아니라, 테이블의 필드 자체를 직접 참조함.
+    @JsonIgnore  // JSON 직렬화 시 무한 루프 방지
     private AI_Question question;
 
     public AI_Answer() {
@@ -52,4 +55,5 @@ public class AI_Answer {
     public void setQuestion(AI_Question question) {
         this.question = question;
     }
+
 }

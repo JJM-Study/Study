@@ -2,15 +2,16 @@ package com.jm.p_ai.application;
 
 import com.jm.p_ai.AI_Model.AI_Model;
 import com.jm.p_ai.domain.AI_Answer;
+import com.jm.p_ai.domain.AI_QandA;
 import com.jm.p_ai.domain.AI_Question;
 import com.jm.p_ai.infrastructure.AI_Answer_Repo;
+import com.jm.p_ai.infrastructure.AI_QandA_Repo;
 import com.jm.p_ai.infrastructure.AI_Question_Repo;
 import com.jm.p_ai.infrastructure.AI_User_Repo;
 import com.jm.p_ai.presentation.AI_AnswerDto;
+import com.jm.p_ai.presentation.AI_QandADto;
 import com.jm.p_ai.presentation.AI_QuestionDto;
-import com.jm.p_ai.presentation.AI_UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -18,7 +19,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.awt.image.RasterFormatException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +33,7 @@ public class AI_Service {
     private AI_User_Repo ai_userRepo;
     private AI_Answer_Repo ai_answerRepo;
     private AI_Question_Repo ai_questionRepo;
+    private AI_QandA_Repo ai_QandA_repo; // 2024/12/03 추가
 
     private final RestTemplate restTemplate;
 
@@ -41,12 +42,14 @@ public class AI_Service {
                       AI_User_Repo ai_userRepo,
                       AI_Answer_Repo ai_answerRepo,
                       AI_Question_Repo ai_questionRepo,
+                      AI_QandA_Repo ai_QandA_repo,
                       RestTemplate restTemplate)
     {
         this.ai_model = ai_model;
         this.ai_userRepo = ai_userRepo;
         this.ai_answerRepo = ai_answerRepo;
         this.ai_questionRepo = ai_questionRepo;
+        this.ai_QandA_repo = ai_QandA_repo;
         this.restTemplate = restTemplate;
     }
 
@@ -161,7 +164,7 @@ public class AI_Service {
     public List<String> getAnswersFromPython(String question) {
 
         //String pythonApiUrl = "http://localhost:5000/generate_answer";
-        String pythonApiUrl = "http://127.0.0.1:5000/generate_answer";
+        String pythonApiUrl = "http://127.0.0.1:5000/generate-answer";
 
         // 파이썬 API로 질문 전송
         Map<String, String> requestPayload = new HashMap<>();
@@ -192,6 +195,11 @@ public class AI_Service {
     }
 
     // 단일 책임 원칙 SRP에 따라서 DTO를 처리하기 위한 별도의 메서드 구분.
+
+    public List<AI_QandADto> view_QandA() {
+
+        return ai_QandA_repo.findAllAnswerWithQuestions();
+    }
 
     public List<AI_Question> view_Question() {
 

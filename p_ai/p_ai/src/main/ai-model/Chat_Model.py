@@ -5,6 +5,7 @@ import sqlite3
 import os
 import logging
 import pickle
+import time
 from flask_cors import CORS
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.neighbors import KNeighborsClassifier
@@ -33,18 +34,20 @@ class LeaningAI:
    def __init__(self):
       # 스프링 부트 기본 API
       # self.sApi_url = "http://localhost:8080/api"
+      #self.c_question = None # 현재 질문 데이터 저장
       self.session = requests.Session()   # 세션 객체 생성
       self.questions = [] # 전체 질문 데이터 저장
       self.answers = [] # 전체 답변 데이터 저장
+      self.question_and_answer = [] # 전체 질문-답변 데이터쌍 저장
       self.vectorizer = TfidfVectorizer # TF-IDF 벡터라이저
       self.model = None # KNN 모델 초기화
-      self.c_question = None # 현재 질문 데이터 저장
       self.model_path = os.path.join(os.getcwd(), "trained_model.pkl")  # "C:/Users/user/git/Study/p_ai/p_ai/src/main/ai-model/ 모델 경로
       self.jwt_token = None
       self.load_model() # 기존 학습된 모델 불러오기
       self.initialize_jwt_token() # 서버 시작 시 JWT 토큰 초기화
 
-   def initialize_jwt_token(self):
+
+   def initialize_jwt_token(self, max_retries=5, retry_delay=2):
         """
         서버 초기화 시 JWT 토큰을 미리 발급 받도록.
         """
@@ -53,29 +56,41 @@ class LeaningAI:
         payload = {"username": "user"}
         #response = self.session.get(auth_url, json=payload)   # 자동으로 JWT 발급 요청
 
-        try:    
-            response = self.session.post(auth_url, json=payload)   # 자동으로 JWT 발급 요청
-            if response.status_code == 200:
-                # JWT 토큰을 성공적으로 발급받음
-                self.jwt_token = response.json().get("token")
-                if not self.jwt_token:
-                    raise Exception("JWT Token not found in response")
-                print("JWT token obtained successfully.")
-            else:
-                raise Exception(f"Failed to obtain JWT: {response.text}")
-        except Exception as e:
-            print(f"Error during JWT token initialization: {e}")
-            self.jwt_token = None
+        for attempt in range(max_retries):
+            try:    
+                response = self.session.post(auth_url, json=payload)   # 자동으로 JWT 발급 요청
+                if response.status_code == 200:
+                    # JWT 토큰을 성공적으로 발급받음
+                    self.jwt_token = response.json().get("token")
+                    if not self.jwt_token:
+                        raise Exception("JWT Token not found in response")
+                    print("JWT token obtained successfully.")
+                    return
+                else:
+                    raise Exception(f"Failed to obtain JWT: {response.text}")
+            except Exception as e:
+                print(f"Error during JWT token initialization attempt {attempt + 1}: {e}")
+                self.jwt_token = None
+            
+            #재시도 간격 대기
+            time.sleep(retry_delay)
 
+        raise Exception("JWT Token could not be initialized after multiple attempts.")
+            
 
    def fetch_data(self):
-        try:
-            if not self.jwt_token:
-                raise Exception("JWT Token is not initialized.")
-        
-            # Authorization 헤더에 JWT 토큰 설정
-            headers = {"Authorization": f"Bearer {self.jwt_token}"}
 
+        if not self.jwt_token:
+            print("JWT Token is not initialized. Reinitailizing...")     # 토큰 재발급 받도록 수정 중 ..
+            try:  # 토큰 중간에 끊기는 경우가 있어서, 재발급 받도록 설정.
+                #raise Exception("JWT Token is not initialized.")
+                self.initialize_jwt_token()
+            except Exception as e:
+                raise Exception("JWT Token could not be initialized JWT Token before fetching data.")
+
+        # Authorization 헤더에 JWT 토큰 설정
+        headers = {"Authorization": f"Bearer {self.jwt_token}"}
+        try:
             # 질문/답변 전체 데이터를 API를 통해 가져오기 / 현재로서는 사용 X / 확장성 고려.
             questions_response = self.session.get("http://localhost:8080/api/questions", headers=headers)
             questions_response.raise_for_status()
@@ -83,11 +98,13 @@ class LeaningAI:
             answers_response = self.session.get("http://localhost:8080/api/answers", headers=headers)  # 현재는 사용 X. 확장성을 고려, 임시 추가. 2024/11/29
             answers_response.raise_for_status()
 
+            q_and_a_response = self.session.get("http://localhost:8080/api/Question-And-Answer", headers=headers)
+            q_and_a_response.raise_for_status()
+
             #데이터 저장
             self.questions = [q['contents'] for q in questions_response.json()] # JPA finaAll 매핑으로, 질문과 답변 전체를 가져오는 로직.
             self.answers = [a['contents'] for a in answers_response.json()] # 현재는 사용 X. 확장성을 고려, 임시 추가. 2024/11/29
-
-            print(f"check answers : ", self.c_question) # 최신 데이터 제대로 가져옴을 확인.
+            self.question_and_answer = [(c['questionContents'], c['answerContents']) for c in q_and_a_response.json()]  # 현재는
 
         except requests.exceptions.RequestException as e:
             print(f"Request exception occurred: {e}")
@@ -100,10 +117,11 @@ class LeaningAI:
         """
         모델을 학습하는 함수. 질문과 답변을 기반으로 KNN 모델을 학습.
         """
-        if not self.questions or not self.answers:
+        if not self.questions or not self.answers: # 직접 파이썬에서 DB에 예시 데이터들을 넣거나, 따로 DB에 넣으라고 하는 등 조치 할 것.
             print("Not enough data to train the model, adding default data")
             #self.model = None   # 모델이 없는 상태로 유지
-            self.add_default_data()  # 기본 데이터를 추가하여 모델 학습 준비
+            # self.add_default_data()  # 기본 데이터를 추가하여 모델 학습 
+            return None
 
         if self.questions and self.answers:
             try:
@@ -173,12 +191,12 @@ class LeaningAI:
 # 글로벌 변수로 모델 인스턴스를 초기화하지 않고, 요청이 들어올 때마다 초기화
 leaning_ai = LeaningAI()
 
-@app.route('/generate_answer', methods=['POST'])
+@app.route('/generate-answer', methods=['POST'])
 def generate_answer():
     try:
-        print("Received a request to /generate_answer")  # 요청이 들어왔는지 로그로 출력
+        print("Received a request to /generate-answer")  # 요청이 들어왔는지 로그로 출력
 
-        logging.info("API endpoint '/generate_answer' called")  # 확인용 로그
+        logging.info("API endpoint '/generate-answer' called")  # 확인용 로그
         logging.info("file path: " + os.getcwd())
         
         data = request.get_json()
@@ -190,8 +208,6 @@ def generate_answer():
         
         question_data = data['questions']
 
-        # 모델이 없는 경우에만 학습  // 모델이 없는 경
-        #if os.path.exists() 
 
         # 스프링 부트 API에서 질문/답변 데이터를 가져오고 학습
         leaning_ai.fetch_data()
@@ -204,12 +220,14 @@ def generate_answer():
 
         # 모델 학습 후 질문에 대한 답변 생성
         answer = leaning_ai.get_answer(question_data)
-
         return jsonify({'answers': [answer]})
 
     except requests.exceptions.HTTPError as e:
         print(f"HTTP error occurred: {e}")
         return jsonify({'error': 'An unexpected error occurred', 'details': str(e)}), 500
+    except json.JSONDecodeError as e:
+        print(f"JSON decode error occurred: {e}")
+        return jsonify({'error': 'Failed to decode JSON', 'details': str(e)}), 500
     except Exception as e:
         print(f"An unexpected error occurred: {e}")
         return jsonify({'error': 'An unexpected error occurred', 'details': str(e)}), 500
@@ -236,14 +254,4 @@ def generate_answer():
 #         return jsonify({'error': 'An error occurred', 'details': str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
-
-
-# 20240903 주석
-# ai = LeaningAI()
-
-# # 데이터 가져오기
-# ai.fetch_data()
-
-# # 모델 학습
-# ai.train_model()
+    app.run(host='0.0.0.0', port=5000, debug=True)
