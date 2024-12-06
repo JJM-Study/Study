@@ -117,20 +117,29 @@ class LeaningAI:
         """
         모델을 학습하는 함수. 질문과 답변을 기반으로 KNN 모델을 학습.
         """
-        if not self.questions or not self.answers: # 직접 파이썬에서 DB에 예시 데이터들을 넣거나, 따로 DB에 넣으라고 하는 등 조치 할 것.
+        #if not self.questions or not self.answers: # 직접 파이썬에서 DB에 예시 데이터들을 넣거나, 따로 DB에 넣으라고 하는 등 조치 할 것. 2024/12/05 수정
+        if not self.question_and_answer:
             print("Not enough data to train the model, adding default data")
             #self.model = None   # 모델이 없는 상태로 유지
             # self.add_default_data()  # 기본 데이터를 추가하여 모델 학습 
             return None
 
-        if self.questions and self.answers:
+        #if self.questions and self.answers:
+        else:
             try:
-                self.vectorizer = TfidfVectorizer()           
-                # 질문 데이터를 TF-IDF 벡터화
-                X = self.vectorizer.fit_transform(self.questions)
+                self.vectorizer = TfidfVectorizer()
+                
+                # 질문 데이터를 추출하여 벡터화
+                #X = self.vectorizer.fit_transform(self.questions)
+                local_questions = [q for q, _ in self.question_and_answer]
+                X = self.vectorizer.fit_transform(local_questions) # 2024/12/05 수정
+
+                # 답변 데이터를 추출
+                local_answers = [a for _, a in self.question_and_answer]
+
                 # KNN 모델을 학습
                 self.model = KNeighborsClassifier(n_neighbors=1)
-                self.model.fit(X, self.answers)
+                self.model.fit(X, local_answers)
 
                 # 학습된 모델을 Pickle을 사용하여 저장
                 os.makedirs(os.path.dirname(self.model_path), exist_ok=True) # 디렉토리 없을 시 생성
