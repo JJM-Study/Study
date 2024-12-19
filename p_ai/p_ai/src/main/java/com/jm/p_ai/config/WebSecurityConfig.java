@@ -50,6 +50,7 @@ public class WebSecurityConfig {
                       .requestMatchers("/api/authenticate").permitAll() // JWT 발급 엔드포인트는 인증 제외
                       .requestMatchers("/h2-console/**").permitAll()
                       .requestMatchers("/chat-ws/**").permitAll() // WebSocket 엔드포인트 허용
+                      .requestMatchers("/loginForm").permitAll() // LoginForm 엔드포인트 허용
                       .requestMatchers("/chat").permitAll() // /chat 엔드포인트 인증 없이 허용
                       .requestMatchers("/css/**", "/js/**", "/image/**").permitAll()
                       .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Preflight 요청 허용

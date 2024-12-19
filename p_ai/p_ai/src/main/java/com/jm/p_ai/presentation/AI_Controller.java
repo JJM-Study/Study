@@ -44,6 +44,14 @@ public class AI_Controller {
         return "Chat";
     }
 
+    @GetMapping("/loginForm")
+    public String loginForm() {
+
+
+        return "loginForm";
+
+    }
+
 //    @PostMapping("/question") MessageMapping 대신 사용. (만약 http 기반 API 호출을 원할 경우 주석 해제해서 사용.)
 //    public String question(@RequestBody AI_QuestionDto aiQuestionDto) {
 //
