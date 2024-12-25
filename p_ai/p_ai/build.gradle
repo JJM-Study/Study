@@ -18,6 +18,7 @@ repositories {
 }
 
 dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
@@ -56,6 +57,17 @@ dependencies {
 
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
+}
+
+sourceSets {
+	main {
+		java {
+			srcDirs = ['backend/src/main/java']   // 변경된 Java 소스 경로
+		}
+		resources {
+			srcDirs = ['backend/src/main/resources']   // 변경된 리소스 경로
+		}
+	}
 }
 
 tasks.named('test') {
