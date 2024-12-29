@@ -211,4 +211,16 @@ public class AI_Service {
         return ai_answerRepo.findAll();
     }
 
+
+    // ************* 이하 단위 테스트를 위한 코드 분류 ************* //
+
+    public boolean validateQuestionLength(String question, int minLength, int maxLength) {
+        if (question == null || question.isEmpty()) {
+            return false;
+        }
+
+        int length = question.length();
+        return length >= minLength && length <= maxLength;
+    }
+
 }
