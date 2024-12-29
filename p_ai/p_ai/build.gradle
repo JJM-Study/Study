@@ -1,11 +1,12 @@
 plugins {
 	id 'java'
+	id 'maven-publish'
 	id 'org.springframework.boot' version '3.3.0'
 	id 'io.spring.dependency-management' version '1.1.5'
 }
 
 group = 'com.jm'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.2'
 
 java {
 	toolchain {
@@ -18,6 +19,7 @@ repositories {
 }
 
 dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
@@ -31,14 +33,68 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.security:spring-security-config:6.3.1'
 
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+
+
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+	implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
+	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+	implementation 'javax.xml.bind:jaxb-api:2.3.1'
+	implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.1'
+
 	runtimeOnly 'com.h2database:h2'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 	implementation 'org.springframework.boot:spring-boot-devtools'
 
+	implementation 'org.springframework.security:spring-security-oauth2-client'  // OAuth2 Client 의존성
+	implementation 'org.springframework.security:spring-security-oauth2-jose'  // JWT 관련 의존성
+
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
 
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
+}
+
+sourceSets {
+	main {
+		java {
+			srcDirs = ['backend/src/main/java']
+		}
+		resources {
+			srcDirs = ['backend/src/main/resources']
+		}
+	}
+	test {
+		java {
+			srcDirs = ['backend/src/test/java']
+		}
+		resources {
+			srcDirs = ['backend/src/test/resources']
+		}
+	}
+}
+
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			from components.java
+			artifact bootJar // 실행 가능한 JAR 파일 추가
+		}
+	}
+	repositories {
+		maven {
+			name = "AIChatBotRepo"
+			url = uri("http://127.0.0.1:8081/repository/Jenkins_AI-ChatBot_Release")
+			credentials {
+				username = 'admin'
+				password = '2564'
+			}
+		}
+	}
 }
 
 tasks.named('test') {
