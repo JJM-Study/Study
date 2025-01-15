@@ -16,7 +16,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class AI_Controller {
@@ -30,6 +32,15 @@ public class AI_Controller {
     {
         this.ai_service = ai_service;
         this.simpMessagingTemplate = simpMessagingTemplate;
+    }
+
+
+    @GetMapping({"/", "/health"}) // 클라우드 배포 시, 헬스 체크를 위해 인증 예외 지정.
+    @ResponseBody
+    public Map<String, String> healthCheck() {
+        Map<String, String> response = new HashMap<>();
+        response.put("status", "OK");
+        return response;
     }
 
     @GetMapping("/chat")

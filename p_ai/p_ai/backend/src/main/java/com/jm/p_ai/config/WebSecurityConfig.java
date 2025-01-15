@@ -51,7 +51,7 @@ public class WebSecurityConfig {
                       .requestMatchers("/h2-console/**").permitAll()
                       .requestMatchers("/chat-ws/**").permitAll() // WebSocket 엔드포인트 허용
                       .requestMatchers("/loginForm").permitAll() // LoginForm 엔드포인트 허용
-                      .requestMatchers("/chat").permitAll() // /chat 엔드포인트 인증 없이 허용
+                      .requestMatchers("/", "health", "/chat").permitAll() // /chat 엔드포인트 인증 없이 허용
                       .requestMatchers("/css/**", "/js/**", "/image/**").permitAll()
                       .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Preflight 요청 허용
                       .requestMatchers("/favicon.ico").permitAll()
