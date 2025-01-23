@@ -1,11 +1,14 @@
 package com.jm.p_ai.presentation;
 
 import com.jm.p_ai.application.AI_Service;
+import com.jm.p_ai.config.JwtUtil;
 import com.jm.p_ai.domain.AI_Answer;
 import com.jm.p_ai.domain.AI_Question;
 import jakarta.validation.constraints.Null;
 import org.hibernate.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
@@ -27,11 +30,14 @@ public class AI_Controller {
 
     private final SimpMessagingTemplate simpMessagingTemplate;
 
+    private final JwtUtil jwtUtil;
+
     @Autowired
-    public AI_Controller(AI_Service ai_service, SimpMessagingTemplate simpMessagingTemplate)
+    public AI_Controller(AI_Service ai_service, SimpMessagingTemplate simpMessagingTemplate, JwtUtil jwtUtil)
     {
         this.ai_service = ai_service;
         this.simpMessagingTemplate = simpMessagingTemplate;
+        this.jwtUtil = jwtUtil;
     }
 
 
@@ -111,4 +117,26 @@ public class AI_Controller {
 
     }
 
+    // 2025/01/23 추가
+    // POST의 경우 요청 본문(body)에 데이터를 포함해 전송하므로 헤더나 본문을 통해 민감한 데이터를 전달하는 데 주로 사용.
+    @PostMapping("/validate-token")
+    public ResponseEntity<?> validateToken(@RequestHeader("Authorization") String authorizationHeader) {
+        try {
+            // Authorization 헤더에서 토큰 추출
+            if (authorizationHeader != null || !authorizationHeader.startsWith("Bearer ")) {
+                return ResponseEntity.badRequest().body("Invalid Authorization header");
+            }
+
+            String token = authorizationHeader.substring(7);
+            boolean isValid = jwtUtil.isTokenValid(token);
+
+            if (isValid) {
+                return ResponseEntity.ok("Token is Valid");
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or expired token");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Token validation failed");
+        }
+    }
 }
