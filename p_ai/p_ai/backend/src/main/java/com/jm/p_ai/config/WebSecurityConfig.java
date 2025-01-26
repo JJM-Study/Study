@@ -48,12 +48,16 @@ public class WebSecurityConfig {
               .cors(cors -> cors.configurationSource(corsConfigurationSource())) // CORS 설정 활성화 2024/11/14 추가
               .authorizeHttpRequests(authorize -> authorize
                       .requestMatchers("/api/authenticate").permitAll() // JWT 발급 엔드포인트는 인증 제외
+                      .requestMatchers("/api/validate-token").permitAll() // 2025/01/26 유효성 검사 추가
                       .requestMatchers("/h2-console/**").permitAll()
                       .requestMatchers("/chat-ws/**").permitAll() // WebSocket 엔드포인트 허용
+                      //.requestMatchers("/chat/**").permitAll() // SockJS 사용 시, /chat/Info 경로 허용이 필요하므로 일단 하위 경로 허용 2025/01/26
                       .requestMatchers("/loginForm").permitAll() // LoginForm 엔드포인트 허용
-                      .requestMatchers("/", "health", "/chat").permitAll() // /chat 엔드포인트 인증 없이 허용
+                      //.requestMatchers("/", "health", "/chat").permitAll() // /chat 엔드포인트 인증 없이 허용
+                      .requestMatchers("/", "health", "/chat/**").permitAll() // /chat 엔드포인트 인증 없이 허용 (/chat/info 문제로 /chat 하위 허용 2025/01/26)
                       .requestMatchers("/css/**", "/js/**", "/image/**").permitAll()
                       .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Preflight 요청 허용
+                      //.requestMatchers("/**").permitAll() // // 2025/01/26 수정.
                       .requestMatchers("/favicon.ico").permitAll()
                       //.anyRequest().permitAll() // 모든 요청 허용
                       .anyRequest().authenticated()).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

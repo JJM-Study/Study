@@ -3,11 +3,10 @@ import React, { useEffect, useState } from "react";
 
 const Chat: React.FC = () => {
   const [input, setInput] = useState("");
-  const [token, setToken] = useState(localStorage.getItem("jwt") || "");
-  // if (!token) {
-  //   token = "jwt-token";
-  //   localStorage.setItem("jwt", token); // 일단 사용자 구현 전까진, 사용자 정보 없을 시 임시 토큰 부여.
-  // }
+  const [token, setToken] = useState<string | null>(
+    localStorage.getItem("jwt")
+  );
+
   const authenticate = async () => {
     try {
       const response = await fetch("http://localhost:8080/api/authenticate", {
@@ -16,63 +15,47 @@ const Chat: React.FC = () => {
         body: JSON.stringify({ username: "user" }),
       });
       const data = await response.json();
-      const token = data.token;
+      const newToken = data.token;
 
-      if (token) {
-        localStorage.setItem("jwt", token);
-        setToken(token); // 토큰 상태 업데이트
+      if (newToken) {
+        localStorage.setItem("jwt", newToken);
+        setToken(newToken);
       } else {
         console.error("Failed to fetch JWT token.");
       }
     } catch (error) {
-      console.error("Error during authentifiacation", error);
+      console.error("Error during authentication", error);
     }
   };
 
-  // token 없을 때만 authenticate 호출
-  // useEffect(() => {
-  // if (!token) {
-  // authenticate();
-  // }
-  // }, [token]);
-  useEffect(() => {
-    let isMounted = true;
+  const validateToken = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/api/validate-token", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    const validateToken = async () => {
-      try {
-        const response = await fetch(
-          "http://localhost:8080/api/validate-token",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        if (!response.ok) {
-          console.error("Token is invalid or expired");
-          if (isMounted) authenticate(); // 유효하지 않은 토큰이면 새 인증 시도.
-          return;
-        }
-
+      if (!response.ok) {
+        console.error("Invalid or expired token. Reauthenticating...");
+        await authenticate();
+      } else {
         console.log("Token is valid");
-      } catch (error) {
-        console.error("Invalid or expired token, re-authenticating...", error);
-        if (isMounted) authenticate();
       }
-    };
+    } catch (error) {
+      console.error("Invalid or expired token, re-authenticating...", error);
+      await authenticate();
+    }
+  };
 
+  useEffect(() => {
     validateToken();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [token]);
+  }, [validateToken]); // validateToken 의존성 추가
 
   const { messages, sendMessage, isConnected } = useWebSocket(
-    "http://localhost:8080/chat",
+    "http://localhost:8080/chat-ws",
     token
   );
 
@@ -99,21 +82,23 @@ const Chat: React.FC = () => {
           </div>
         ))}
       </div>
-      <div className="flex items-center w-full mt-4"></div>
-      <input
-        type="text"
-        value={input}
-        className="flex-grow p-2 border rounded-md"
-        placeholder="Type your question"
-        disabled={!isConnected}
-      />
-      <button
-        onClick={handleSend}
-        className="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md"
-        disabled={!isConnected}
-      >
-        Send
-      </button>
+      <div className="flex items-center w-full mt-4">
+        <input
+          type="text"
+          value={input}
+          className="flex-grow p-2 border rounded-md"
+          placeholder="Type your question"
+          onChange={(e) => setInput(e.target.value)}
+          disabled={!isConnected}
+        />
+        <button
+          onClick={handleSend}
+          className="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md"
+          disabled={!isConnected}
+        >
+          Send
+        </button>
+      </div>
     </div>
   );
 };

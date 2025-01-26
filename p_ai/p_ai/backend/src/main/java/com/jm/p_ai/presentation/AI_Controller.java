@@ -82,6 +82,11 @@ public class AI_Controller {
 //        ai_service.chatAnswer(aianswer);
 //        return "redirect:/chat";
 //    }
+//    @GetMapping("/chat/info")
+//    public ResponseEntity<String> chatInfo() {
+//        return ResponseEntity.ok("Chat info endpoint is working");
+//    }
+
 
     @MessageMapping("/question")
     //public void handleQuestion(AI_QuestionDto ai_questionDto, Principal principal) {
@@ -117,26 +122,4 @@ public class AI_Controller {
 
     }
 
-    // 2025/01/23 추가
-    // POST의 경우 요청 본문(body)에 데이터를 포함해 전송하므로 헤더나 본문을 통해 민감한 데이터를 전달하는 데 주로 사용.
-    @PostMapping("/validate-token")
-    public ResponseEntity<?> validateToken(@RequestHeader("Authorization") String authorizationHeader) {
-        try {
-            // Authorization 헤더에서 토큰 추출
-            if (authorizationHeader != null || !authorizationHeader.startsWith("Bearer ")) {
-                return ResponseEntity.badRequest().body("Invalid Authorization header");
-            }
-
-            String token = authorizationHeader.substring(7);
-            boolean isValid = jwtUtil.isTokenValid(token);
-
-            if (isValid) {
-                return ResponseEntity.ok("Token is Valid");
-            } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or expired token");
-            }
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Token validation failed");
-        }
-    }
 }
