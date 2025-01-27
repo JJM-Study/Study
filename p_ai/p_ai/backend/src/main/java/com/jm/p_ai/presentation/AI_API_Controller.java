@@ -89,7 +89,7 @@ public class AI_API_Controller {
 
         try {
             // Authorization 헤더에서 토큰 추출
-            if (authorizationHeader != null || !authorizationHeader.startsWith("Bearer ")) {
+            if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
                 response.put("message", "Invalid Authorization header");
                 return ResponseEntity.badRequest().body(response);
             }
