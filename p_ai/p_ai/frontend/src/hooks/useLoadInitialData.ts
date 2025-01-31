@@ -14,13 +14,17 @@ export const useLoadInitialData = () => {
         const response = await fetch(
           "http://localhost:8080/api/Question-And-Answer",
           {
-            headers: { Authorization: `Bearer ${localStorage.getItem("jwt")}` },
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
           }
         );
 
         if (response.ok) {
           const data = await response.json(); // Message 단일 지정
-
           // // 질문-답변 데이터 그룹핑
           const formattedData: QuestionWithAnswers[] = data.reduce(
             (acc: QuestionWithAnswers[], msg: any) => {

@@ -60,6 +60,7 @@ public class WebSecurityConfig {
                       //.requestMatchers("/**").permitAll() // // 2025/01/26 수정.
                       .requestMatchers("/favicon.ico").permitAll()
                       //.anyRequest().permitAll() // 모든 요청 허용
+                      .requestMatchers("/api/**").permitAll() // 2025/01/31 추가
                       .anyRequest().authenticated()).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                       //.formLogin(withDefaults()) // 기본 로그인 폼 사용 2024/08/13 추가 / 2024/11/01 임시 주석 처리.
                       .cors(withDefaults()) // CORS 설정 활성화 20240812 추가

@@ -17,6 +17,9 @@ export const useWebSocket = (url: string, token: string | null) => {
   const [messages, setMessages] = useState<QuestionWithAnswers[]>([]);
   const [isConnected, setIsConnected] = useState(false);
   //const maxRetries = 5;
+  const [confirmations, setConfirmations] = useState<
+    { questionId: number; questionContents: string }[]
+  >([]);
 
   const connectWebSocket = useCallback(() => {
     const client = new Client({
