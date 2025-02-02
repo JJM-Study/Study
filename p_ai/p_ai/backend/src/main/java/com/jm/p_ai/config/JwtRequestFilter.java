@@ -35,6 +35,18 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
             final String authorizationHeader = request.getHeader("Authorization");
 
+            // --- 2025/01/06 JWT 필터 예외 경우를 위해 추가함. ---
+            final String requestPath = request.getRequestURI();
+
+            //if (requestPath.equals("/") || requestPath.equals("health")) { // 현재 "/" 경로만 테스트를 위해 제외
+            //if (requestPath.equals("/") || requestPath.equals("health") || requestPath.equals("/api/authenticate") || requestPath.equals("/api/validate-token") || requestPath.startsWith("/chat/")) { // 현재 "/" 경로만 테스트를 위해 제외
+            if (requestPath.equals("/") || requestPath.equals("health") || requestPath.equals("/api/authenticate") || requestPath.equals("/api/validate-token")) { // 현재 "/" 경로만 테스트를 위해 제외
+                System.out.println("Skipping JWT filter for path: " + requestPath);
+                chain.doFilter(request, response);
+                return;
+            }
+            // --------------------------------------------
+
             String username = null;
             String jwt = null;
 

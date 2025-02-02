@@ -8,6 +8,7 @@ import com.jm.p_ai.domain.AI_Question;
 import java.util.Map;
 import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
@@ -78,6 +79,35 @@ public class AI_API_Controller {
         Map<String, String> response = new HashMap<>();
         response.put("token", jwt);
         return ResponseEntity.ok(response);
+    }
+
+    // 2025/01/23 추가
+    // POST의 경우 요청 본문(body)에 데이터를 포함해 전송하므로 헤더나 본문을 통해 민감한 데이터를 전달하는 데 주로 사용.
+    @PostMapping("/validate-token")
+    public ResponseEntity<?> validateToken(@RequestHeader("Authorization") String authorizationHeader) {
+        Map<String, String> response = new HashMap<>();
+
+        try {
+            // Authorization 헤더에서 토큰 추출
+            if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+                response.put("message", "Invalid Authorization header");
+                return ResponseEntity.badRequest().body(response);
+            }
+
+            String token = authorizationHeader.substring(7);
+            boolean isValid = jwtUtil.isTokenValid(token);
+
+            if (isValid) {
+                response.put("message", "Token is Valid");
+                return ResponseEntity.ok(response);
+            } else {
+                response.put("message", "Invalid or expired token");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+            }
+        } catch (Exception e) {
+            response.put("message", "Token validation failed");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
     }
 
 }

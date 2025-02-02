@@ -262,5 +262,15 @@ def generate_answer():
 #         print(f"An error occurred while adding data: {e}")
 #         return jsonify({'error': 'An error occurred', 'details': str(e)}), 500
 
+# Health check endpoint
+@app.route('/health', methods=['GET'])
+def health_check():
+    return jsonify({"status": "healthy"}), 200
+
+# Root endpoint
+@app.route('/', methods=['GET'])
+def root():
+    return jsonify({"message": "Flask server is running"}), 200
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

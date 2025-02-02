@@ -1,11 +1,14 @@
 package com.jm.p_ai.presentation;
 
 import com.jm.p_ai.application.AI_Service;
+import com.jm.p_ai.config.JwtUtil;
 import com.jm.p_ai.domain.AI_Answer;
 import com.jm.p_ai.domain.AI_Question;
 import jakarta.validation.constraints.Null;
 import org.hibernate.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
@@ -16,7 +19,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class AI_Controller {
@@ -25,11 +30,23 @@ public class AI_Controller {
 
     private final SimpMessagingTemplate simpMessagingTemplate;
 
+    private final JwtUtil jwtUtil;
+
     @Autowired
-    public AI_Controller(AI_Service ai_service, SimpMessagingTemplate simpMessagingTemplate)
+    public AI_Controller(AI_Service ai_service, SimpMessagingTemplate simpMessagingTemplate, JwtUtil jwtUtil)
     {
         this.ai_service = ai_service;
         this.simpMessagingTemplate = simpMessagingTemplate;
+        this.jwtUtil = jwtUtil;
+    }
+
+
+    @GetMapping({"/", "/health"}) // 클라우드 배포 시, 헬스 체크를 위해 인증 예외 지정.
+    @ResponseBody
+    public Map<String, String> healthCheck() {
+        Map<String, String> response = new HashMap<>();
+        response.put("status", "OK");
+        return response;
     }
 
     @GetMapping("/chat")
@@ -65,6 +82,11 @@ public class AI_Controller {
 //        ai_service.chatAnswer(aianswer);
 //        return "redirect:/chat";
 //    }
+//    @GetMapping("/chat/info")
+//    public ResponseEntity<String> chatInfo() {
+//        return ResponseEntity.ok("Chat info endpoint is working");
+//    }
+
 
     @MessageMapping("/question")
     //public void handleQuestion(AI_QuestionDto ai_questionDto, Principal principal) {
@@ -80,14 +102,15 @@ public class AI_Controller {
         String username = principal.getName();
         System.out.println("User : " + username);
 
-        Long questionId = ai_service.handleQuestion(ai_questionDto);
+        AI_QuestionDto savedQuestionDto = ai_service.handleQuestion(ai_questionDto);
+        Long questionId = savedQuestionDto.getId();
 
-        List<AI_AnswerDto> ai_answerDtos = ai_service.handleAnswer(ai_questionDto, questionId);
+        List<AI_AnswerDto> ai_answerDtos = ai_service.handleAnswer(savedQuestionDto, questionId);
 
         //simpMessagingTemplate.convertAndSendToUser(username, "/user/queue/question", ai_questionDto);
 
         System.out.println("Sending confimration to user : " + username);
-        this.simpMessagingTemplate.convertAndSendToUser(username, "/queue/question/confirmation", ai_questionDto);
+        this.simpMessagingTemplate.convertAndSendToUser(username, "/queue/question/confirmation", savedQuestionDto);
 
         ai_answerDtos.forEach(answerDto -> {
             //simpMessagingTemplate.convertAndSendToUser(principal.getName(), "/queue/answers", answerDto)
