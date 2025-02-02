@@ -50,7 +50,7 @@ public class AI_ServiceTest {
 
         // AI_QuestionDto 생성 및 테스트 실행
         AI_QuestionDto questionDto = new AI_QuestionDto(id, contents);
-        Long result = ai_service.handleQuestion(questionDto);
+        AI_QuestionDto result = ai_service.handleQuestion(questionDto);
 
         // 결과 검증
         assertEquals(expectedResult, Integer.parseInt(mockAnswer.getContents()), "Subtraction result does not match");

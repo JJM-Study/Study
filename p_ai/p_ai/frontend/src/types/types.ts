@@ -10,6 +10,7 @@ export type QuestionWithAnswers = {
     answerId: number;
     answerContents: string;
   }[];
+  pending?: boolean; // Optional 선언
 };
 
 export type AnswerMessage = {

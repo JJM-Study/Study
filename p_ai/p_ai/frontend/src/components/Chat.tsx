@@ -25,21 +25,29 @@ const Chat: React.FC = () => {
 
   // WebSocket 메세지와 초기 메세지를 병합
   useEffect(() => {
-    console.log("initial Message :", initialMessages);
-    console.log("webSocket Message :", webSocketMessages);
-    const questionMap = new Map(
-      initialMessages.map((msg) => [msg.questionId, msg])
-    );
+    setCombineMessages((prev) => {
+      const questionMap = new Map(prev.map((msg) => [msg.questionId, msg]));
 
-    // ** WebSocketMessages 변환 처리 **
-    const formattedWebSocketMessages = webSocketMessages.map((msg) => ({
-      questionId: msg.questionId,
-      questionContents:
-        questionMap.get(msg.questionId)?.questionContents || "Unknown Question",
-      answers: msg.answers,
-    }));
+      // 기존 질문 유지 + 새로운 초기 데이터 반영
+      initialMessages.forEach((msg) => {
+        questionMap.set(msg.questionId, msg);
+      });
 
-    setCombineMessages([...initialMessages, ...formattedWebSocketMessages]);
+      // WebSocket에서 받은 메시지도 반영
+      webSocketMessages.forEach((msg) => {
+        console.log("questionId : " + msg.questionId);
+        questionMap.set(msg.questionId, {
+          questionId: msg.questionId,
+          questionContents:
+            msg.questionContents ||
+            questionMap.get(msg.questionId)?.questionContents ||
+            "Unknown Question",
+          answers: msg.answers || [],
+        });
+      });
+
+      return Array.from(questionMap.values());
+    });
   }, [initialMessages, webSocketMessages]);
 
   const authenticate = async () => {
@@ -92,6 +100,7 @@ const Chat: React.FC = () => {
   const handleSend = () => {
     if (input.trim()) {
       sendMessage("/app/question", { contents: input });
+
       setInput("");
     }
   };

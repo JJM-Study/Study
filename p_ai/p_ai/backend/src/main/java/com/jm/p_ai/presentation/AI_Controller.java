@@ -102,14 +102,15 @@ public class AI_Controller {
         String username = principal.getName();
         System.out.println("User : " + username);
 
-        Long questionId = ai_service.handleQuestion(ai_questionDto);
+        AI_QuestionDto savedQuestionDto = ai_service.handleQuestion(ai_questionDto);
+        Long questionId = savedQuestionDto.getId();
 
-        List<AI_AnswerDto> ai_answerDtos = ai_service.handleAnswer(ai_questionDto, questionId);
+        List<AI_AnswerDto> ai_answerDtos = ai_service.handleAnswer(savedQuestionDto, questionId);
 
         //simpMessagingTemplate.convertAndSendToUser(username, "/user/queue/question", ai_questionDto);
 
         System.out.println("Sending confimration to user : " + username);
-        this.simpMessagingTemplate.convertAndSendToUser(username, "/queue/question/confirmation", ai_questionDto);
+        this.simpMessagingTemplate.convertAndSendToUser(username, "/queue/question/confirmation", savedQuestionDto);
 
         ai_answerDtos.forEach(answerDto -> {
             //simpMessagingTemplate.convertAndSendToUser(principal.getName(), "/queue/answers", answerDto)

@@ -88,16 +88,16 @@ public class AI_Service {
 //        return ai_answerDtos;
 //    }
 
-    public Long handleQuestion(AI_QuestionDto ai_questionDto) {
+    public AI_QuestionDto handleQuestion(AI_QuestionDto ai_questionDto) {
         // 질문을 엔티티 변환하여 데이터베이스에 저장
         AI_Question ai_question = ai_questionDto.toQuestionEntity(ai_questionDto);
 
         AI_Question savedQuestion = ai_questionRepo.save(ai_question);
 
-        ai_questionDto = ai_questionDto.toQuestionDto(savedQuestion); // Dto 변환이 안 되면 없앨 것.
+        //ai_questionDto = ai_questionDto.toQuestionDto(savedQuestion); // Dto 변환이 안 되면 없앨 것.
 
         //return savedQuestion.getId();
-        return ai_questionDto.getId();
+        return ai_questionDto.toQuestionDto(savedQuestion);
 
     }
 

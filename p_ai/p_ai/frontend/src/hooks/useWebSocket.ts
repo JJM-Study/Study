@@ -17,9 +17,6 @@ export const useWebSocket = (url: string, token: string | null) => {
   const [messages, setMessages] = useState<QuestionWithAnswers[]>([]);
   const [isConnected, setIsConnected] = useState(false);
   //const maxRetries = 5;
-  const [confirmations, setConfirmations] = useState<
-    { questionId: number; questionContents: string }[]
-  >([]);
 
   const connectWebSocket = useCallback(() => {
     const client = new Client({
@@ -31,48 +28,45 @@ export const useWebSocket = (url: string, token: string | null) => {
         //retryCountRef.current = 0; // 성공 시 retryCount 초기화 2025/01/29 주석
         console.log("WebSocket connected");
 
+        client.subscribe("/user/queue/question/confirmation", (message) => {
+          const newQuestion = JSON.parse(message.body);
+          console.log("Original WebSocket Message:", newQuestion);
+          console.log(
+            "formatted Data :",
+            `questionId: ${newQuestion.id}`,
+            `questionContents ${newQuestion.contents}`
+          );
+
+          setMessages((prev) => [
+            ...prev,
+            {
+              questionId: newQuestion.id,
+              questionContents: newQuestion.contents,
+              answers: newQuestion.answers || [],
+            },
+          ]);
+          console.log("WebSocket에서 받은 question/confirmation:", newQuestion);
+        });
+
         client.subscribe("/user/queue/answers", (message) => {
-          const parsedMessage: AnswerMessage = JSON.parse(message.body); // 메세지 파싱 후 단일 지정
+          const newAnswer: AnswerMessage = JSON.parse(message.body);
 
-          // 질문-답변 데이터 그룹핑
-          setMessages((prev) => {
-            const existingQuestion = prev.find(
-              (q) => q.questionId === parsedMessage.questionId
-            );
-
-            // 질문 존재 시 answers 배열에 추가.
-            if (existingQuestion) {
-              return prev.map((q) =>
-                q.questionId === parsedMessage.questionId
-                  ? {
-                      ...q,
-                      answers: [
-                        ...q.answers,
-                        {
-                          answerId: parsedMessage.id,
-                          answerContents: parsedMessage.contents,
-                        },
-                      ],
-                    }
-                  : q
-              );
-            } else {
-              // 기존 질문이 없다면 새 질문 추가
-              // (일반적인 HTML과 다르게 새로고침 등으로 끊기면, 데이터를 새로 불러오는 게 아니라 리엑트 자체에서 따로 관리하는 걸 불러오므로, 그에 대한 기억 공간 필요.)
-              const newQuestion: QuestionWithAnswers = {
-                questionId: parsedMessage.questionId,
-                questionContents: "Unknown Question",
-                answers: [
-                  {
-                    answerId: parsedMessage.id,
-                    answerContents: parsedMessage.contents,
-                  },
-                ],
-              };
-
-              return [...prev, newQuestion];
-            }
-          });
+          setMessages((prev) =>
+            prev.map((q) =>
+              q.questionId === newAnswer.questionId
+                ? {
+                    ...q,
+                    answers: [
+                      ...q.answers,
+                      {
+                        answerId: newAnswer.id,
+                        answerContents: newAnswer.contents,
+                      },
+                    ],
+                  }
+                : q
+            )
+          );
         });
       },
       onDisconnect: () => {
