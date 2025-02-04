@@ -14,4 +14,5 @@ public interface AI_QandA_Repo extends JpaRepository<AI_QandA, Long> {
     @Query(value = "SELECT new com.jm.p_ai.presentation.AI_QandADto(q.id, q.contents, a.id, a.contents) " +
             "FROM AI_Answer a LEFT JOIN a.question q")
     List<AI_QandADto> findAllAnswerWithQuestions();
+
 }

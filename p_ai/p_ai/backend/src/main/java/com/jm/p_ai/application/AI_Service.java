@@ -4,13 +4,11 @@ import com.jm.p_ai.AI_Model.AI_Model;
 import com.jm.p_ai.domain.AI_Answer;
 import com.jm.p_ai.domain.AI_QandA;
 import com.jm.p_ai.domain.AI_Question;
-import com.jm.p_ai.infrastructure.AI_Answer_Repo;
-import com.jm.p_ai.infrastructure.AI_QandA_Repo;
-import com.jm.p_ai.infrastructure.AI_Question_Repo;
-import com.jm.p_ai.infrastructure.AI_User_Repo;
+import com.jm.p_ai.infrastructure.*;
 import com.jm.p_ai.presentation.AI_AnswerDto;
 import com.jm.p_ai.presentation.AI_QandADto;
 import com.jm.p_ai.presentation.AI_QuestionDto;
+import com.jm.p_ai.presentation.AI_Training_QandADto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -34,6 +32,7 @@ public class AI_Service {
     private AI_Answer_Repo ai_answerRepo;
     private AI_Question_Repo ai_questionRepo;
     private AI_QandA_Repo ai_QandA_repo; // 2024/12/03 추가
+    private AI_Training_QandA_Repo ai_training_qandA_repo; // 2025/02/04 추가
 
     private final RestTemplate restTemplate;
 
@@ -43,6 +42,7 @@ public class AI_Service {
                       AI_Answer_Repo ai_answerRepo,
                       AI_Question_Repo ai_questionRepo,
                       AI_QandA_Repo ai_QandA_repo,
+                      AI_Training_QandA_Repo ai_training_qandA_repo,
                       RestTemplate restTemplate)
     {
         this.ai_model = ai_model;
@@ -50,6 +50,7 @@ public class AI_Service {
         this.ai_answerRepo = ai_answerRepo;
         this.ai_questionRepo = ai_questionRepo;
         this.ai_QandA_repo = ai_QandA_repo;
+        this.ai_training_qandA_repo = ai_training_qandA_repo;
         this.restTemplate = restTemplate;
     }
 
@@ -196,9 +197,18 @@ public class AI_Service {
 
     // 단일 책임 원칙 SRP에 따라서 DTO를 처리하기 위한 별도의 메서드 구분.
 
+//    public List<AI_QandADto> view_QandA() {
+//
+//        return ai_QandA_repo.findAllAnswerWithQuestions();
+//    }
     public List<AI_QandADto> view_QandA() {
 
         return ai_QandA_repo.findAllAnswerWithQuestions();
+    }
+
+    public List<AI_Training_QandADto> view_Training_QandA() {
+
+        return ai_training_qandA_repo.findAllAnswerWithQuestions();
     }
 
     public List<AI_Question> view_Question() {

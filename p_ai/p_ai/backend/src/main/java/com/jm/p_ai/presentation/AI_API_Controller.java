@@ -7,6 +7,8 @@ import com.jm.p_ai.domain.AI_Answer;
 import com.jm.p_ai.domain.AI_Question;
 import java.util.Map;
 import java.util.HashMap;
+
+import com.jm.p_ai.domain.AI_Training_QandA;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,10 +55,21 @@ public class AI_API_Controller {
 //        return ResponseEntity.ok(answers);
 //    }
 
+//    @GetMapping("/Question-And-Answer") // 2024/12/03 추가
+//    public List<AI_QandADto> AandQ() {
+//
+//        return ai_service.view_QandA();
+//    }
     @GetMapping("/Question-And-Answer") // 2024/12/03 추가
     public List<AI_QandADto> AandQ() {
 
-        return ai_service.view_QandA();
+      return ai_service.view_QandA();
+    }
+
+    @GetMapping("/Training-Question-And-Answer") // 2025/02/04 추가
+    public List<AI_Training_QandADto> Training_AandQ() {
+
+        return ai_service.view_Training_QandA();
     }
 
     @GetMapping("/questions")

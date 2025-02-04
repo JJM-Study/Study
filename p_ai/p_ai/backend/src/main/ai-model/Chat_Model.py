@@ -98,7 +98,8 @@ class LeaningAI:
             answers_response = self.session.get("http://localhost:8080/api/answers", headers=headers)  # 현재는 사용 X. 확장성을 고려, 임시 추가. 2024/11/29
             answers_response.raise_for_status()
 
-            q_and_a_response = self.session.get("http://localhost:8080/api/Question-And-Answer", headers=headers)
+            # q_and_a_response = self.session.get("http://localhost:8080/api/Question-And-Answer", headers=headers)
+            q_and_a_response = self.session.get("http://localhost:8080/api/Training-Question-And-Answer", headers=headers) # 2025/02/04 기존 사용자 질문-답변 테이블에서 트레이닝용 테이블로 수정.
             q_and_a_response.raise_for_status()
 
             #데이터 저장
@@ -106,12 +107,18 @@ class LeaningAI:
             self.answers = [a['contents'] for a in answers_response.json()] # 현재는 사용 X. 확장성을 고려, 임시 추가. 2024/11/29
             self.question_and_answer = [(c['questionContents'], c['answerContents']) for c in q_and_a_response.json()]  # 현재는
 
+            if not self.question_and_answer or any(not q or not a for q, a in self.question_and_answer):
+                print("Some questions or answers are missing. Training aborted.")
+                return False
+
+            return True
+
         except requests.exceptions.RequestException as e:
             print(f"Request exception occurred: {e}")
             raise Exception("Failed to fetch data from API")
-        except Exception as e:
-            print(f"Error occurred: {e}")
-            raise Exception("An internal error occurred")
+        # except Exception as e:
+        #     print(f"Error occurred: {e}")
+        #     raise Exception("An internal error occurred")
 
    def train_model(self):
         """
@@ -128,6 +135,7 @@ class LeaningAI:
         else:
             try:
                 self.vectorizer = TfidfVectorizer()
+                #self.vectorizer = TfidfVectorizer(ngram_range=(1, 2)) #2025/02/04 수정 // 유니그램(1) + 바이그램(2) 사용으로, 단어 단위가 아니라 좀 더 폭넓은 단위로 벡터화
                 
                 # 질문 데이터를 추출하여 벡터화
                 #X = self.vectorizer.fit_transform(self.questions)
@@ -138,18 +146,24 @@ class LeaningAI:
                 local_answers = [a for _, a in self.question_and_answer]
 
                 # KNN 모델을 학습
-                self.model = KNeighborsClassifier(n_neighbors=1)
+                # self.model = KNeighborsClassifier(n_neighbors=1) // 1일 경우 가장 가까운 한 개 질문만 참고, 답변 반환.
+                self.model = KNeighborsClassifier(n_neighbors=1) # 2025/02/04 수정 // 이 수치가 높아질수록 다수결 원칙 적용, 좀 더 정확한 답변이 나올 가능성이 높아짐.
                 self.model.fit(X, local_answers)
 
                 # 학습된 모델을 Pickle을 사용하여 저장
-                os.makedirs(os.path.dirname(self.model_path), exist_ok=True) # 디렉토리 없을 시 생성
-                with open(self.model_path, "wb") as model_file:
-                        pickle.dump((self.vectorizer, self.model), model_file) # 매번 학습하는 건 비효율적일 수 있으므로 다른 방법을 생각해볼 것. / 학습이 완료된 이후에만 모델을 저장하게 한다거나.
-                print("Model saved successfully")
-
+                self.create_model_file()
+                return True
             except Exception as e:
                 print(f"Error during model training: {e}")
                 self.model = None
+                return False
+
+   def create_model_file(self):  # 학습된 모델  Pickle을 사용하여 저장
+        os.makedirs(os.path.dirname(self.model_path), exist_ok=True) # 디렉토리 없을 시 생성
+        with open(self.model_path, "wb") as model_file:
+            pickle.dump((self.vectorizer, self.model), model_file)
+        print("Model saved successfully")
+
 
    def load_model(self):
         print("directory : " + os.getcwd())
@@ -176,14 +190,18 @@ class LeaningAI:
        """
        if self.model is None:
           print("No model found, Please train the model first.")
-          #self.add_default_data() //
-          #self.train_model()
-          #if self.model is None:
           return "Sorry, Don't have enough data to answer that right now."
    
        # 사용자 질문을 TF-IDF 벡터로 변환
        try:
           user_question_vec = self.vectorizer.transform([user_question])
+
+        #   #가장 가까운 질문과의 거리 측정
+        #   distance, indices = self.model.kneighbors(user_question_vec)
+        #   #유사도가 너무 낮으면 모름 처리
+        #   if distance[0][0] > 1:
+        #       return "질문을 이해하지 못했습니다. 다시 질문해주세요."
+
           # 가장 유사한 질문을 찾고 해당 답변 반환
           answer = self.model.predict(user_question_vec)[0]
        except Exception as e:
@@ -203,6 +221,7 @@ leaning_ai = LeaningAI()
 @app.route('/generate-answer', methods=['POST'])
 def generate_answer():
     try:
+
         print("Received a request to /generate-answer")  # 요청이 들어왔는지 로그로 출력
 
         logging.info("API endpoint '/generate-answer' called")  # 확인용 로그
@@ -217,17 +236,7 @@ def generate_answer():
         
         question_data = data['questions']
 
-
-        # 스프링 부트 API에서 질문/답변 데이터를 가져오고 학습
-        leaning_ai.fetch_data()
-
-        # #만약 데이터가 없으면 기본 데이터를 추가
-        # if not leaning_ai.questions or not leaning_ai.answers:
-        #     leaning_ai.add_default_data()
-
-        leaning_ai.train_model()
-
-        # 모델 학습 후 질문에 대한 답변 생성
+        # 질문에 대한 답변 생성
         answer = leaning_ai.get_answer(question_data)
         return jsonify({'answers': [answer]})
 
@@ -263,6 +272,18 @@ def generate_answer():
 #         return jsonify({'error': 'An error occurred', 'details': str(e)}), 500
 
 # Health check endpoint
+
+@app.route('/training_mdoel', methods=['GET'])
+def training_mdoel():
+    if not leaning_ai.fetch_data():
+        print("Training aborted: No data fetched.")
+        return jsonify({'message': 'Training aborted due to lack of data'}), 400
+    
+    if leaning_ai.train_model():
+        return jsonify({'message': 'Model training completed successfully'}), 200
+    else:
+        return jsonify({'message': 'Training aborted: No data available or an error occurred.'}), 400
+
 @app.route('/health', methods=['GET'])
 def health_check():
     return jsonify({"status": "healthy"}), 200
@@ -271,6 +292,7 @@ def health_check():
 @app.route('/', methods=['GET'])
 def root():
     return jsonify({"message": "Flask server is running"}), 200
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

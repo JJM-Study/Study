@@ -30,6 +30,7 @@ public class AI_ServiceTest {
                 mockAnswerRepo,
                 mockQuestionRepo,
                 Mockito.mock(com.jm.p_ai.infrastructure.AI_QandA_Repo.class),
+                Mockito.mock(com.jm.p_ai.infrastructure.AI_Training_QandA_Repo.class),
                 Mockito.mock(org.springframework.web.client.RestTemplate.class)
         );
     }
