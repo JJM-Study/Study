@@ -71,7 +71,7 @@ public class WebSecurityConfig {
 
   }
 
-  // Jwt 자체에서 사용자 정보를 관리하므로 비활성화.
+
 //  @Bean
 //  public InMemoryUserDetailsManager userDetailService(PasswordEncoder passwordEncoder) {
 //      UserDetails user = User.builder()
@@ -83,6 +83,7 @@ public class WebSecurityConfig {
 //      return new InMemoryUserDetailsManager(user);
 //  }
 
+    // JWT 도입으로 삭제해도 되지만, 스프링 부트 자체에서 요구하니 놔둠.
     @Bean
     public InMemoryUserDetailsManager userDetailsManager() {
         UserDetails user = User.builder()
