@@ -55,7 +55,7 @@ const Chat: React.FC = () => {
       const response = await fetch("http://localhost:8080/api/authenticate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username: "user" }),
+        body: JSON.stringify({ username: null }), // 2025/02/13 user -> null 수정. 현재는 Guest모드로, 차후 로그인 구현 시 수정할 것.
       });
       const data = await response.json();
       const newToken = data.token;

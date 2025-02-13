@@ -102,7 +102,7 @@ public class AI_Controller {
         String username = principal.getName();
         System.out.println("User : " + username);
 
-        AI_QuestionDto savedQuestionDto = ai_service.handleQuestion(ai_questionDto);
+        AI_QuestionDto savedQuestionDto = ai_service.handleQuestion(ai_questionDto, username);
         Long questionId = savedQuestionDto.getId();
 
         List<AI_AnswerDto> ai_answerDtos = ai_service.handleAnswer(savedQuestionDto, questionId);

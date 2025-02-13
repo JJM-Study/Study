@@ -89,50 +89,82 @@ public class AI_Service {
 //        return ai_answerDtos;
 //    }
 
-    public AI_QuestionDto handleQuestion(AI_QuestionDto ai_questionDto) {
+    public AI_QuestionDto handleQuestion(AI_QuestionDto ai_questionDto, String userId) {
         // 질문을 엔티티 변환하여 데이터베이스에 저장
-        AI_Question ai_question = ai_questionDto.toQuestionEntity(ai_questionDto);
+        //AI_Question ai_question = ai_questionDto.toQuestionEntity(ai_questionDto);
+
+        // 엔티티를 생성. / Dto가 엔티티 변환 책임까지 가지는 것은 단일 책임 원칙에 위배된다고 판단.
+        // 나중에 변환 전담 Class를 추가하든 할 것.
+        AI_Question ai_question = new AI_Question(ai_questionDto.getContents(), userId);
 
         AI_Question savedQuestion = ai_questionRepo.save(ai_question);
 
         //ai_questionDto = ai_questionDto.toQuestionDto(savedQuestion); // Dto 변환이 안 되면 없앨 것.
 
+        // AI_QandA 생성 및 저장 / 2025/02/13 추가 / 아예 QandA에 레코드들을 저장해서 확장성 및 레코드 관리 용이하게 함.
+        AI_QandA aiQandA = new AI_QandA(savedQuestion, null, userId);
+        ai_QandA_repo.save(aiQandA);
+
         //return savedQuestion.getId();
-        return ai_questionDto.toQuestionDto(savedQuestion);
+        //return ai_questionDto.toQuestionDto(savedQuestion);
+        return new AI_QuestionDto(savedQuestion.getId(), savedQuestion.getContents(), userId);
 
     }
+
+//    public List<AI_AnswerDto> handleAnswer(AI_QuestionDto ai_questionDto, Long questionId) {
+//        // 질문 ID로 AI_Question 엔티티 조회 . 2024/08/16 추가
+//        AI_Question question = ai_questionRepo.findById(questionId).orElseThrow(() -> new IllegalArgumentException("Invalid question ID: " + questionId));
+//
+//        AI_QandA aiQandA = ai_QandA_repo.findByQuestion(question).orElseThrow(() -> new RuntimeException("AI_QandA record not found"));
+//
+//        // 모델을 통해 생성된 답변 리스트를 가져온다.
+//        // 2024/09/02 수정
+//        //List<String> answerContents = ai_model.getMultipleAnswers(ai_questionDto.getContents()); // 해당 매서드 구현 후 주석 풀 것.
+//        List<String> answerContents = getAnswersFromPython(question.getContents());
+//
+//        // 생성된 답변들을 저장
+//        List<AI_Answer> savedAnswers = answerContents.stream()
+//                .map(contents -> {
+//                    AI_Answer ai_answer = new AI_Answer();
+//                    ai_answer.setQuestion(question);
+//                    ai_answer.setContents(contents);
+//                    return ai_answerRepo.save(ai_answer);
+//                })
+//                .collect(Collectors.toList());
+//
+//        // 답변 엔티티들을 DTO로 변환
+//        List<AI_AnswerDto> ai_answerDtos = savedAnswers.stream()
+//                .map(ai_answer -> {
+//                    AI_AnswerDto ai_answerDto = new AI_AnswerDto();
+//                    ai_answerDto.setContents(ai_answer.getContents());
+//                    ai_answerDto.setquestionId(ai_answer.getQuestion().getId()); // 질문 ID를 포함
+//                    return ai_answerDto;
+//                })
+//                .collect(Collectors.toList());
+//
+//        return ai_answerDtos;
+//    }
 
     public List<AI_AnswerDto> handleAnswer(AI_QuestionDto ai_questionDto, Long questionId) {
-        // 질문 ID로 AI_Question 엔티티 조회 . 2024/08/16 추가
-        AI_Question question = ai_questionRepo.findById(questionId).orElseThrow(() -> new IllegalArgumentException("Invalid question ID: " + questionId));
+        AI_Question question = ai_questionRepo.findById(questionId)
+                .orElseThrow(() -> new RuntimeException("Invalid question ID"));
 
-        // 모델을 통해 생성된 답변 리스트를 가져온다.
-        // 2024/09/02 수정
-        //List<String> answerContents = ai_model.getMultipleAnswers(ai_questionDto.getContents()); // 해당 매서드 구현 후 주석 풀 것.
-        List<String> answerContents = getAnswersFromPython(question.getContents());
+        AI_QandA aiQandA = ai_QandA_repo.findByQuestion(question)
+                .orElseThrow(() -> new RuntimeException("AI_QandA record not found"));
 
-        // 생성된 답변들을 저장
-        List<AI_Answer> savedAnswers = answerContents.stream()
-                .map(contents -> {
-                    AI_Answer ai_answer = new AI_Answer();
-                    ai_answer.setQuestion(question);
-                    ai_answer.setContents(contents);
-                    return ai_answerRepo.save(ai_answer);
-                })
+        List<AI_Answer> savedAnswers = getAnswersFromPython(question.getContents()).stream()
+                .map(contents -> new AI_Answer(question, contents))
+                .map(ai_answerRepo::save)
                 .collect(Collectors.toList());
 
-        // 답변 엔티티들을 DTO로 변환
-        List<AI_AnswerDto> ai_answerDtos = savedAnswers.stream()
-                .map(ai_answer -> {
-                    AI_AnswerDto ai_answerDto = new AI_AnswerDto();
-                    ai_answerDto.setContents(ai_answer.getContents());
-                    ai_answerDto.setquestionId(ai_answer.getQuestion().getId()); // 질문 ID를 포함
-                    return ai_answerDto;
-                })
-                .collect(Collectors.toList());
+        aiQandA.setAnswers(savedAnswers);
+        ai_QandA_repo.save(aiQandA);
 
-        return ai_answerDtos;
+        return savedAnswers.stream()
+                .map(answer -> new AI_AnswerDto(answer.getId(), answer.getContents(), answer.getQuestion().getId()))
+                .collect(Collectors.toList());
     }
+
 
 //    public AI_QuestionDto chatQuestion(AI_QuestionDto ai_questionDto) {
 //
@@ -201,9 +233,17 @@ public class AI_Service {
 //
 //        return ai_QandA_repo.findAllAnswerWithQuestions();
 //    }
+
+    // 전체 조회
     public List<AI_QandADto> view_QandA() {
 
         return ai_QandA_repo.findAllAnswerWithQuestions();
+    }
+
+    // 특정 userID에 따라 조회 됨. / 2025/02/13 추가
+    public List<AI_QandADto> view_QandAByUser(String userId) {
+
+        return ai_QandA_repo.findAllAnswerWithQuestionsByUser(userId);
     }
 
     public List<AI_Training_QandADto> view_Training_QandA() {

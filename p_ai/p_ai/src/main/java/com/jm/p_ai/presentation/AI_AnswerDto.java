@@ -30,6 +30,11 @@ public class AI_AnswerDto {
         this.questionId = questionId;
     }
 
+    public AI_AnswerDto(Long id, String contents) {
+        this.id = id;
+        this.contents = contents;
+    }
+
     public Long getId() {
         return id;
     }
@@ -55,30 +60,34 @@ public class AI_AnswerDto {
     }
 
     //public AI_Answer toAnswerEntity() {
-    public AI_Answer toAnswerEntity(AI_AnswerDto ai_answerDto) {
-        AI_Answer ai_answer = new AI_Answer();
-               ai_answer.setId(ai_answerDto.getId());
-               ai_answer.setContents(ai_answerDto.getContents());
+//    public AI_Answer toAnswerEntity(AI_AnswerDto ai_answerDto) {
+//        AI_Answer ai_answer = new AI_Answer();
+//               ai_answer.setId(ai_answerDto.getId());
+//               ai_answer.setContents(ai_answerDto.getContents());
+//
+//                if(ai_answerDto.getquestionId() != null) {
+//                    AI_Question question = ai_question_repo.findById(ai_answerDto.getquestionId()).orElse(null);
+//
+//                    ai_answer.setQuestion(question);
+//                }
+//
+//        return ai_answer;
+//    }
 
-                if(ai_answerDto.getquestionId() != null) {
-                    AI_Question question = ai_question_repo.findById(ai_answerDto.getquestionId()).orElse(null);
+//    public AI_AnswerDto toAnswerDto(AI_Answer ai_answer) {
+//        AI_AnswerDto ai_answerDto = new AI_AnswerDto();
+//        ai_answerDto.setId(ai_answer.getId());
+//        ai_answerDto.setContents(ai_answer.getContents());
+//
+//        if ( ai_answer.getQuestion() != null) {
+//            ai_answerDto.setquestionId(ai_answer.getQuestion().getId());
+//        }
+//
+//        return ai_answerDto;
+//    }
 
-                    ai_answer.setQuestion(question);
-                }
-
-        return ai_answer;
-    }
-
-    public AI_AnswerDto toAnswerDto(AI_Answer ai_answer) {
-        AI_AnswerDto ai_answerDto = new AI_AnswerDto();
-        ai_answerDto.setId(ai_answer.getId());
-        ai_answerDto.setContents(ai_answer.getContents());
-
-        if ( ai_answer.getQuestion() != null) {
-            ai_answerDto.setquestionId(ai_answer.getQuestion().getId());
-        }
-
-        return ai_answerDto;
+    public static AI_AnswerDto toAnswerDto(AI_Answer ai_answer) {
+        return new AI_AnswerDto(ai_answer.getId(), ai_answer.getContents(), ai_answer.getQuestion().getId());
     }
 
 }

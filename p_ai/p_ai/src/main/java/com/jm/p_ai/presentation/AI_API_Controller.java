@@ -5,8 +5,8 @@ import com.jm.p_ai.config.JwtRequestFilter;
 import com.jm.p_ai.config.JwtUtil;
 import com.jm.p_ai.domain.AI_Answer;
 import com.jm.p_ai.domain.AI_Question;
-import java.util.Map;
-import java.util.HashMap;
+
+import java.util.*;
 
 import com.jm.p_ai.domain.AI_Training_QandA;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -60,10 +59,20 @@ public class AI_API_Controller {
 //
 //        return ai_service.view_QandA();
 //    }
-    @GetMapping("/Question-And-Answer") // 2024/12/03 추가
+    @GetMapping("/Question-And-Answer-All") // 2024/12/03 수정 // 전체 조회
     public List<AI_QandADto> AandQ() {
 
       return ai_service.view_QandA();
+    }
+
+    @GetMapping("/Question-And-Answer") // 2024/02/13 추가 // 특정 유저 조회
+    public List<AI_QandADto> view_QandAByUser(@RequestHeader("Authorization") String authorizationHeader) {
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            throw new IllegalArgumentException("Invalid Authorization header");
+        }
+        String token = authorizationHeader.substring(7);
+        String username = jwtUtil.extractUsername(token);
+        return ai_service.view_QandAByUser(username);
     }
 
     @GetMapping("/Training-Question-And-Answer") // 2025/02/04 추가
@@ -87,11 +96,17 @@ public class AI_API_Controller {
     @PostMapping("/authenticate")
     public ResponseEntity<Map<String, String>> createAuthenticationToken(@RequestBody Map<String, String> authenticationRequest) {
         String username = authenticationRequest.get("username");
+
         // 원래는 비밀번호를 통해 사용자 인증을 해야하지만, 일단 간단히 사용자 이름만으로 인증 가능하도록 함.
+        if (username == null || username.trim().isEmpty()) {
+            username = "guest-" + UUID.randomUUID().toString().substring(0, 8);
+        }
+
         String jwt = jwtUtil.generateToken(username);
         Map<String, String> response = new HashMap<>();
         response.put("token", jwt);
         return ResponseEntity.ok(response);
+
     }
 
     // 2025/01/23 추가

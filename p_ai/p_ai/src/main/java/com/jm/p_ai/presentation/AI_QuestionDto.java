@@ -8,6 +8,8 @@ public class AI_QuestionDto {
 
     private String contents;
 
+    private String userId;
+
     public AI_QuestionDto() {
 
     }
@@ -20,6 +22,12 @@ public class AI_QuestionDto {
 
     public AI_QuestionDto(String contents) {
         this.contents = contents;
+    }
+
+    public AI_QuestionDto(Long id, String contents, String userId) {
+        this.id = id;
+        this.contents = contents;
+        this.userId = userId;
     }
 
     public Long getId() {
@@ -38,14 +46,22 @@ public class AI_QuestionDto {
         this.contents = contents;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     public AI_QuestionDto toQuestionDto(AI_Question ai_question) {
-        AI_QuestionDto ai_questionDto = new AI_QuestionDto(ai_question.getId(), ai_question.getContents());
+        AI_QuestionDto ai_questionDto = new AI_QuestionDto(ai_question.getId(), ai_question.getContents(), ai_question.getUserId());
 
         return ai_questionDto;
     }
 
     public AI_Question toQuestionEntity(AI_QuestionDto ai_questionDto) {
-        return new AI_Question(ai_questionDto.getId(), ai_questionDto.getContents());
+        return new AI_Question(ai_questionDto.getId(), ai_questionDto.getContents(), ai_questionDto.getUserId());
     }
 
 }

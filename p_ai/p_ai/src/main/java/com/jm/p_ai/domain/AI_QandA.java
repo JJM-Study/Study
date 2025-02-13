@@ -19,13 +19,17 @@ public class AI_QandA {
     @JoinColumn(name = "question_id", referencedColumnName = "id")  // question_id 필드를 통해 AI_Answer와 연관
     private List<AI_Answer> answers;
 
+    // 2025/02/13 추가
+    private String userId;
+
     public AI_QandA() {
 
     }
 
-    public AI_QandA(AI_Question question, List<AI_Answer> answers) {
+    public AI_QandA(AI_Question question, List<AI_Answer> answers, String userId) {
         this.question = question;
         this.answers = answers;
+        this.userId = userId;
     }
 
     public Long getId() {
@@ -50,5 +54,13 @@ public class AI_QandA {
 
     public void setAnswers(List<AI_Answer> answers) {
         this.answers = answers;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

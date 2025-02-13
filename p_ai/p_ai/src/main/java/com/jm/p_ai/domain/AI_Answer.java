@@ -26,6 +26,11 @@ public class AI_Answer {
         this.contents = contents;
     }
 
+    public AI_Answer(AI_Question question, String contents) {
+        this.question = question;
+        this.contents = contents;
+    }
+
     public AI_Answer(Long id, String contents, AI_Question question) {
         this.id = id;
         this.contents = contents;

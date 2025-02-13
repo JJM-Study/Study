@@ -47,4 +47,12 @@ public class JwtUtil {
         return claims.getSubject(); // 클레임에서 subject(사용자 이름) 추출
     }
 
+    // 2025/02/13 추가 / "Bearer " 접두어를 제거한 후, 사용자명 추출
+    public String extractUsername(String token) {
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }
+        return getUsernameFromToken(token);
+    }
+
 }
