@@ -33,20 +33,26 @@ export const useLoadInitialData = () => {
               );
 
               if (existingQuestion) {
-                existingQuestion.answers.push({
-                  answerId: msg.answerId,
-                  answerContents: msg.answerContents,
-                });
+                existingQuestion.answers = [
+                  ...existingQuestion.answers, // spread 연산자
+                  {
+                    answerId: msg.answerId,
+                    answerContents: msg.answerContents,
+                  },
+                ];
               } else {
                 acc.push({
                   questionId: msg.questionId,
                   questionContents: msg.questionContents,
-                  answers: [
-                    {
-                      answerId: msg.answerId,
-                      answerContents: msg.answerContents,
-                    },
-                  ],
+                  answers: msg.answerId
+                    ? [
+                        // 답변이 있는 경우만 추가.
+                        {
+                          answerId: msg.answerId,
+                          answerContents: msg.answerContents,
+                        },
+                      ]
+                    : [],
                 });
               }
               return acc;

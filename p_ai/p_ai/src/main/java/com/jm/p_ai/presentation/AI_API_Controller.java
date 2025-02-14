@@ -105,6 +105,7 @@ public class AI_API_Controller {
         String jwt = jwtUtil.generateToken(username);
         Map<String, String> response = new HashMap<>();
         response.put("token", jwt);
+        System.out.println("Toekn Spirnb Boot Check :" + jwt);
         return ResponseEntity.ok(response);
 
     }

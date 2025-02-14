@@ -19,7 +19,7 @@ public interface AI_QandA_Repo extends JpaRepository<AI_QandA, Long> {
             "FROM AI_QandA qa " +
             "JOIN qa.question q " +
             "LEFT JOIN qa.answers a " +
-            "WHERE qa.userId = :userId")
+            "WHERE qa.userId = :userId And (a.userId = :userId OR a.userId IS NULL)")
     List<AI_QandADto> findAllAnswerWithQuestionsByUser(@Param("userId") String userId);
 
     // 전체 조회

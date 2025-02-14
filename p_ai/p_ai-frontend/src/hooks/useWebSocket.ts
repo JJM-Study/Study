@@ -18,6 +18,20 @@ export const useWebSocket = (url: string, token: string | null) => {
   const [isConnected, setIsConnected] = useState(false);
   //const maxRetries = 5;
 
+  // const getUsernameFromToken = (token: string | null) => {
+  //   if (!token) return null;
+  //   try {
+  //     const base64Payload = token.split(".")[1]; // JWT의 두 번째 부분 (Payload)
+  //     const decodedPayload = JSON.parse(atob(base64Payload)); // Base64 디코딩 후 JSON 파싱
+  //     return decodedPayload.sub;
+  //   } catch (error) {
+  //     console.error("JWT 디코딩 실패:", error);
+  //     return null;
+  //   }
+  // };
+
+  // const username = getUsernameFromToken(token);
+
   const connectWebSocket = useCallback(() => {
     const client = new Client({
       webSocketFactory: () => new SockJS(`${url}?token=${token}`),
@@ -50,6 +64,7 @@ export const useWebSocket = (url: string, token: string | null) => {
 
         client.subscribe("/user/queue/answers", (message) => {
           const newAnswer: AnswerMessage = JSON.parse(message.body);
+          console.log("WebSocket으로 받은 답변:", newAnswer); // 디버깅용 로그.
 
           setMessages((prev) =>
             prev.map((q) =>

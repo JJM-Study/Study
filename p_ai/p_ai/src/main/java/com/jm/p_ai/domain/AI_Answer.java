@@ -13,9 +13,11 @@ public class AI_Answer {
     private String contents;
 
     @ManyToOne
-    @JoinColumn(name = "question_id", nullable = true)  // 2024/12/03 추가  // 엔티티나 DTO가 아니라, 테이블의 필드 자체를 직접 참조함.
+    @JoinColumn(name = "question_id", nullable = false)  // 2024/12/03 추가  // 엔티티나 DTO가 아니라, 테이블의 필드 자체를 직접 참조함.
     @JsonIgnore  // JSON 직렬화 시 무한 루프 방지
     private AI_Question question;
+
+    private String userId; // 2024/12/04 사용자별 답변 관리를 위해서 추가함.
 
     public AI_Answer() {
 
@@ -29,6 +31,12 @@ public class AI_Answer {
     public AI_Answer(AI_Question question, String contents) {
         this.question = question;
         this.contents = contents;
+    }
+
+    public AI_Answer(AI_Question question, String contents, String userId) {
+        this.question = question;
+        this.contents = contents;
+        this.userId = userId;
     }
 
     public AI_Answer(Long id, String contents, AI_Question question) {
@@ -61,4 +69,11 @@ public class AI_Answer {
         this.question = question;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 }

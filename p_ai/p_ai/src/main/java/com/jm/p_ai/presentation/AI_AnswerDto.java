@@ -13,6 +13,8 @@ public class AI_AnswerDto {
 
     private Long questionId;
 
+    private String userId;
+
     @Autowired
     private AI_Question_Repo ai_question_repo;
 
@@ -28,6 +30,13 @@ public class AI_AnswerDto {
         this.id = id;
         this.contents = contents;
         this.questionId = questionId;
+    }
+
+    public AI_AnswerDto(Long id, String contents, Long questionId, String userId) {
+        this.id = id;
+        this.contents = contents;
+        this.questionId = questionId;
+        this.userId = userId;
     }
 
     public AI_AnswerDto(Long id, String contents) {
@@ -59,6 +68,14 @@ public class AI_AnswerDto {
         this.questionId = questionId;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     //public AI_Answer toAnswerEntity() {
 //    public AI_Answer toAnswerEntity(AI_AnswerDto ai_answerDto) {
 //        AI_Answer ai_answer = new AI_Answer();
@@ -87,7 +104,7 @@ public class AI_AnswerDto {
 //    }
 
     public static AI_AnswerDto toAnswerDto(AI_Answer ai_answer) {
-        return new AI_AnswerDto(ai_answer.getId(), ai_answer.getContents(), ai_answer.getQuestion().getId());
+        return new AI_AnswerDto(ai_answer.getId(), ai_answer.getContents(), ai_answer.getQuestion().getId(), ai_answer.getUserId());
     }
 
 }

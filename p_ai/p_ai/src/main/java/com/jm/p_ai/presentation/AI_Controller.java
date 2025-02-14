@@ -105,7 +105,16 @@ public class AI_Controller {
         AI_QuestionDto savedQuestionDto = ai_service.handleQuestion(ai_questionDto, username);
         Long questionId = savedQuestionDto.getId();
 
+        // AI_QUESTION이 정상적으로 저장되었는지 확인
+        if (questionId == null) {
+            throw new RuntimeException("Failed to save AI_QUESTION. Cannot proceed.");
+        }
+
+        System.out.println("AI_QUESTION 저장됨: " + questionId);
+
         List<AI_AnswerDto> ai_answerDtos = ai_service.handleAnswer(savedQuestionDto, questionId);
+
+        System.out.println(" AI_ANSWER 저장 완료, WebSocket 전송 시작");
 
         //simpMessagingTemplate.convertAndSendToUser(username, "/user/queue/question", ai_questionDto);
 
@@ -113,6 +122,7 @@ public class AI_Controller {
         this.simpMessagingTemplate.convertAndSendToUser(username, "/queue/question/confirmation", savedQuestionDto);
 
         ai_answerDtos.forEach(answerDto -> {
+            System.out.println("답변을 WebSocket으로 전송. User: " + username + " | Answer: " + answerDto.getContents());
             //simpMessagingTemplate.convertAndSendToUser(principal.getName(), "/queue/answers", answerDto)
             System.out.println(answerDto.getquestionId());
             this.simpMessagingTemplate.convertAndSendToUser(username, "/queue/answers", answerDto);

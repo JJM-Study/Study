@@ -16,7 +16,11 @@ public class AI_QandA {
     private AI_Question question;
 
     @OneToMany
-    @JoinColumn(name = "question_id", referencedColumnName = "id")  // question_id 필드를 통해 AI_Answer와 연관
+    @JoinTable(
+            name = "qanda_answer",
+            joinColumns = @JoinColumn(name = "qanda_id"),
+            inverseJoinColumns = @JoinColumn(name = "answer_id")
+    )
     private List<AI_Answer> answers;
 
     // 2025/02/13 추가

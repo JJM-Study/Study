@@ -28,7 +28,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "clean": "rimraf node_modules && rimraf dist && rimraf build"
+    "clean": "rimraf node_modules && rimraf dist && rimraf build",
+    "dev": "react-scripts start"
   },
   "eslintConfig": {
     "extends": [
