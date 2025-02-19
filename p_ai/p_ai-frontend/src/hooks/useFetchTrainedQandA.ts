@@ -6,18 +6,36 @@ export const useFetchTrainedQandA = () => {
     trainedQuestionWithAnswers[]
   >([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [jwt, setJwt] = useState<string | null>(localStorage.getItem("jwt")); // 2025/02/20 추가
+
+  // 2025/02/20 추가
+  useEffect(() => {
+    const chgLocalStorage = () => {
+      setJwt(localStorage.getItem("jwt"));
+    };
+
+    window.addEventListener("storage", chgLocalStorage);
+    return () => {
+      window.addEventListener("sotrage", chgLocalStorage);
+    };
+  }, []);
 
   // 참고 https://week-book.tistory.com/entry/React-fetch-%EC%82%AC%EC%9A%A9%EB%B2%95-LoadingErrorGETPOST
   // https://velog.io/@dev_cecy/React-fetch-%ED%95%A8%EC%88%98-%EC%82%AC%EC%9A%A9%ED%95%B4%EC%84%9C-Token-%EB%B0%9B%EA%B8%B0, https://m.blog.naver.com/dlaxodud2388/223176497318
   useEffect(() => {
     const fetchingTrainedData = async () => {
       try {
+        if (!jwt) {
+          console.error("No JWT found, skipping API call");
+          return;
+        }
         const response = await fetch(
           "http://localhost:8080/api/Training-Question-And-Answer",
           {
             method: "GET",
             headers: {
-              Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+              //Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+              Authorization: `Bearer ${jwt}`, // 직접 로컬 스토리지에서 읽어오면 최신 token을 반영 못할 수도 있다고 함. 2025/02/20 수정
               "Content-Type": "application/json",
             },
             credentials: "include",
@@ -76,7 +94,7 @@ export const useFetchTrainedQandA = () => {
     };
 
     fetchingTrainedData();
-  }, []);
+  }, [jwt]);
 
   return { loadTrainedQandA, isLoading };
 };

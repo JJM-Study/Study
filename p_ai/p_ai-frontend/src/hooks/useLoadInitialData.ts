@@ -7,10 +7,28 @@ export const useLoadInitialData = () => {
     []
   ); // 2025/01/28 수정
   const [isLoading, setIsLoading] = useState(true);
+  const [jwt, setJwt] = useState<string | null>(localStorage.getItem("jwt")); // 2025/02/20 추가
+
+  // 2025/02/20 추가
+  useEffect(() => {
+    const chgLocalStorage = () => {
+      setJwt(localStorage.getItem("jwt"));
+    };
+
+    window.addEventListener("storage", chgLocalStorage);
+    return () => {
+      window.addEventListener("sotrage", chgLocalStorage);
+    };
+  }, []);
 
   useEffect(() => {
     const fetchinitialData = async () => {
       try {
+        // 2025/02/20 추가
+        if (!jwt) {
+          return;
+        }
+
         // axios로 바꿀 지는 나중에 고민. / Next.js를 학습할 일이 있으면?
         const response = await fetch(
           // 로컬
@@ -19,7 +37,8 @@ export const useLoadInitialData = () => {
           {
             method: "GET",
             headers: {
-              Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+              //Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+              Authorization: `Bearer ${jwt}`,
               "Content-Type": "application/json",
             },
             credentials: "include",
@@ -76,7 +95,7 @@ export const useLoadInitialData = () => {
     };
 
     fetchinitialData();
-  }, []);
+  }, [jwt]);
 
   return { initialMessages, isLoading };
 };

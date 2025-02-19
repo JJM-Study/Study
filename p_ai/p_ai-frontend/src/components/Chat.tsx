@@ -64,6 +64,7 @@ const Chat: React.FC = () => {
         body: JSON.stringify({ username: null }), // 2025/02/13 user -> null 수정. 현재는 Guest모드로, 차후 로그인 구현 시 수정할 것.
       });
       const data = await response.json();
+      debugger;
       const newToken = data.token;
 
       if (newToken) {

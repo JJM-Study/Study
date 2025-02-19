@@ -59,41 +59,45 @@ const QuestionList: React.FC<Props> = ({ onQuestionClick }) => {
           }`}
         >
           {loadTrainedQandA.map((q) => (
-            <div
-              key={q.questionId}
-              className="p-2 my-1 bg-white rounded-md shadow-md"
-            >
-              <p
-                className="font-semibold cursor-pointer"
-                onClick={() => onQuestionClick(q.questionContents)}
-              >
-                Q : {q.questionContents}
-              </p>
-              <button
-                className="text-xs text-blue-500 underline"
-                onClick={() =>
-                  dispatch({
-                    type: "SELECT_QUESTION",
-                    payload:
-                      state.selectedQuestion === q.questionId
-                        ? null
-                        : q.questionId,
-                  })
-                }
-              >
-                {state.selectedQuestion === q.questionId
-                  ? null
-                  : q.questionId
-                  ? "답변 숨기기"
-                  : "답변 보기"}
-              </button>
-              {state.selectedQuestion === q.questionId && (
-                <div className="p-2 text-sm text-green-700">
-                  {q.answers.map((a, idx) => (
-                    <p key={idx}>A: {a.answerContents}</p>
-                  ))}
+            <div key={q.questionId}>
+              <div className="p-2 my-1 bg-white rounded-md shadow-md">
+                <div className="flex justify-between itmes-center">
+                  <p
+                    className="font-semibold cursor-pointer"
+                    onClick={() => onQuestionClick(q.questionContents)}
+                  >
+                    Q : {q.questionContents}
+                  </p>
+                  <button
+                    className="text-xs text-blue-500 underline"
+                    onClick={() =>
+                      dispatch({
+                        type: "SELECT_QUESTION",
+                        payload:
+                          state.selectedQuestion === q.questionId
+                            ? null
+                            : q.questionId,
+                      })
+                    }
+                  >
+                    {/* state.selectedQuestion === q.questionId ? null : q.questionId ? "답변 숨기기" : "답변 보기"*/}
+                    {!q.questionId
+                      ? null
+                      : state.selectedQuestion === q.questionId
+                      ? "답변 숨기기"
+                      : "답변 보기"}
+                  </button>
                 </div>
-              )}
+                <div>
+                  {state.selectedQuestion === q.questionId && (
+                    <div className="p-2 text-sm text-green-700">
+                      {q.answers.map((a, idx) => (
+                        <p key={idx}>A: {a.answerContents}</p>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
           ))}
         </div>
