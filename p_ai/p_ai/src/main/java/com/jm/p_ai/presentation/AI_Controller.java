@@ -105,7 +105,7 @@ public class AI_Controller {
         AI_QuestionDto savedQuestionDto = ai_service.handleQuestion(ai_questionDto, username);
         Long questionId = savedQuestionDto.getId();
 
-        // AI_QUESTION이 정상적으로 저장되었는지 확인
+        // AI_QUESTION이 정상적으로 저장되었는지 확인용
         if (questionId == null) {
             throw new RuntimeException("Failed to save AI_QUESTION. Cannot proceed.");
         }

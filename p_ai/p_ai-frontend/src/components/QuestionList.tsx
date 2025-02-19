@@ -1,0 +1,102 @@
+import React, { useReducer } from "react";
+import { useLoadInitialData } from "../hooks/useLoadInitialData";
+import { useToggle } from "../hooks/useToggle";
+
+interface Props {
+  onQuestionClick: (text: string) => void;
+}
+
+type Action = { type: "SELECT_QUESTION"; payload: number | null };
+
+// status는 개별 상태마다 별도 관리 필요. 따라서 useReducer 사용 시도
+const reducer = (
+  state: { selectedQuestion: number | null },
+  action: Action
+) => {
+  switch (action.type) {
+    case "SELECT_QUESTION":
+      return { ...state, selectedQuestion: action.payload };
+    default:
+      return state;
+  }
+};
+
+const QuestionList: React.FC<Props> = ({ onQuestionClick }) => {
+  const { initialMessages } = useLoadInitialData();
+  const { isToggled, hasData, toggle, setData } = useToggle(
+    false,
+    initialMessages
+  ); // useToggle
+  const [state, dispatch] = useReducer(reducer, { selectedQuestion: null });
+
+  React.useEffect(() => {
+    setData(initialMessages);
+  }, [initialMessages]);
+
+  return (
+    <div className="w-full p-2 mt-2 bg-gray-200 rounded-md shadow-md">
+      <div className="flex items-center justify-between">
+        <h2 className="text-lg font-bold">학습된 질문 목록</h2>
+        <button onClick={toggle} className="text-sm text-gray-500 underline">
+          {isToggled ? "축소" : "더보기"}
+        </button>
+      </div>
+      {/* 2025/02/18 데이터 없을 시, 토글 실행되지 않도록 hasData 조건 추가 */}
+      {/* 질문-답변쌍 목록 */}
+      {!hasData ? (
+        // isToggled && (
+        <p className="mt-2 text-xs text-gray-500">
+          데이터가 존재하지 않습니다.
+        </p>
+      ) : (
+        // )
+        <div
+          className={`overflow-y-auto transition-all ${
+            isToggled ? "h-auto" : "h-24"
+          }`}
+        >
+          {initialMessages.map((q) => (
+            <div
+              key={q.questionId}
+              className="p-2 my-1 bg-white rounded-md shadow-md"
+            >
+              <p
+                className="font-semibold cursor-pointer"
+                onClick={() => onQuestionClick(q.questionContents)}
+              >
+                Q : {q.questionContents}
+              </p>
+              <button
+                className="text-xs text-blue-500 underline"
+                onClick={() =>
+                  dispatch({
+                    type: "SELECT_QUESTION",
+                    payload:
+                      state.selectedQuestion === q.questionId
+                        ? null
+                        : q.questionId,
+                  })
+                }
+              >
+                {state.selectedQuestion === q.questionId
+                  ? null
+                  : q.questionId
+                  ? "답변 숨기기"
+                  : "답변 보기"}
+              </button>
+              {state.selectedQuestion === q.questionId && (
+                <div className="p-2 text-sm text-green-700">
+                  {q.answers.map((a, idx) => (
+                    <p key={idx}>A: {a.answerContents}</p>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default QuestionList;

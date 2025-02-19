@@ -3,7 +3,11 @@ import "./App.css";
 import Chat from "./components/Chat";
 
 const App: React.FC = () => {
-  return <Chat />;
+  return (
+    <div className="flex items-center justify-center w-full min-h-screen bg-grey-200">
+      <Chat />
+    </div>
+  );
 };
 
 export default App;

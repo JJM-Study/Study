@@ -42,7 +42,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         //registry.addEndpoint("/chat-ws").setAllowedOriginPatterns("*").withSockJS();
         //registry.addEndpoint("/chat-ws").setAllowedOrigins("*").withSockJS(); // 2022/11/14 수정
         registry.addEndpoint("/chat-ws")
-                .setAllowedOrigins("http://localhost:3000", "http://localhost:8080")
+                //.setAllowedOrigins("http://localhost:3000", "http://localhost:8080")
+                .setAllowedOrigins("http://localhost:3000", "http://localhost:8080", "https://d2y1bi4w3u4drt.cloudfront.net") // CloudFront 등, 배포를 위한 설정.
                 .addInterceptors(new JwtHandshakeInterceptor(jwtUtil)) // JWT 핸드셰이크 인터셉터 추가
                 .withSockJS(); // 2022/11/14 수정
     }

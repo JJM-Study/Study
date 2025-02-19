@@ -26,14 +26,14 @@ public class AI_QandA {
     // 2025/02/13 추가
     private String userId;
 
-    public AI_QandA() {
-
-    }
-
     public AI_QandA(AI_Question question, List<AI_Answer> answers, String userId) {
         this.question = question;
         this.answers = answers;
         this.userId = userId;
+    }
+
+    public AI_QandA() {
+
     }
 
     public Long getId() {

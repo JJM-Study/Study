@@ -105,7 +105,8 @@ public class WebSecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
 
         //configuration.setAllowedOrigins(Arrays.asList("*")); // 모든 출처 허용
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:8080", "http://localhost:3000", "http://127.0.0.1:5000"));
+        //configuration.setAllowedOrigins(Arrays.asList("http://localhost:8080", "http://localhost:3000", "http://127.0.0.1:5000"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:8080", "http://localhost:3000", "http://127.0.0.1:5000", "https://d2y1bi4w3u4drt.cloudfront.net")); // CLOUDFRONT 등 배포를 위한 허용.
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowCredentials(true); // 브라우저가 쿠키, 인증 헤더 또는 TLS 클라이언트 인증서와 같은 자격 증명을 포함할 수 있도록.
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));

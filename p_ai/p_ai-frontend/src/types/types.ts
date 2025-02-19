@@ -2,7 +2,7 @@
 export type QuestionWithAnswers = {
   questionId: number;
   questionContents: string;
-  //answerId: number;
+  //answerId: number;   // 질문 1 : 답변 N인 걸 감안해서 수정했음.
   //answerContents: string;
 
   // 여러 개의 답변을 포함.

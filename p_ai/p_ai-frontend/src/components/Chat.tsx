@@ -2,6 +2,8 @@ import { useWebSocket } from "../hooks/useWebSocket";
 import React, { useEffect, useState, useCallback } from "react";
 import { useLoadInitialData } from "../hooks/useLoadInitialData";
 import { QuestionWithAnswers } from "../types/types";
+import QuestionList from "./QuestionList";
+import StatusIndicator from "./StatusIndicator";
 
 const Chat: React.FC = () => {
   const [input, setInput] = useState(""); // 사용자 입력 관리
@@ -19,7 +21,9 @@ const Chat: React.FC = () => {
     messages: webSocketMessages,
     sendMessage,
     isConnected,
-  } = useWebSocket("http://localhost:8080/chat-ws", token);
+  } = useWebSocket("http://localhost:8080/chat-ws", token); // 로컬
+  //} = useWebSocket("http://54.180.107.241:8080/chat-ws", token); // CLOUDFRONT 배포
+
   // 초기 데이터를 가져오는 훅 호출
   const { initialMessages, isLoading } = useLoadInitialData();
 
@@ -52,7 +56,9 @@ const Chat: React.FC = () => {
 
   const authenticate = async () => {
     try {
+      // 로컬
       const response = await fetch("http://localhost:8080/api/authenticate", {
+        //const response = await fetch( "http://54.180.107.241:8080/api/authenticate", // CLOUDFRONT 배포
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username: null }), // 2025/02/13 user -> null 수정. 현재는 Guest모드로, 차후 로그인 구현 시 수정할 것.
@@ -73,7 +79,9 @@ const Chat: React.FC = () => {
 
   const validateToken = useCallback(async () => {
     try {
+      // 로컬
       const response = await fetch("http://localhost:8080/api/validate-token", {
+        //const response = await fetch("http://54.180.107.241:8080/api/validate-token", // CLOUDFRONT 배포
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -110,15 +118,20 @@ const Chat: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-col items-center h-screen p-4 bg-gray-100">
-      <div className="mb-4 text-center">
-        {isConnected ? (
-          <p className="text-green-500">Connected to Chat</p>
-        ) : (
-          <p className="text-red-500">Connecting to chat server...</p>
-        )}
+    <div className="flex flex-col items-center w-full min-h-screen p-4 bg-gray-100">
+      {/* 헤더 */}
+      <div className="flex items-center justify-between w-full p-2 bg-white shadow-md">
+        <h1 className="text-lg font-bold">ChatBot</h1>
+        <div className="text-green-500">
+          <StatusIndicator isConnected={isConnected} />
+        </div>
       </div>
-      <div className="w-full p-4 overflow-y-auto bg-white shadow-md h-3/4">
+
+      {/* 학습된 질문 목록 */}
+      <QuestionList onQuestionClick={(text) => setInput(text)} />
+
+      {/* 질문 목록 */}
+      <div className="w-full min-h-screen p-4 mt-2 overflow-y-auto bg-white shadow-md h-3/4">
         {combineMessages.map((msg, idx) => (
           <div key={idx} className="p-2 my-2 bg-gray-200 rounded-md">
             <p>

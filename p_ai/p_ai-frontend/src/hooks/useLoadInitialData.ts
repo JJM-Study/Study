@@ -12,7 +12,9 @@ export const useLoadInitialData = () => {
     const fetchinitialData = async () => {
       try {
         const response = await fetch(
+          // 로컬
           "http://localhost:8080/api/Question-And-Answer",
+          //"http://54.180.107.241:8080/api/Question-And-Answer", // CLOUDFRONT 배포
           {
             method: "GET",
             headers: {
@@ -25,7 +27,7 @@ export const useLoadInitialData = () => {
 
         if (response.ok) {
           const data = await response.json(); // Message 단일 지정
-          // // 질문-답변 데이터 그룹핑
+          // 질문-답변 데이터 그룹핑
           const formattedData: QuestionWithAnswers[] = data.reduce(
             (acc: QuestionWithAnswers[], msg: any) => {
               const existingQuestion = acc.find(
@@ -46,7 +48,7 @@ export const useLoadInitialData = () => {
                   questionContents: msg.questionContents,
                   answers: msg.answerId
                     ? [
-                        // 답변이 있는 경우만 추가.
+                        // 질문에 꼭 답변이 붙는 건 아니니, Optional로 답변이 있는 경우만 추가하도록 함.
                         {
                           answerId: msg.answerId,
                           answerContents: msg.answerContents,
