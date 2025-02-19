@@ -1,21 +1,19 @@
-import { useEffect, useState } from "react";
-import { QuestionWithAnswers } from "../types/types"; // 2025/01/28 추가
+import { useState, useEffect } from "react";
+import { trainedQuestionWithAnswers } from "../types/types";
 
-export const useLoadInitialData = () => {
-  //const [initialMessages, setinitialMessages] = useState<>([]);
-  const [initialMessages, setInitialMessages] = useState<QuestionWithAnswers[]>(
-    []
-  ); // 2025/01/28 수정
+export const useFetchTrainedQandA = () => {
+  const [loadTrainedQandA, setLoadTrainedQandA] = useState<
+    trainedQuestionWithAnswers[]
+  >([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  // 참고 https://week-book.tistory.com/entry/React-fetch-%EC%82%AC%EC%9A%A9%EB%B2%95-LoadingErrorGETPOST
+  // https://velog.io/@dev_cecy/React-fetch-%ED%95%A8%EC%88%98-%EC%82%AC%EC%9A%A9%ED%95%B4%EC%84%9C-Token-%EB%B0%9B%EA%B8%B0, https://m.blog.naver.com/dlaxodud2388/223176497318
   useEffect(() => {
-    const fetchinitialData = async () => {
+    const fetchingTrainedData = async () => {
       try {
-        // axios로 바꿀 지는 나중에 고민. / Next.js를 학습할 일이 있으면?
         const response = await fetch(
-          // 로컬
-          "http://localhost:8080/api/Question-And-Answer",
-          //"http://54.180.107.241:8080/api/Question-And-Answer", // CLOUDFRONT 배포
+          "http://localhost:8080/api/Training-Question-And-Answer",
           {
             method: "GET",
             headers: {
@@ -25,19 +23,21 @@ export const useLoadInitialData = () => {
             credentials: "include",
           }
         );
+
+        // https://velog.io/@tosspayments/%EC%98%88%EC%A0%9C%EB%A1%9C-%EC%9D%B4%ED%95%B4%ED%95%98%EB%8A%94-awaitasync-%EB%AC%B8%EB%B2%95
+        // await : 비동기 요청 중 서버 응답을 기다리게 해주는 것.
         if (response.ok) {
-          const data = await response.json(); // Message 단일 지정
-          // 질문-답변 데이터 그룹핑
-          // acc는 누적 데이터이고, msg는 전체 데이터라고 생각하면 쉽다.
-          const formattedData: QuestionWithAnswers[] = data.reduce(
-            (acc: QuestionWithAnswers[], msg: any) => {
+          const data = await response.json();
+          // 질문과 답변 데이터 그룹핑
+          const formattedData: trainedQuestionWithAnswers[] = data.reduce(
+            (acc: trainedQuestionWithAnswers[], msg: any) => {
               const existingQuestion = acc.find(
-                (q) => q.questionId === msg.questionId // acc와 전체 데이터의 중복 방지
+                (q) => q.questionId === msg.questionId
               );
 
               if (existingQuestion) {
                 existingQuestion.answers = [
-                  ...existingQuestion.answers, // spread 연산자
+                  ...existingQuestion.answers,
                   {
                     answerId: msg.answerId,
                     answerContents: msg.answerContents,
@@ -62,8 +62,8 @@ export const useLoadInitialData = () => {
             },
             []
           );
-
-          setInitialMessages(formattedData);
+          console.log(formattedData);
+          setLoadTrainedQandA(formattedData);
         } else {
           console.error("Failed to fetch initial data");
           return;
@@ -75,8 +75,8 @@ export const useLoadInitialData = () => {
       }
     };
 
-    fetchinitialData();
+    fetchingTrainedData();
   }, []);
 
-  return { initialMessages, isLoading };
+  return { loadTrainedQandA, isLoading };
 };

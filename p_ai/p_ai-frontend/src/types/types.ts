@@ -13,6 +13,16 @@ export type QuestionWithAnswers = {
   pending?: boolean; // Optional 선언
 };
 
+// 2025/02/19 추가 / 훈련된 데이터 불러오기 For QuestionList
+export type trainedQuestionWithAnswers = {
+  questionId: number;
+  questionContents: string;
+  answers: {
+    answerId: number;
+    answerContents: string;
+  }[];
+};
+
 export type AnswerMessage = {
   id: number;
   contents: string;

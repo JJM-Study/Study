@@ -1,5 +1,5 @@
 import React, { useReducer } from "react";
-import { useLoadInitialData } from "../hooks/useLoadInitialData";
+import { useFetchTrainedQandA } from "../hooks/useFetchTrainedQandA";
 import { useToggle } from "../hooks/useToggle";
 
 interface Props {
@@ -22,16 +22,19 @@ const reducer = (
 };
 
 const QuestionList: React.FC<Props> = ({ onQuestionClick }) => {
-  const { initialMessages } = useLoadInitialData();
+  //const { loadTrainedQandA, isLoading: isTrainedQandALoading } =useFetchTrainedQandA();
+  const { loadTrainedQandA } = useFetchTrainedQandA();
   const { isToggled, hasData, toggle, setData } = useToggle(
     false,
-    initialMessages
+    loadTrainedQandA
   ); // useToggle
   const [state, dispatch] = useReducer(reducer, { selectedQuestion: null });
 
   React.useEffect(() => {
-    setData(initialMessages);
-  }, [initialMessages]);
+    setData(loadTrainedQandA);
+    // hasData 참조하라는 경고 떠서 추가함.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loadTrainedQandA]);
 
   return (
     <div className="w-full p-2 mt-2 bg-gray-200 rounded-md shadow-md">
@@ -55,7 +58,7 @@ const QuestionList: React.FC<Props> = ({ onQuestionClick }) => {
             isToggled ? "h-auto" : "h-24"
           }`}
         >
-          {initialMessages.map((q) => (
+          {loadTrainedQandA.map((q) => (
             <div
               key={q.questionId}
               className="p-2 my-1 bg-white rounded-md shadow-md"
