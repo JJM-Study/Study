@@ -4,7 +4,7 @@ import Chat from "./components/Chat";
 
 const App: React.FC = () => {
   return (
-    <div className="flex items-center justify-center w-full min-h-screen bg-grey-200">
+    <div className="flex items-center justify-center w-screen h-screen bg-grey-200">
       <Chat />
     </div>
   );

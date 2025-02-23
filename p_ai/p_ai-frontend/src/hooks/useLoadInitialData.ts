@@ -33,7 +33,7 @@ export const useLoadInitialData = () => {
         const response = await fetch(
           // 로컬
           "http://localhost:8080/api/Question-And-Answer",
-          //"http://54.180.107.241:8080/api/Question-And-Answer", // CLOUDFRONT 배포
+          //"https://web-pj.com/api/Question-And-Answer", // CLOUDFRONT 배포
           {
             method: "GET",
             headers: {

@@ -41,7 +41,7 @@ class LeaningAI:
       self.question_and_answer = [] # 전체 질문-답변 데이터쌍 저장
       self.vectorizer = TfidfVectorizer # TF-IDF 벡터라이저
       self.model = None # KNN 모델 초기화
-      self.model_path = os.path.join(os.getcwd(), "trained_model.pkl")  # "C:/Users/user/git/Study/p_ai/p_ai/src/main/ai-model/ 모델 경로
+      self.model_path = os.path.join(os.path.dirname(__file__), "trained_model.pkl")  # "C:/Users/user/git/Study/p_ai/p_ai/src/main/ai-model/ 모델 경로
       self.jwt_token = None
       self.load_model() # 기존 학습된 모델 불러오기
       self.initialize_jwt_token() # 서버 시작 시 JWT 토큰 초기화
@@ -164,6 +164,7 @@ class LeaningAI:
         os.makedirs(os.path.dirname(self.model_path), exist_ok=True) # 디렉토리 없을 시 생성
         with open(self.model_path, "wb") as model_file:
             pickle.dump((self.vectorizer, self.model), model_file)
+        print(f"Path : {self.model_path}")
         print("Model saved successfully")
 
 

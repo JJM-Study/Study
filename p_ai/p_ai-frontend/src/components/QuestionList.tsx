@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useState, useEffect } from "react";
 import { useFetchTrainedQandA } from "../hooks/useFetchTrainedQandA";
 import { useToggle } from "../hooks/useToggle";
 
@@ -29,15 +29,23 @@ const QuestionList: React.FC<Props> = ({ onQuestionClick }) => {
     loadTrainedQandA
   ); // useToggle
   const [state, dispatch] = useReducer(reducer, { selectedQuestion: null });
+  const [jwt, setJwt] = useState<string | null>(localStorage.getItem("jwt")); // 2025/02/22 추가
 
-  React.useEffect(() => {
+  useEffect(() => {
+    console.log(
+      "useEffect 실행됨. loadTrainedQandA:",
+      loadTrainedQandA,
+      "jwt:",
+      jwt
+    );
     setData(loadTrainedQandA);
     // hasData 참조하라는 경고 떠서 추가함.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loadTrainedQandA]);
+    //}, [loadTrainedQandA]);
+  }, [loadTrainedQandA]); // 토큰 발급을 감지 못해서 렌더링이 안 되어서 추가. 2025/02/22 추가
 
   return (
-    <div className="w-full p-2 mt-2 bg-gray-200 rounded-md shadow-md">
+    <div className="flex-col w-full pt-1 pb-1 pl-2 pr-2 mt-2 bg-gray-200 rounded-md shadow-md">
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-bold">학습된 질문 목록</h2>
         <button onClick={toggle} className="text-sm text-gray-500 underline">
@@ -54,8 +62,8 @@ const QuestionList: React.FC<Props> = ({ onQuestionClick }) => {
       ) : (
         // )
         <div
-          className={`overflow-y-auto transition-all ${
-            isToggled ? "h-auto" : "h-24"
+          className={`overflow-y-auto transition-[max-height] duration-300 ease-in-out min-h-[80px] ${
+            isToggled ? "max-h-60" : "max-h-20"
           }`}
         >
           {loadTrainedQandA.map((q) => (
