@@ -72,7 +72,7 @@ export const useFetchTrainedQandA = () => {
           []
         );
         console.log("formattedData:", formattedData);
-        setLoadTrainedQandA(formattedData);
+        setLoadTrainedQandA([...formattedData]);
       } else {
         console.error("Failed to fetch initial data");
         return;

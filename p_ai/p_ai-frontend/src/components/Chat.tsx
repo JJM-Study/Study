@@ -66,6 +66,35 @@ const Chat: React.FC = () => {
   //   };
   // }, []);
 
+  // 2025/02/24 추가
+  useEffect(() => {
+    const checkAndFetchData = async () => {
+      if (!token) {
+        console.error("JWT가 없습니다. 데이터를 불러올 수 없습니다.");
+        return;
+      }
+      console.log("토큰 검증 시작...");
+      await validateToken(); // 토큰 검증 및 재발급
+      console.log("토큰 발급 완료.");
+      await fetchTrainedQandA(); // 최신 토큰으로 데이터 요청
+      console.log("fetchTrainedQandA 실행 완료");
+    };
+
+    checkAndFetchData();
+  }, [token, isConnected]);
+
+  // 2025/02/24 추가
+  useEffect(() => {
+    const chgLocalStorage = () => {
+      setToken(localStorage.getItem("jwt"));
+    };
+
+    window.addEventListener("storage", chgLocalStorage);
+    return () => {
+      window.removeEventListener("storage", chgLocalStorage);
+    };
+  }, []);
+
   // WebSocket 메세지와 초기 메세지를 병합
   useEffect(() => {
     setCombineMessages((prev) => {
