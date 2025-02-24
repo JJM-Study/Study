@@ -1,5 +1,5 @@
 import { useReducer } from "react";
-import { QuestionWithAnswers } from "../types/types";
+import { trainedQuestionWithAnswers } from "../types/types";
 
 type State = {
   isToggled: boolean;
@@ -21,14 +21,14 @@ const toggleReducer = (state: State, action: Action) => {
 
 export const useToggle = (
   initialState: boolean = false,
-  initialMessages: QuestionWithAnswers[] = []
+  initialMessages: trainedQuestionWithAnswers[] = []
 ) => {
   const [state, dispatch] = useReducer(toggleReducer, {
     isToggled: initialState,
     hasData: initialMessages.length > 0,
   });
 
-  const setData = (messages: QuestionWithAnswers[]) => {
+  const setData = (messages: trainedQuestionWithAnswers[]) => {
     dispatch({ type: "SET_DATA", payload: messages.length > 0 });
   };
 

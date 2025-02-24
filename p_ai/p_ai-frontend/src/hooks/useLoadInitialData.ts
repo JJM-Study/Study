@@ -17,7 +17,7 @@ export const useLoadInitialData = () => {
 
     window.addEventListener("storage", chgLocalStorage);
     return () => {
-      window.addEventListener("sotrage", chgLocalStorage);
+      window.addEventListener("storage", chgLocalStorage);
     };
   }, []);
 
