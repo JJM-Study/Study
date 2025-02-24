@@ -7,10 +7,11 @@ import React, {
   useLayoutEffect,
 } from "react";
 import { useLoadInitialData } from "../hooks/useLoadInitialData";
-import { useFetchTrainedQandA } from "../hooks/useFetchTrainedQandA"; // 2025/02/24 추가
+//import { useFetchTrainedQandA } from "../hooks/useFetchTrainedQandA"; // 2025/02/24 추가
 import { QuestionWithAnswers } from "../types/types";
 import QuestionList from "./QuestionList";
 import StatusIndicator from "./StatusIndicator";
+import { useTraining } from "../context/TrainingProvider"; // 2025/02/25 추가
 
 const Chat: React.FC = () => {
   const [input, setInput] = useState(""); // 사용자 입력 관리
@@ -39,7 +40,8 @@ const Chat: React.FC = () => {
   // 초기 데이터를 가져오는 훅 호출
   const { initialMessages, isLoading } = useLoadInitialData();
 
-  const { fetchTrainedQandA, loadTrainedQandA } = useFetchTrainedQandA();
+  //const { fetchTrainedQandA, loadTrainedQandA } = useFetchTrainedQandA();
+  const { loadTrainedQandA, isLoading: isTrainedLoading } = useTraining(); // 2025/02/25 추가
 
   // 스크롤 감지 및 이동 2025/02/22 추가
   const messageEndRef = useRef<HTMLDivElement | null>(null);
@@ -67,21 +69,21 @@ const Chat: React.FC = () => {
   // }, []);
 
   // 2025/02/24 추가
-  useEffect(() => {
-    const checkAndFetchData = async () => {
-      if (!token) {
-        console.error("JWT가 없습니다. 데이터를 불러올 수 없습니다.");
-        return;
-      }
-      console.log("토큰 검증 시작...");
-      await validateToken(); // 토큰 검증 및 재발급
-      console.log("토큰 발급 완료.");
-      await fetchTrainedQandA(); // 최신 토큰으로 데이터 요청
-      console.log("fetchTrainedQandA 실행 완료");
-    };
+  // useEffect(() => {
+  //   const checkAndFetchData = async () => {
+  //     if (!token) {
+  //       console.error("JWT가 없습니다. 데이터를 불러올 수 없습니다.");
+  //       return;
+  //     }
+  //     console.log("토큰 검증 시작...");
+  //     await validateToken(); // 토큰 검증 및 재발급
+  //     console.log("토큰 발급 완료.");
+  //     await fetchTrainedQandA(); // 최신 토큰으로 데이터 요청
+  //     console.log("fetchTrainedQandA 실행 완료");
+  //   };
 
-    checkAndFetchData();
-  }, [token, isConnected]);
+  //   checkAndFetchData();
+  // }, [token, isConnected]);
 
   // 2025/02/24 추가
   useEffect(() => {

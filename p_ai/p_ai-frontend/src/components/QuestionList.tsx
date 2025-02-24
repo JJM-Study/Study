@@ -1,6 +1,7 @@
 import React, { useReducer, useState, useEffect } from "react";
-import { useFetchTrainedQandA } from "../hooks/useFetchTrainedQandA";
+//import { useFetchTrainedQandA } from "../hooks/useFetchTrainedQandA";
 import { useToggle } from "../hooks/useToggle";
+import { useTraining } from "../context/TrainingProvider";
 
 interface Props {
   onQuestionClick: (text: string) => void;
@@ -23,7 +24,8 @@ const reducer = (
 
 const QuestionList: React.FC<Props> = ({ onQuestionClick }) => {
   //const { loadTrainedQandA, isLoading: isTrainedQandALoading } =useFetchTrainedQandA();
-  const { loadTrainedQandA } = useFetchTrainedQandA();
+  //const { loadTrainedQandA } = useFetchTrainedQandA();
+  const { loadTrainedQandA, isLoading } = useTraining();
   const { isToggled, hasData, toggle, setData } = useToggle(
     false,
     loadTrainedQandA
@@ -38,7 +40,8 @@ const QuestionList: React.FC<Props> = ({ onQuestionClick }) => {
       "jwt:",
       jwt
     );
-    setData(loadTrainedQandA);
+    //setData(loadTrainedQandA);
+    setData(loadTrainedQandA ?? []);
     // hasData 참조하라는 경고 떠서 추가함.
     // eslint-disable-next-line react-hooks/exhaustive-deps
     //}, [loadTrainedQandA]);
@@ -66,7 +69,8 @@ const QuestionList: React.FC<Props> = ({ onQuestionClick }) => {
             isToggled ? "max-h-60" : "max-h-20"
           }`}
         >
-          {loadTrainedQandA.map((q) => (
+          {/* {loadTrainedQandA.map((q) => ( */}
+          {(loadTrainedQandA ?? []).map((q) => (
             <div key={q.questionId}>
               <div className="p-2 my-1 bg-white rounded-md shadow-md">
                 <div className="flex justify-between itmes-center">
