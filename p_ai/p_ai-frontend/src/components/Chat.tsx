@@ -109,7 +109,7 @@ const Chat: React.FC = () => {
 
       // WebSocket에서 받은 메시지도 반영
       webSocketMessages.forEach((msg) => {
-        console.log("questionId : " + msg.questionId);
+        //console.log("questionId : " + msg.questionId);
         questionMap.set(msg.questionId, {
           questionId: msg.questionId,
           questionContents:
@@ -182,14 +182,18 @@ const Chat: React.FC = () => {
         localStorage.setItem("jwt", newToken);
         setToken(newToken);
       } else {
-        console.error("Failed to fetch JWT token.");
+        //console.error("Failed to fetch JWT token.");
       }
     } catch (error) {
-      console.error("Error during authentication", error);
+      //console.error("Error during authentication", error);
     }
   };
 
+  let isAuthenticating = false; //2025/02/25 추가. 중복 인증 방지.
+
   const validateToken = useCallback(async () => {
+    if (isAuthenticating) return;
+    isAuthenticating = true;
     try {
       // 로컬
       const response = await fetch("http://localhost:8080/api/validate-token", {
@@ -203,14 +207,16 @@ const Chat: React.FC = () => {
       });
 
       if (!response.ok) {
-        console.error("Invalid or expired token. Reauthenticating...");
+        //console.error("Invalid or expired token. Reauthenticating...");
         await authenticate();
       } else {
-        console.log("Token is valid");
+        //console.log("Token is valid");
       }
     } catch (error) {
-      console.error("Invalid or expired token, re-authenticating...", error);
+      //console.error("Invalid or expired token, re-authenticating...", error);
       await authenticate();
+    } finally {
+      isAuthenticating = false;
     }
   }, [token]);
 

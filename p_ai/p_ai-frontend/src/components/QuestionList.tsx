@@ -2,6 +2,7 @@ import React, { useReducer, useState, useEffect } from "react";
 //import { useFetchTrainedQandA } from "../hooks/useFetchTrainedQandA";
 import { useToggle } from "../hooks/useToggle";
 import { useTraining } from "../context/TrainingProvider";
+import LoadingDots from "../common/LoadingDots";
 
 interface Props {
   onQuestionClick: (text: string) => void;
@@ -34,12 +35,12 @@ const QuestionList: React.FC<Props> = ({ onQuestionClick }) => {
   const [jwt, setJwt] = useState<string | null>(localStorage.getItem("jwt")); // 2025/02/22 추가
 
   useEffect(() => {
-    console.log(
-      "useEffect 실행됨. loadTrainedQandA:",
-      loadTrainedQandA,
-      "jwt:",
-      jwt
-    );
+    // console.log(
+    //   "useEffect 실행됨. loadTrainedQandA:",
+    //   loadTrainedQandA,
+    //   "jwt:",
+    //   jwt
+    // );
     //setData(loadTrainedQandA);
     setData(loadTrainedQandA ?? []);
     // hasData 참조하라는 경고 떠서 추가함.
@@ -57,7 +58,12 @@ const QuestionList: React.FC<Props> = ({ onQuestionClick }) => {
       </div>
       {/* 2025/02/18 데이터 없을 시, 토글 실행되지 않도록 hasData 조건 추가 */}
       {/* 질문-답변쌍 목록 */}
-      {!hasData ? (
+      {isLoading ? (
+        <p className="text-lg font-bold animate-pulse">
+          학습 데이터를 데이터를 불러오는 중
+          <LoadingDots />
+        </p>
+      ) : !hasData ? (
         // isToggled && (
         <p className="mt-2 text-xs text-gray-500">
           데이터가 존재하지 않습니다.

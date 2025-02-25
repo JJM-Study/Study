@@ -40,16 +40,16 @@ export const useWebSocket = (url: string, token: string | null) => {
       onConnect: () => {
         setIsConnected(true);
         //retryCountRef.current = 0; // 성공 시 retryCount 초기화 2025/01/29 주석
-        console.log("WebSocket connected");
+        //console.log("WebSocket connected");
 
         client.subscribe("/user/queue/question/confirmation", (message) => {
           const newQuestion = JSON.parse(message.body);
-          console.log("Original WebSocket Message:", newQuestion);
-          console.log(
-            "formatted Data :",
-            `questionId: ${newQuestion.id}`,
-            `questionContents ${newQuestion.contents}`
-          );
+          // console.log("Original WebSocket Message:", newQuestion);
+          // console.log(
+          //   "formatted Data :",
+          //   `questionId: ${newQuestion.id}`,
+          //   `questionContents ${newQuestion.contents}`
+          // );
 
           setMessages((prev) => [
             ...prev,
@@ -59,12 +59,12 @@ export const useWebSocket = (url: string, token: string | null) => {
               answers: newQuestion.answers || [],
             },
           ]);
-          console.log("WebSocket에서 받은 question/confirmation:", newQuestion);
+          //console.log("WebSocket에서 받은 question/confirmation:", newQuestion);
         });
 
         client.subscribe("/user/queue/answers", (message) => {
           const newAnswer: AnswerMessage = JSON.parse(message.body);
-          console.log("WebSocket으로 받은 답변:", newAnswer); // 디버깅용 로그.
+          //console.log("WebSocket으로 받은 답변:", newAnswer); // 디버깅용 로그.
 
           setMessages((prev) =>
             prev.map((q) =>
@@ -86,15 +86,15 @@ export const useWebSocket = (url: string, token: string | null) => {
       },
       onDisconnect: () => {
         setIsConnected(false);
-        console.log("WebSocket disconnected");
+        //console.log("WebSocket disconnected");
         // handleReconnect();
       },
       onStompError: (error) => {
-        console.error("STOMP error:", error);
+        //console.error("STOMP error:", error);
       },
       onWebSocketClose: (event) => {
         setIsConnected(false);
-        console.error("WebSocket connection closed:", event);
+        //console.error("WebSocket connection closed:", event);
         // handleReconnect();
       },
     });
@@ -128,7 +128,7 @@ export const useWebSocket = (url: string, token: string | null) => {
 
   useEffect(() => {
     if (!token) {
-      console.error("No JWT token provided");
+      //console.error("No JWT token provided");
       return;
     }
 
@@ -149,7 +149,7 @@ export const useWebSocket = (url: string, token: string | null) => {
         body: JSON.stringify(payload),
       });
     } else {
-      console.error("WebSocket is not connected.");
+      //console.error("WebSocket is not connected.");
     }
   };
 
