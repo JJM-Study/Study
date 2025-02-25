@@ -112,7 +112,8 @@ public class AI_API_Controller {
 
     // 2025/01/23 추가
     // POST의 경우 요청 본문(body)에 데이터를 포함해 전송하므로 헤더나 본문을 통해 민감한 데이터를 전달하는 데 주로 사용.
-    @PostMapping("/validate-token")
+    //@PostMapping("/validate-token")
+    @RequestMapping(value = "/validate-token", method = {RequestMethod.POST, RequestMethod.GET}) // 2025/02/25 수정
     public ResponseEntity<?> validateToken(@RequestHeader("Authorization") String authorizationHeader) {
         Map<String, String> response = new HashMap<>();
 

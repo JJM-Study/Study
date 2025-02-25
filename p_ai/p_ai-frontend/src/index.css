@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-// 2025/02/25 추가
+/* 2025/02/25 추가 */
 @keyframes dots {
   0% {
     content: ".";
@@ -21,9 +21,7 @@
 .loading-dots::after {
   display: inline-block;
   animation: dots 1.5s infinite steps(4);
-  content: "";
 }
-
 // -----------
 
 body {

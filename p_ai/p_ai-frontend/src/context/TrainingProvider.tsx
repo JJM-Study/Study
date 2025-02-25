@@ -25,7 +25,10 @@ export const useTraining = () => useContext(TrainingContext);
 // 여기서는 간단히 localStorage를 읽어 query key에 반영합니다.
 const fetchTrainedQandA = async (token: string) => {
   const response = await fetch(
+    // 로컬
     "http://localhost:8080/api/Training-Question-And-Answer",
+    //CLOUDFRONT 배포
+    //"https://web-pj.com/api/Training-Question-And-Answer",
     {
       method: "GET",
       headers: {

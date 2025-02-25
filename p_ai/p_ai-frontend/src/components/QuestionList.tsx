@@ -79,7 +79,7 @@ const QuestionList: React.FC<Props> = ({ onQuestionClick }) => {
           {(loadTrainedQandA ?? []).map((q) => (
             <div key={q.questionId}>
               <div className="p-2 my-1 bg-white rounded-md shadow-md">
-                <div className="flex justify-between itmes-center">
+                <div className="flex items-center justify-between">
                   <p
                     className="font-semibold cursor-pointer"
                     onClick={() => onQuestionClick(q.questionContents)}

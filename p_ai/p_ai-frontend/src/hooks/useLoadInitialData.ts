@@ -32,8 +32,9 @@ export const useLoadInitialData = () => {
         // axios로 바꿀 지는 나중에 고민. / Next.js를 학습할 일이 있으면?
         const response = await fetch(
           // 로컬
-          "http://localhost:8080/api/Question-And-Answer",
-          //"https://web-pj.com/api/Question-And-Answer", // CLOUDFRONT 배포
+          "https://localhost:8080/api/Question-And-Answer",
+          // CLOUDFRONT 배포
+          //"https://web-pj.com/api/Question-And-Answer",
           {
             method: "GET",
             headers: {
