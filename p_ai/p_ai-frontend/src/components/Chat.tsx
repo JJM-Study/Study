@@ -14,6 +14,7 @@ import StatusIndicator from "./StatusIndicator";
 import { useTraining } from "../context/TrainingProvider"; // 2025/02/25 추가
 
 const Chat: React.FC = () => {
+  const inputRef = useRef<HTMLInputElement | null>(null); // 2025/02/28 추가
   const [input, setInput] = useState(""); // 사용자 입력 관리
   // 2025/01/28 주석
   // const [token, setToken] = useState<string | null>(
@@ -45,6 +46,40 @@ const Chat: React.FC = () => {
 
   // 스크롤 감지 및 이동 2025/02/22 추가
   const messageEndRef = useRef<HTMLDivElement | null>(null);
+
+  // 2025/02/28 추가
+  const readMe = [
+    {
+      role: "system",
+      text: "이 프로젝트는 AWS 배포 및 웹 백엔드, 풀스택을 설계를 중심으로 구현되었습니다.",
+    },
+    {
+      role: "system",
+      text: "현재 AI 모델의 학습 데이터가 제한적이므로, 특정 질문에만 정확한 답변을 제공합니다.",
+    },
+    {
+      role: "system",
+      text: "지원하는 질문 목록을 확인하려면 질문 리스트를 참고하시면 되며, 질문을 클릭하면 해당 질문이 바로 입력됩니다.",
+    },
+  ];
+
+  // 질문 목록 클릭 시 포커스 이동 , 2025/03/28 추가
+  const handleQuestionClick = (text: string) => {
+    setInput(text);
+    inputRef.current?.focus();
+  };
+
+  // Enter 입력 처리 추가 , 2025/02/28 추가
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      if (event.shiftKey) {
+        setInput((prev) => prev + "\n");
+      } else {
+        event.preventDefault();
+        handleSend();
+      }
+    }
+  };
 
   // // 토큰 만료되면 데이터 refresh 하는 것 추가 고려.
   // // 2025/02/24 추가 // 나중에 서버 응답이 실패하면 토큰 재발급 받는 로직 추가할 것.
@@ -247,10 +282,23 @@ const Chat: React.FC = () => {
       </div>
 
       {/* 학습된 질문 목록 */}
-      <QuestionList onQuestionClick={(text) => setInput(text)} />
+      {/* <QuestionList onQuestionClick={(text) => setInput(text)} /> 2025/02/28 수정*/}
+      <QuestionList
+        onQuestionClick={(text) => {
+          //setInput(text);
+          handleQuestionClick(text);
+        }}
+      />
 
-      {/* 질문 목록 */}
+      {/* 질문 목록 . 나중에 textarea로 바꿀 것. input은 줄바꿈 x.*/}
       <div className="w-full h-screen p-4 mt-2 overflow-y-auto bg-white shadow-md">
+        {/* 알림 추가 2025/02/28 */}
+        {readMe.map((msg, index) => (
+          <div className="p-2 my-2 font-medium text-blue-600 bg-blue-100 rounded-md">
+            <p key={index}>{msg.text}</p>
+          </div>
+        ))}
+
         {combineMessages.map((msg, idx) => (
           <div key={idx} className="p-2 my-2 bg-gray-200 rounded-md">
             <p>
@@ -268,12 +316,14 @@ const Chat: React.FC = () => {
       {/* 질문 입력 */}
       <div className="flex items-center w-full mt-4">
         <input
+          ref={inputRef}
           type="text"
           value={input}
           className="flex-grow p-2 border rounded-md"
           placeholder="Type your question"
           onChange={(e) => setInput(e.target.value)}
           disabled={!isConnected}
+          onKeyDown={handleKeyDown}
         />
 
         {/* 질문 전송 버튼 */}
