@@ -60,24 +60,24 @@ dependencies {
 
 }
 
-sourceSets {
-	main {
-		java {
-			srcDirs = ['backend/src/main/java']
-		}
-		resources {
-			srcDirs = ['backend/src/main/resources']
-		}
-	}
-	test {
-		java {
-			srcDirs = ['backend/src/test/java']
-		}
-		resources {
-			srcDirs = ['backend/src/test/resources']
-		}
-	}
-}
+//sourceSets {
+//	main {
+//		java {
+//			srcDirs = ['backend/src/main/java']
+//		}
+//		resources {
+//			srcDirs = ['backend/src/main/resources']
+//		}
+//	}
+//	test {
+//		java {
+//			srcDirs = ['backend/src/test/java']
+//		}
+//		resources {
+//			srcDirs = ['backend/src/test/resources']
+//		}
+//	}
+//}
 
 publishing {
 	publications {
