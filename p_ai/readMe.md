@@ -106,6 +106,9 @@
   - 소셜 로그인 (Google, Kakao 등) 및 자체 인증 시스템 구축
   - 보안 강화 및 인증 확장성 확보
 
+- **RestTemplate → WebClient 리팩토링**
+  - 확장성 및 유연성을 위한 리팩토링
+
 - **SSL 인증 방식 개선**
   - Let's Encrypt 활용 인증에서 CloudFlare SSL 인증 방식으로 전환
 
