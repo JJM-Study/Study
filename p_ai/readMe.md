@@ -108,6 +108,7 @@
 
 - **RestTemplate → WebClient 리팩토링**
   - 확장성 및 유연성을 위한 리팩토링
+  - 예외 상황 대응 (타임아웃, 오류 응답 처리) 구조 개선 포함
 
 - **SSL 인증 방식 개선**
   - Let's Encrypt 활용 인증에서 CloudFlare SSL 인증 방식으로 전환
