@@ -1,0 +1,37 @@
+# 공통 무시 대상
+*.log
+.DS_Store
+*.iml
+.vscode/
+.vs/
+
+# React (p_ai-frontend)
+p_ai-frontend/node_modules/
+p_ai-frontend/.env
+p_ai-frontend/.next/       # Next.js 로 확장 대비
+p_ai-frontend/build/
+p_ai-frontend/dist/
+p_ai-frontend/.eslintcache
+p_ai-frontend/.turbo/
+
+# Flask (p_ai-flask)
+p_ai-flask/__pycache__/
+p_ai-flask/.venv/
+p_ai-flask/env/
+p_ai-flask/.env
+p_ai-flask/instance/
+p_ai-flask/.pytest_cache/
+p_ai-flask/*.pyc
+
+# Spring Boot (p_ai)
+p_ai/target/
+p_ai/.idea/
+p_ai/.classpath
+p_ai/.project
+p_ai/.settings/
+
+# OS 또는 기타
+Thumbs.db
+ehthumbs.db
+*.swp
+*.swo
