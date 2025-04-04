@@ -1,4 +1,4 @@
-# Project Troubleshooting Notes
+# Project Troubleshooting Memo
 
 > 본 문서는 프로젝트 회고 중심의 정리 자료이며,
 > 구현 중심의 핵심 내용은 포트폴리오 PDF에서 확인하실 수 있습니다.
