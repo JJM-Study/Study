@@ -1,6 +1,7 @@
 # 프로젝트 개요
 
-본 프로젝트는 Spring Boot, Flask, React를 활용하여 ChatBot 시스템을 구축한 실전형 풀스택 프로젝트로서, AWS + Jenkins 기반 CI/CD 파이프라인을 직접 구성하고, WebSocket을 활용한 실시간 데이터 처리 및 JWT 인증 구조까지 포함.<br>
+본 프로젝트는 Spring Boot, Flask, React를 활용하여 ChatBot 시스템을 구축한 실전형 풀스택 프로젝트로서,<br>
+AWS + Jenkins 기반 CI/CD 파이프라인을 직접 구성하고, WebSocket을 활용한 실시간 데이터 처리 및 JWT 인증 구조까지 포함.<br>
 설계 → 개선 → 배포 전반을 직접 경험하며 시스템적 설계와 보안, 비용 최적화까지 폭넓게 다룸.
 
 (사소한 시행착오 및 개선 과정은 `docs/` 디렉토리에 정리할 것.)
