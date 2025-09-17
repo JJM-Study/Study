@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shoplegacy.product.mapper.ProductMapper">
+
+    <select id="selectProductList" resultType="com.shoplegacy.product.model.ProductDto">
+        select a.prod_no, a.prod_name, a.price, a.stock_qty, a.crt_dt, a.del_dt, b.image_url
+        from product_master a
+        left join product_image b on a.prod_no = b.prod_no AND b.is_main = 'Y'
+        where a.del_yn = 'N'
+    </select>
+
+    <!--    <select id="selectProductDetail" parameterType="string" resultType="com.shoplegacy.product.model.ProductDetailDto">-->
+    <!--        select a.prod_no, a.prod_name, a.price, a.stock_qty, a.crt_dt, a.del_dt,-->
+    <!--        b.image_url-->
+    <!--        from product_master a-->
+    <!--        left join product_image b on a.prod_no = b.prod_no-->
+    <!--        where a.del_yn = 'N' and a.prod_no = #{prodNo}-->
+    <!--    </select>-->
+
+    <select id="selectProductDetail" resultMap="ProductDetailMap" parameterType="string">
+        select a.prod_no, a.prod_name, a.price, a.stock_qty, a.crt_dt, a.del_dt,
+        b.image_url, b.is_main, b.sort_order, c.detail_desc, c.notice, c.shipping_info, c.additional_info
+        from product_master a
+        left join product_image b on a.prod_no = b.prod_no
+        left join product_detail c on a.prod_no = c.prod_no
+        where a.del_yn = 'N' and a.prod_no = #{prodNo}
+        order by b.sort_order
+    </select>
+
+    <resultMap id="ProductDetailMap" type="com.shoplegacy.product.model.ProductDetailDto">
+        <id property="prodNo" column="prod_no" />
+        <result property="prodName" column="prod_name" />
+        <result property="price"    column="price" />
+        <result property="stockQty" column="stock_qty" />
+        <result property="crtDt"    column="crt_dt" />
+        <result property="delDt"    column="del_dt" />
+
+        <result property="detailDesc" column="detail_desc" />
+        <result property="notice" column="notice" />
+        <result property="shippingInfo" column="shipping_info" />
+        <result property="additionalInfo" column="additional_info" />
+
+        <!-- imageUrl은 리스트니까 collection 사용 -->
+        <collection property="imageList" ofType="com.shoplegacy.product.model.ProductImageDto">
+            <result property="imageUrl" column="image_url" />
+            <result property="isMain" column="is_main" />
+            <result property="sortOrder" column="sort_order" />
+        </collection>
+
+    </resultMap>
+
+    <select id="selectProductPrice" parameterType="java.util.List" resultType="map">
+        SELECT price
+        FROM product_master
+        WHERE prod_no IN
+        <foreach collection="list" item="prodNo" open="(" separator="," close=")">
+            #{prodNo}
+        </foreach>
+    </select>
+
+</mapper>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shoplegacy.cart.mapper.CartMapper">
+
+    <!-- 우선 정렬부터 구현 후 나중에 구현 할 것. -->
+    <insert id="addToOrderCart" parameterType="map" useGeneratedKeys="true" keyProperty="cartNo">
+        INSERT INTO order_cart (user_id, prod_no, qty, crt_dt)
+        VALUES (#{userId}, #{prodNo}, #{qty}, NOW())
+    </insert>
+
+    <select id="selectOrderCartItemsById" parameterType="long" resultType="com.shoplegacy.cart.model.CartDto">
+        SELECT *
+        FROM order_cart
+        WHERE cart_no IN
+        <foreach collection="cartNos" item="cartNo" open="(" separator="," close=")">
+            #{cartNo}
+        </foreach>
+    </select>
+
+    <!-- 카트 리스트 조회 -->
+    <select id="selectOrderCartList" resultType="com.shoplegacy.cart.model.CartDto">
+        SELECT a.cart_no, a.user_id, a.prod_no, a.qty, a.crt_dt, a.upd_dt, a.del_yn, a.del_dt,
+        b.prod_name
+        FROM order_cart a
+        LEFT JOIN product_master b
+        ON a.prod_no = b.prod_no
+        WHERE (a.del_yn = 'N' OR a.del_yn IS NULL)
+        <choose>
+            <when test="orderColumn == 'prodNo'">
+                ORDER BY b.prod_no ${orderType}
+            </when>
+            <when test="orderColumn == 'qty'">
+                ORDER BY a.qty ${orderType}
+            </when>
+            <otherwise>
+                ORDER BY a.cart_no ${orderType}
+            </otherwise>
+        </choose>
+    </select>
+
+    <!--    <when test="orderColumn == 'prodNo'">-->
+    <!--        ORDER BY b.prod_no-->
+    <!--        <if test="orderType == 'asc'"> ASC </if>-->
+    <!--        <if test="orderType == 'desc'"> DESC </if>-->
+    <!--    </when> SQL 인젝션 방지 차 고려. -->
+
+</mapper>

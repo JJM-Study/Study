@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shoplegacy.cart.mapper.OrderMapper">
+    <insert id="insertOrderMaster" parameterType="com.shoplegacy.order.model.OrderDto">
+        insert into order_master
+        (order_no, user_id, order_date, order_status, total_amount, del_yn, crt_dt, upd_dt, del_dt)
+        values();
+    </insert>
+
+
+    <insert id="insertOrderDetail" parameterType="com.shoplegacy.order.model.OrderDetailDto">
+
+    </insert>
+</mapper>
