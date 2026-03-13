@@ -96,7 +96,13 @@ AWS + Jenkins 기반 CI/CD 파이프라인을 직접 구성하고, WebSocket을 
 
 - **WebSocket 사용자 인증 및 메시지 전송 개선**
   - **초기 설계**: 인증 없이 메시지 브로드캐스트
-  - **개선 후**: JWT 기반 인증 적용 및 특정 사용자에게만 메시지 전송
+  - **개선 후**:
+    + WebSocket 인증 메커니즘 구체화 (Interceptor)
+      : WebSocket **HandshakeInterceptor**를 통한 연결 시점 인증과 <b>ChannelInterceptor(preSend)</b>를 통한 메시지 단위 권한 검증을 이중으로 설계하여 보안 명세 강화.
+    + 데이터 생애주기 관리 (Data Integrity)
+      : JPA의 **CascadeType.ALL** 및 **orphanRemoval** 옵션을 활용하여, 질문-답변-매핑 테이블(AI_QandA) 간의 데이터 생애주기를 동기화하고 참조 무결성 확보.
+    + 실시간 메시징 최적화 (Template)
+      : **SimpMessagingTemplate**의 `convertAndSendToUser` 기능을 활용하여 다중 접속 환경에서도 사용자별 메시지 격리(Isolation) 및 비동기 응답 체계 구축
   - **결과**: 보안 강화 및 불필요한 메시지 전송 방지
 
 ---
