@@ -16,6 +16,7 @@ public class AI_QandA {
     private AI_Question question;
 
     @OneToMany
+//    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true) // QandA 삭제 시 답변들도 함께 정리
     @JoinTable(
             name = "qanda_answer",
             joinColumns = @JoinColumn(name = "qanda_id"),

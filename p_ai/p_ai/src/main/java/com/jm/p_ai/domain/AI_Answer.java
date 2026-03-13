@@ -14,6 +14,10 @@ public class AI_Answer {
 
     @ManyToOne
     @JoinColumn(name = "question_id", nullable = false)  // 2024/12/03 추가  // 엔티티나 DTO가 아니라, 테이블의 필드 자체를 직접 참조함.
+
+//    @ManyToOne(cascade = CascadeType.REMOVE) // 질문 삭제 시 QandA도 삭제
+//    @JoinColumn(name = "question_id")
+
     @JsonIgnore  // JSON 직렬화 시 무한 루프 방지
     private AI_Question question;
 
