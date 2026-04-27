@@ -125,7 +125,7 @@ AWS + Jenkins 기반 CI/CD 파이프라인을 직접 구성하고, WebSocket을 
   - 데이터베이스 부하 최적화
   - JWT Blacklist 구현: 로그아웃 요청 시 Access Token을 무효화하여 보안 허점 제거
 
- - **JWT 인증 및 인가 구조의 근본적 개선**
+- **JWT 인증 및 인가 구조의 근본적 개선**
   - 인증 방식 표준화: URI 파라미터 기반 방식에서 HTTP Header (Bearer Scheme) 방식으로 전면 전환
   - Security Filter 통합: 컨트롤러의 수동 토큰 파싱 로직을 제거하고, 스프링 시큐리티 필터 체인 내에서 인증/인가를 완결하도록 구조 개선
   - Context 기반 관리: 단일 컴포넌트에서 SecurityContextHolder 기반 전역 인증 관리 체계로 수정
@@ -135,8 +135,8 @@ AWS + Jenkins 기반 CI/CD 파이프라인을 직접 구성하고, WebSocket을 
   - 예: 모델이 유사도를 기준으로 판단할 수 없을 경우, '답변할 수 없음' 반환 추가 등
 
  - **웹소켓 안정성 및 보안 강화**
-  - postSend 인터셉터 기반 스레드 클린업(Cleanup) 로직 도입으로 인증 정보 오염 방지
-  - 인가 로직 강화: 웹소켓 연결 시점(Handshake)과 메시지 전송 시점(ChannelInterceptor)의 2중 보안 검증 체계 고도화
+   - postSend 인터셉터 기반 스레드 클린업(Cleanup) 로직 도입으로 인증 정보 오염 방지
+   - 인가 로직 강화: 웹소켓 연결 시점(Handshake)과 메시지 전송 시점(ChannelInterceptor)의 2중 보안 검증 체계 고도화
 ---
 
 ## 프로젝트에서 배운 점
